@@ -17,7 +17,7 @@
   --muted: #a8a8ad;
   --orange: #ff6b1a;
   --amber: #ffb020;
-  --green: #3ddc84;
+  --green: #ff2b2b;
   --border: #2a2a2e;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -161,7 +161,7 @@ footer p { color: var(--muted); font-size: 13px; }
   <div class="container">
     <div class="kicker">Pensacola, FL Basketball Training</div>
     <h1>Train Hard. <span class="accent">Play Smart.</span><br>Become Unstoppable.</h1>
-    <p class="sub">Group basketball training for elementary through high school athletes with Coach J. Real reps, real coaching, real results.</p>
+    <p class="sub">Group basketball training for developing middle school and high school athletes with Coach J. Real reps, real coaching, real results.</p>
     <div class="hero-cta">
       <a href="https://coachjoceb.github.io/trainingwaiver/?plan=free" target="_blank" rel="noopener" class="btn btn-primary">Claim Free Session</a>
       <a href="#pricing" class="btn btn-secondary">See Pricing</a>
@@ -191,6 +191,23 @@ footer p { color: var(--muted); font-size: 13px; }
   </div>
 </section>
 
+<section id="schedule" style="padding: 32px 0;">
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <h2 class="section-title">Friday's Only</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px;">
+      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <h3 style="font-size: 18px; margin-bottom: 8px;">Group Training</h3>
+        <p style="color: var(--muted); font-size: 15px;">Friday<br><strong style="color: var(--text);">5:30 PM - 6:30 PM</strong></p>
+      </div>
+      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <h3 style="font-size: 18px; margin-bottom: 8px;">Shooting Training</h3>
+        <p style="color: var(--muted); font-size: 15px;">Friday<br><strong style="color: var(--text);">6:30 PM - 7:30 PM</strong></p>
+      </div>
+    </div>
+    <p style="margin-top: 20px; display: inline-block; background: var(--bg3); border: 1px solid var(--green); border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; color: var(--green);">Step Up for Students accepted</p>
+  </div>
+</section>
+
 <section id="pricing">
   <div class="container">
     <h2 class="section-title">Simple Pricing</h2>
@@ -200,25 +217,44 @@ footer p { color: var(--muted); font-size: 13px; }
         <div class="plan">Monthly Membership</div>
         <div class="amount">$240</div>
         <div class="per">per month, tax included</div>
+        <div style="text-align: left; margin-bottom: 20px;">
+          <p style="font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 15px; letter-spacing: 1px; margin-bottom: 12px; color: var(--text);">Package Includes</p>
+          <p style="font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px;">4 Group Training Sessions</p>
+          <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Skill development, ball handling, finishing, shooting, game-speed decision making, and competitive drills.</p>
+          <p style="font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px;">4 Shooting Sessions</p>
+          <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Dedicated shooting work focused on mechanics, footwork, shot preparation, consistency, and game-speed reps.</p>
+        </div>
         <ul>
-          <li>All group training sessions</li>
-          <li>Every week, all month</li>
-          <li>Automatic Friday session booking</li>
+          <li>Every Friday, all month</li>
+          <li>Automatic session booking</li>
+          <li>Step Up for Students accepted</li>
           <li>Cancel anytime</li>
         </ul>
         <a href="https://buy.stripe.com/fZu4gzeGt4uH8Zsd063sI01" class="btn btn-primary">Join Monthly</a>
       </div>
       <div class="price-card">
-        <div class="plan">Drop-In Session</div>
+        <div class="plan">Group Drop-In</div>
         <div class="amount">$30</div>
         <div class="per">one time, tax included</div>
         <ul>
           <li>Single group training session</li>
+          <li>Friday 5:30 PM - 6:30 PM</li>
           <li>Try it before you commit</li>
-          <li>Automatic Friday session booking</li>
           <li>No commitment</li>
         </ul>
-        <a href="https://buy.stripe.com/eVq3cvaqdf9l6Rk5xE3sI02" class="btn btn-secondary" style="margin-left:0;">Book Drop-In</a>
+        <a href="https://buy.stripe.com/eVq3cvaqdf9l6Rk5xE3sI02" class="btn btn-secondary" style="margin-left:0;">Book Group Drop-In</a>
+      </div>
+      <div class="price-card">
+        <div class="plan">Shooting Drop-In</div>
+        <div class="amount">$45</div>
+        <div class="per">one time, tax included</div>
+        <ul>
+          <li>Single shooting session</li>
+          <li>Friday 6:30 PM - 7:30 PM</li>
+          <li>Mechanics and consistency focus</li>
+          <li>No commitment</li>
+        </ul>
+        <a href="https://buy.stripe.com/4gM3cvcyl1iv1x01ho3sI03" class="btn btn-secondary" style="margin-left:0;">Book Shooting Drop-In</a>
       </div>
     </div>
   </div>
