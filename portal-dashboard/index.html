@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Legacy Lab CRM</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a1a; }
+  
+  /* Password gate */
+  #lockScreen { position: fixed; inset: 0; background: #1a1a1a; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+  #lockScreen .box { background: white; border-radius: 12px; padding: 2.5rem; max-width: 400px; width: 90%; text-align: center; }
+  #lockScreen h2 { margin-bottom: 0.5rem; }
+  #lockScreen h2 .brand { color: #ff6b35; }
+  #lockScreen p { color: #666; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  #lockScreen input { width: 100%; padding: 0.85rem; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 1rem; font-size: 1.1rem; text-align: center; letter-spacing: 0.2em; }
+  #lockScreen button { width: 100%; background: #ff6b35; color: white; border: none; padding: 0.85rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+  #lockScreen .err { color: #c0392b; margin-top: 0.75rem; font-size: 0.9rem; min-height: 1.2em; }
+  
+  .header { background: #1a1a1a; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+  .header h1 { font-size: 1.3rem; }
+  .header .brand { color: #ff6b35; }
+  .header nav { display: flex; gap: 0.5rem; }
+  .header nav button { background: none; border: 1px solid #444; color: #ccc; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+  .header nav button.active, .header nav button:hover { background: #ff6b35; border-color: #ff6b35; color: white; }
+  
+  .container { max-width: 1280px; margin: 0 auto; padding: 1.5rem; }
+  .view { display: none; }
+  .view.active { display: block; }
+  
+  /* Metric cards */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .metric { background: white; border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .metric .num { font-size: 2rem; font-weight: 700; }
+  .metric .lbl { color: #666; font-size: 0.85rem; margin-top: 0.2rem; }
+  .metric .delta { font-size: 0.8rem; margin-top: 0.3rem; }
+  .delta.up { color: #27ae60; } .delta.down { color: #c0392b; } .delta.flat { color: #999; }
+  
+  /* Charts */
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .chart-card { background: white; border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .chart-card h3 { font-size: 1rem; margin-bottom: 1rem; color: #333; }
+  .chart-card canvas { max-height: 260px; }
+  
+  /* Insights */
+  .insights { background: white; border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+  .insights h3 { margin-bottom: 0.75rem; }
+  .insight { padding: 0.6rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+  .insight:last-child { border: none; }
+  
+  /* Contacts */
+  .toolbar { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .toolbar input { flex: 1; min-width: 200px; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; }
+  .toolbar button, .btn { padding: 0.7rem 1.1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+  .btn-primary { background: #ff6b35; color: white; }
+  .btn-secondary { background: #e8e8e8; color: #333; }
+  .contacts { display: grid; gap: 0.75rem; }
+  .contact-card { background: white; border-radius: 8px; padding: 1.1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; }
+  .contact-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+  .contact-card h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .contact-card .meta { color: #666; font-size: 0.88rem; }
+  .tags { margin-top: 0.6rem; display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tag { background: #e8f4f8; color: #2c7a9c; padding: 0.2rem 0.55rem; border-radius: 10px; font-size: 0.78rem; }
+  .tag.warn { background: #fce8e8; color: #c0392b; }
+  
+  /* Modals */
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; overflow-y: auto; }
+  .modal-content { background: white; max-width: 680px; margin: 2rem auto; border-radius: 12px; padding: 1.75rem; }
+  .close-btn { float: right; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #999; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+  .df label { font-weight: 600; font-size: 0.8rem; color: #888; display: block; }
+  .df span { font-size: 0.95rem; }
+  .detail-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.25rem; }
+  .compose-content input, .compose-content textarea { width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 0.9rem; }
+  .compose-content textarea { min-height: 140px; }
+  .hidden { display: none !important; }
+  .setup-box { background: white; border-radius: 10px; padding: 1.75rem; margin-bottom: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .setup-box input { width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 0.8rem; }
+  .empty { text-align: center; padding: 2.5rem; color: #999; }
+  table.activity { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  table.activity td { padding: 0.55rem 0.25rem; border-bottom: 1px solid #f0f0f0; }
+</style>
+</head>
+<body>
+
+<!-- Password lock -->
+<div id="lockScreen">
+  <div class="box">
+    <h2><span class="brand">Legacy Lab</span> CRM</h2>
+    <p>Enter your admin password to continue.</p>
+    <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Unlock</button>
+    <div class="err" id="pwErr"></div>
+    <p style="margin-top:1rem; font-size:0.8rem;">First time? Your password is <code>legacylab2026</code> — change it in Settings after logging in.</p>
+  </div>
+</div>
+
+<div id="mainApp" class="hidden">
+<div class="header">
+  <h1><span class="brand">Legacy Lab</span> CRM</h1>
+  <nav>
+    <button id="navDash" class="active" onclick="showView('dash')">📊 Dashboard</button>
+    <button id="navContacts" onclick="showView('contacts')">👥 Families</button>
+    <button id="navSettings" onclick="showView('settings')">⚙️ Settings</button>
+  </nav>
+</div>
+
+<div class="container">
+
+  <!-- DASHBOARD -->
+  <div id="view-dash" class="view active">
+    <div class="metrics" id="metricsRow"></div>
+    <div class="charts">
+      <div class="chart-card"><h3>Signups Over Time</h3><canvas id="chSignups"></canvas></div>
+      <div class="chart-card"><h3>Grade Distribution</h3><canvas id="chGrades"></canvas></div>
+      <div class="chart-card"><h3>Payment Method</h3><canvas id="chPayment"></canvas></div>
+      <div class="chart-card"><h3>Marketing Consent</h3><canvas id="chConsent"></canvas></div>
+    </div>
+    <div class="insights">
+      <h3>💡 Insights</h3>
+      <div id="insightsList"></div>
+    </div>
+    <div class="chart-card">
+      <h3>Recent Activity</h3>
+      <table class="activity" id="activityTable"></table>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div id="view-contacts" class="view">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search name, email, phone..." oninput="renderContacts()">
+      <button class="btn btn-primary" onclick="bulkEmail()">📧 Bulk Email</button>
+      <button class="btn btn-secondary" onclick="exportCSV()">📥 CSV</button>
+    </div>
+    <div id="contactsList" class="contacts"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="view-settings" class="view">
+    <div class="setup-box">
+      <h3>🔑 Supabase Connection</h3>
+      <p style="color:#666; font-size:0.9rem; margin-bottom:1rem;">Your <strong>service_role</strong> key. Stored only in this browser.</p>
+      <input type="password" id="sbKeyInput" placeholder="service_role key">
+      <button class="btn btn-primary" onclick="saveSbKey()">Save Key</button>
+    </div>
+    <div class="setup-box">
+      <h3>📧 Email Relay</h3>
+      <input type="text" id="relayInput" placeholder="Apps Script Web App URL">
+      <button class="btn btn-primary" onclick="saveRelay()">Save</button>
+    </div>
+    <div class="setup-box">
+      <h3>💬 Twilio SMS</h3>
+      <input type="text" id="twSid" placeholder="Account SID">
+      <input type="password" id="twToken" placeholder="Auth Token">
+      <input type="text" id="twFrom" placeholder="From number (+1...)">
+      <button class="btn btn-primary" onclick="saveTwilio()">Save</button>
+    </div>
+    <div class="setup-box">
+      <h3>🔒 Change Password</h3>
+      <input type="password" id="newPw1" placeholder="New password">
+      <input type="password" id="newPw2" placeholder="Confirm new password">
+      <button class="btn btn-primary" onclick="changePw()">Change Password</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- Detail modal -->
+<div id="detailModal" class="modal"><div class="modal-content">
+  <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+  <h2 id="dName"></h2>
+  <div class="detail-grid" id="dFields"></div>
+  <h3 style="margin:0.75rem 0 0.4rem;">Waivers</h3><div id="dWaivers"></div>
+  <h3 style="margin:0.75rem 0 0.4rem;">History</h3><div id="dComms"></div>
+  <div class="detail-actions">
+    <button class="btn btn-primary" onclick="compose('email')">📧 Email</button>
+    <button class="btn btn-primary" onclick="compose('sms')">💬 Text</button>
+    <button class="btn btn-secondary" onclick="toggleConsent()">Toggle Consent</button>
+  </div>
+</div></div>
+
+<!-- Compose modal -->
+<div id="composeModal" class="modal"><div class="modal-content compose-content">
+  <button class="close-btn" onclick="closeModal('composeModal')">&times;</button>
+  <h3 id="cTitle"></h3><div id="cTo" style="color:#666;margin-bottom:1rem;"></div>
+  <input type="text" id="cSubject" placeholder="Subject">
+  <textarea id="cBody" placeholder="Message..."></textarea>
+  <button class="btn btn-primary" onclick="doSend()" style="width:100%">Send</button>
+</div></div>
+
+<script>
+// ============ PASSWORD ============
+async function sha(str){ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+async function unlock(){
+  const pw = document.getElementById('pwInput').value;
+  const stored = localStorage.getItem('ll_pw_hash');
+  const h = await sha('llcrm:'+pw);
+  if (!stored) { // first run: default password
+    if (pw === 'legacylab2026') { localStorage.setItem('ll_pw_hash', h); enter(); }
+    else document.getElementById('pwErr').textContent = 'Wrong password.';
+  } else if (h === stored) enter();
+  else document.getElementById('pwErr').textContent = 'Wrong password.';
+}
+function enter(){ document.getElementById('lockScreen').style.display='none'; document.getElementById('mainApp').classList.remove('hidden'); init(); }
+async function changePw(){
+  const a=document.getElementById('newPw1').value, b=document.getElementById('newPw2').value;
+  if(a!==b||!a){alert('Passwords must match and not be empty.');return;}
+  localStorage.setItem('ll_pw_hash', await sha('llcrm:'+a)); alert('Password changed.');
+  document.getElementById('newPw1').value='';document.getElementById('newPw2').value='';
+}
+
+// ============ DATA ============
+const SB_URL='https://gwahlqvngjfhslqqprzl.supabase.co';
+let SB_KEY=localStorage.getItem('ll_sb_key')||'';
+let contacts=[], waivers=[], comms=[];
+let cur=null, cmpMode=null, cmpTargets=[];
+const H=()=>({'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'});
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const RELAY_DEFAULT='https://script.google.com/macros/s/AKfycbyQuzOZdcoJHk3cxz1pbs4RcDU06YaverSbUtM5RJopRd1LbFgaJfoZ8xMPORqtj8Tf/exec';
+
+function showView(v){
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('.header nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav'+v[0].toUpperCase()+v.slice(1)).classList.add('active');
+  if(v==='dash')renderDashboard();
+}
+function closeModal(id){document.getElementById(id).style.display='none';}
+
+async function init(){
+  if(!SB_KEY){showView('settings');return;}
+  try{
+    const [cr,wr]=await Promise.all([
+      fetch(`${SB_URL}/rest/v1/crm_contacts?select=*&order=created_at.desc`,{headers:H()}),
+      fetch(`${SB_URL}/rest/v1/waiver_submissions?select=id,participant_name,contact_id,submitted_at&order=submitted_at.desc&limit=200`,{headers:H()})
+    ]);
+    if(!cr.ok)throw new Error('key rejected');
+    contacts=await cr.json(); waivers=await wr.json();
+    // prefill settings
+    document.getElementById('sbKeyInput').value=SB_KEY;
+    document.getElementById('relayInput').value=localStorage.getItem('ll_relay')||RELAY_DEFAULT;
+    document.getElementById('twSid').value=localStorage.getItem('ll_tw_sid')||'';
+    document.getElementById('twFrom').value=localStorage.getItem('ll_tw_from')||'';
+    renderDashboard(); renderContacts();
+  }catch(e){
+    alert('Supabase connection failed. Check your service_role key in Settings.');
+    showView('settings');
+  }
+}
+
+// ============ DASHBOARD ============
+let charts={};
+function renderDashboard(){
+  const now=new Date(), wk=new Date(now-7*864e5), mo=new Date(now-30*864e5);
+  const newWk=contacts.filter(c=>new Date(c.created_at)>=wk).length;
+  const newMo=contacts.filter(c=>new Date(c.created_at)>=mo).length;
+  const sub=contacts.filter(c=>c.marketing_consent).length;
+  const wvWk=waivers.filter(w=>new Date(w.submitted_at)>=wk).length;
+
+  document.getElementById('metricsRow').innerHTML=`
+    <div class="metric"><div class="num">${contacts.length}</div><div class="lbl">Total Families</div><div class="delta ${newMo>0?'up':'flat'}">${newMo>0?'+'+newMo+' this month':'no change'}</div></div>
+    <div class="metric"><div class="num">${newWk}</div><div class="lbl">New This Week</div><div class="delta flat">${wvWk} waivers</div></div>
+    <div class="metric"><div class="num">${waivers.length}</div><div class="lbl">Total Waivers</div><div class="delta flat">${contacts.length?Math.round(waivers.length/contacts.length*100):0}% per family</div></div>
+    <div class="metric"><div class="num">${sub}</div><div class="lbl">Marketing OK</div><div class="delta ${sub?'up':'flat'}">${contacts.length?Math.round(sub/contacts.length*100):0}% opt-in</div></div>`;
+
+  // Signups over time (last 12 weeks)
+  const weeks=[]; for(let i=11;i>=0;i--){const d=new Date(now-i*7*864e5);weeks.push({label:(d.getMonth()+1)+'/'+d.getDate(),start:new Date(d-7*864e5),end:d});}
+  const wdata=weeks.map(w=>contacts.filter(c=>{const t=new Date(c.created_at);return t>=w.start&&t<w.end;}).length);
+  mkChart('chSignups','bar',{labels:weeks.map(w=>w.label),datasets:[{data:wdata,backgroundColor:'#ff6b35',borderRadius:4}]},{plugins:{legend:{display:false}}});
+
+  // Grades
+  const gc={}; contacts.forEach(c=>{const g=(c.athlete_grade||'Unknown').trim()||'Unknown';gc[g]=(gc[g]||0)+1;});
+  mkChart('chGrades','doughnut',{labels:Object.keys(gc),datasets:[{data:Object.values(gc),backgroundColor:['#ff6b35','#2c7a9c','#27ae60','#f39c12','#8e44ad','#16a085','#c0392b']}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}}});
+
+  // Payment
+  const pc={}; contacts.forEach(c=>{const p=(c.payment_method||'Unknown').trim()||'Unknown';pc[p]=(pc[p]||0)+1;});
+  mkChart('chPayment','pie',{labels:Object.keys(pc),datasets:[{data:Object.values(pc),backgroundColor:['#2c7a9c','#ff6b35','#27ae60','#f39c12']}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}}});
+
+  // Consent
+  mkChart('chConsent','doughnut',{labels:['Subscribed','Unsubscribed'],datasets:[{data:[sub,contacts.length-sub],backgroundColor:['#27ae60','#e0e0e0']}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12}}}});
+
+  // Insights
+  const ins=[];
+  if(newWk===0&&contacts.length>0)ins.push(['📉','No new families this week. Consider a social post or text blast to your list.']);
+  if(newWk>0)ins.push(['📈',`${newWk} new ${newWk===1?'family':'families'} this week. Nice momentum.`]);
+  const unsub=contacts.length-sub;
+  if(unsub>0)ins.push(['🔕',`${unsub} ${unsub===1?'family has':'families have'} opted out of marketing.`]);
+  const noPhone=contacts.filter(c=>!c.parent_phone).length;
+  if(noPhone>0)ins.push(['📵',`${noPhone} ${noPhone===1?'contact is':'contacts are'} missing a phone number — can't text them.`]);
+  const stepUp=contacts.filter(c=>/step up/i.test(c.payment_method||'')).length;
+  if(stepUp>0)ins.push(['🎓',`${stepUp} ${stepUp===1?'family uses':'families use'} Step Up for Students.`]);
+  if(!ins.length)ins.push(['✅','Everything looks healthy. No action needed.']);
+  document.getElementById('insightsList').innerHTML=ins.map(([e,t])=>`<div class="insight"><span>${e}</span><span>${t}</span></div>`).join('');
+
+  // Recent activity
+  const recent=[...contacts].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,8);
+  document.getElementById('activityTable').innerHTML=recent.map(c=>
+    `<tr><td>👤</td><td><strong>${esc(c.parent_name||'Unknown')}</strong> <span style="color:#888">(${esc(c.athlete_name||'')})</span></td><td style="text-align:right;color:#888;">${new Date(c.created_at).toLocaleDateString()}</td></tr>`
+  ).join('')||'<tr><td>No activity yet.</td></tr>';
+}
+function mkChart(id,type,data,opts){
+  if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id),{type,data,options:{responsive:true,maintainAspectRatio:true,...opts}});
+}
+
+// ============ CONTACTS ============
+function renderContacts(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const list=contacts.filter(c=>(c.parent_name||'').toLowerCase().includes(q)||(c.parent_email||'').toLowerCase().includes(q)||(c.parent_phone||'').includes(q)||(c.athlete_name||'').toLowerCase().includes(q));
+  document.getElementById('contactsList').innerHTML=list.length?list.map(c=>`
+    <div class="contact-card" onclick="openDetail('${c.id}')">
+      <h3>${esc(c.parent_name||'Unknown')} <span style="font-weight:400;color:#888;font-size:0.88rem;">(${esc(c.athlete_name||'')})</span></h3>
+      <div class="meta">${esc(c.parent_email||'')}${c.parent_phone?' · '+esc(c.parent_phone):''}</div>
+      <div class="tags">${c.athlete_grade?`<span class="tag">${esc(c.athlete_grade)}</span>`:''}${c.payment_method?`<span class="tag">${esc(c.payment_method)}</span>`:''}${c.marketing_consent?'':'<span class="tag warn">Unsubscribed</span>'}</div>
+    </div>`).join(''):'<div class="empty">No families yet.</div>';
+}
+async function openDetail(id){
+  cur=contacts.find(x=>x.id===id); if(!cur)return;
+  document.getElementById('dName').textContent=`${cur.parent_name||'Unknown'} (${cur.athlete_name||''})`;
+  const F=[['Email',cur.parent_email],['Phone',cur.parent_phone],['Grade',cur.athlete_grade],['School',cur.athlete_school],['Address',[cur.address,cur.city,cur.state,cur.zip].filter(Boolean).join(', ')],['Emergency',cur.emergency_name?`${cur.emergency_name} (${cur.emergency_phone||''})`:null],['Payment',cur.payment_method],['Marketing',cur.marketing_consent?'Subscribed':'Unsubscribed'],['Since',cur.created_at?new Date(cur.created_at).toLocaleDateString():null]];
+  document.getElementById('dFields').innerHTML=F.filter(([l,v])=>v).map(([l,v])=>`<div class="df"><label>${l}</label><span>${esc(v)}</span></div>`).join('');
+  const cw=waivers.filter(w=>w.contact_id===id);
+  document.getElementById('dWaivers').innerHTML=cw.length?cw.map(w=>`<div style="padding:0.4rem 0;border-bottom:1px solid #f0f0f0;">${esc(w.participant_name)} — ${new Date(w.submitted_at).toLocaleDateString()} <button class="btn btn-secondary" style="margin-left:0.4rem;padding:0.25rem 0.6rem;font-size:0.78rem;" onclick="dlPDF('${w.id}')">📄 PDF</button></div>`).join(''):'<p style="color:#999">None.</p>';
+  const cr=await fetch(`${SB_URL}/rest/v1/crm_communications?contact_id=eq.${id}&select=channel,subject,sent_at,status&order=sent_at.desc&limit=8`,{headers:H()});
+  const cm=await cr.json();
+  document.getElementById('dComms').innerHTML=cm.length?cm.map(m=>`<div style="padding:0.4rem 0;border-bottom:1px solid #f0f0f0;font-size:0.88rem;">${m.channel==='email'?'📧':'💬'} <strong>${esc(m.subject||m.channel)}</strong> <span style="color:#999">— ${new Date(m.sent_at).toLocaleDateString()} (${esc(m.status)})</span></div>`).join(''):'<p style="color:#999">None yet.</p>';
+  document.getElementById('detailModal').style.display='block';
+}
+async function dlPDF(wid){
+  const r=await fetch(`${SB_URL}/rest/v1/waiver_submissions?id=eq.${wid}&select=pdf_base64,participant_name`,{headers:H()});
+  const [w]=await r.json();
+  if(!w||!w.pdf_base64){alert('No PDF stored.');return;}
+  const a=document.createElement('a');a.href=w.pdf_base64;a.download=`Waiver_${(w.participant_name||'x').replace(/[^a-z0-9]+/gi,'_')}.pdf`;a.click();
+}
+async function toggleConsent(){
+  const nv=!cur.marketing_consent;
+  await fetch(`${SB_URL}/rest/v1/crm_contacts?id=eq.${cur.id}`,{method:'PATCH',headers:H(),body:JSON.stringify({marketing_consent:nv,updated_at:new Date().toISOString()})});
+  cur.marketing_consent=nv;renderContacts();openDetail(cur.id);
+}
+
+// ============ MESSAGING ============
+function compose(mode){cmpMode=mode;cmpTargets=[cur];
+  document.getElementById('cTitle').textContent=(mode==='email'?'Send Email to ':'Send Text to ')+(cur.parent_name||'');
+  document.getElementById('cTo').textContent='To: '+(mode==='email'?cur.parent_email:cur.parent_phone||'no phone');
+  document.getElementById('cSubject').style.display=mode==='email'?'':'none';
+  document.getElementById('composeModal').style.display='block';}
+function bulkEmail(){const s=contacts.filter(c=>c.marketing_consent&&c.parent_email);if(!s.length){alert('No subscribed contacts.');return;}
+  cmpMode='email';cmpTargets=s;document.getElementById('cTitle').textContent=`Bulk Email — ${s.length} families`;
+  document.getElementById('cTo').textContent=s.length+' recipients (marketing-consented)';document.getElementById('cSubject').style.display='';
+  document.getElementById('composeModal').style.display='block';}
+async function logComm(cid,ch,subj,body,st){await fetch(`${SB_URL}/rest/v1/crm_communications`,{method:'POST',headers:H(),body:JSON.stringify({contact_id:cid,channel:ch,subject:subj||null,body,status:st})});}
+async function doSend(){
+  const body=document.getElementById('cBody').value.trim(),subj=document.getElementById('cSubject').value.trim();
+  if(!body){alert('Write a message first.');return;}
+  let ok=0,fail=0;
+  if(cmpMode==='email'){
+    const url=localStorage.getItem('ll_relay')||RELAY_DEFAULT;
+    for(const t of cmpTargets){if(!t.parent_email){fail++;continue;}
+      try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({to:t.parent_email,subject:subj||'Message from Legacy Lab',body})});
+        const j=await r.json();j.ok?(ok++,await logComm(t.id,'email',subj,body,'sent')):(fail++,await logComm(t.id,'email',subj,body,'failed'));}
+      catch(e){fail++;await logComm(t.id,'email',subj,body,'failed');}}
+  }else{
+    const sid=localStorage.getItem('ll_tw_sid'),tok=localStorage.getItem('ll_tw_token'),from=localStorage.getItem('ll_tw_from');
+    if(!sid||!tok||!from){alert('Add Twilio credentials in Settings first.');return;}
+    for(const t of cmpTargets){if(!t.parent_phone){fail++;continue;}
+      try{let to=t.parent_phone.replace(/\D/g,'');if(to.length===10)to='+1'+to;else if(!to.startsWith('+'))to='+'+to;
+        const r=await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`,{method:'POST',headers:{'Authorization':'Basic '+btoa(sid+':'+tok),'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({To:to,From:from,Body:body})});
+        r.ok?(ok++,await logComm(t.id,'sms',null,body,'sent')):(fail++,await logComm(t.id,'sms',null,body,'failed'));}
+      catch(e){fail++;await logComm(t.id,'sms',null,body,'failed');}}
+  }
+  alert(`Done: ${ok} sent, ${fail} failed.`);
+  document.getElementById('composeModal').style.display='none';
+  document.getElementById('cBody').value='';document.getElementById('cSubject').value='';
+}
+
+// ============ SETTINGS ============
+function saveSbKey(){const k=document.getElementById('sbKeyInput').value.trim();if(!k.startsWith('eyJ')){alert('Invalid key.');return;}localStorage.setItem('ll_sb_key',k);SB_KEY=k;init();}
+function saveRelay(){localStorage.setItem('ll_relay',document.getElementById('relayInput').value.trim()||RELAY_DEFAULT);alert('Saved.');}
+function saveTwilio(){localStorage.setItem('ll_tw_sid',document.getElementById('twSid').value.trim());localStorage.setItem('ll_tw_token',document.getElementById('twToken').value.trim());localStorage.setItem('ll_tw_from',document.getElementById('twFrom').value.trim());alert('Saved.');}
+function exportCSV(){
+  const rows=[['Parent Name','Email','Phone','Athlete','Grade','School','City','Marketing']];
+  contacts.forEach(c=>rows.push([c.parent_name||'',c.parent_email||'',c.parent_phone||'',c.athlete_name||'',c.athlete_grade||'',c.athlete_school||'',c.city||'',c.marketing_consent?'Yes':'No']));
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'));a.download='legacy-lab-contacts.csv';a.click();
+}
+window.onclick=e=>{if(e.target.classList&&e.target.classList.contains('modal'))e.target.style.display='none';};
+</script>
+</body>
+</html>
