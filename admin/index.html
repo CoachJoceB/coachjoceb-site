@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacy Lab CRM</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; }
+  .header { background: #1a1a1a; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 1.4rem; }
+  .header .brand { color: #ff6b35; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  .setup { background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .setup h2 { margin-bottom: 1rem; }
+  .setup input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 1rem; font-size: 1rem; }
+  .setup button { background: #ff6b35; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+  .setup button:hover { background: #e55a2b; }
+  .setup p { color: #666; margin-bottom: 1rem; font-size: 0.9rem; }
+  .toolbar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .toolbar input { flex: 1; min-width: 200px; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+  .toolbar button { padding: 0.75rem 1.25rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95rem; }
+  .btn-primary { background: #ff6b35; color: white; }
+  .btn-secondary { background: #e0e0e0; color: #333; }
+  .contacts { display: grid; gap: 1rem; }
+  .contact-card { background: white; border-radius: 8px; padding: 1.25rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.1s; }
+  .contact-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+  .contact-card h3 { margin-bottom: 0.5rem; }
+  .contact-card .meta { color: #666; font-size: 0.9rem; }
+  .contact-card .tags { margin-top: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag { background: #e8f4f8; color: #2c7a9c; padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.8rem; }
+  .tag.unsubscribed { background: #fce8e8; color: #c0392b; }
+  .detail-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; overflow-y: auto; }
+  .detail-content { background: white; max-width: 700px; margin: 2rem auto; border-radius: 12px; padding: 2rem; }
+  .detail-content h2 { margin-bottom: 1rem; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .detail-field { margin-bottom: 0.5rem; }
+  .detail-field label { font-weight: 600; font-size: 0.85rem; color: #666; display: block; margin-bottom: 0.25rem; }
+  .detail-field span { font-size: 1rem; }
+  .detail-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .detail-actions button { padding: 0.6rem 1.2rem; border: none; border-radius: 4px; cursor: pointer; }
+  .close-btn { float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
+  .compose-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; }
+  .compose-content { background: white; max-width: 600px; margin: 3rem auto; border-radius: 12px; padding: 2rem; }
+  .compose-content h3 { margin-bottom: 1rem; }
+  .compose-content input, .compose-content textarea { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 1rem; font-size: 1rem; }
+  .compose-content textarea { min-height: 150px; resize: vertical; }
+  .hidden { display: none !important; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat { background: white; border-radius: 8px; padding: 1.25rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .stat .number { font-size: 2rem; font-weight: 700; color: #ff6b35; }
+  .stat .label { color: #666; font-size: 0.9rem; margin-top: 0.25rem; }
+  .empty { text-align: center; padding: 3rem; color: #999; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="brand">Legacy Lab</span> CRM</h1>
+  <div>
+    <button onclick="toggleSettings()" style="background:none; border:1px solid #555; color:white; padding:0.4rem 0.8rem; border-radius:4px; cursor:pointer; margin-right:0.5rem;">⚙️ Settings</button>
+    <span id="contactCount"></span>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Setup (shown if no key stored) -->
+  <div id="setupPanel" class="setup">
+    <h2>Connect to Supabase</h2>
+    <p>Paste your <strong>service_role</strong> key from Supabase Dashboard → Project Settings → API. It's stored only in this browser's local storage, never sent anywhere except your Supabase project.</p>
+    <input type="password" id="serviceKeyInput" placeholder="service_role key (eyJ...)">
+    <button onclick="saveKey()">Connect</button>
+  </div>
+
+  <!-- Settings (email relay + Twilio) -->
+  <div id="settingsPanel" class="setup hidden" style="margin-bottom: 1rem;">
+    <h2>⚙️ Sending Settings</h2>
+    <p><strong>Email:</strong> Paste your Google Apps Script Web App URL (the Email Relay). Deploy the script from <code>email_relay.gs</code> as a Web App with "Execute as Me" and "Anyone" access.</p>
+    <input type="text" id="relayUrlInput" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:4px; margin-bottom:1rem;">
+    <p><strong>SMS (Twilio):</strong> Enter your Twilio Account SID, Auth Token, and sending phone number. Get these from your Twilio Console.</p>
+    <input type="text" id="twilioSidInput" placeholder="Twilio Account SID" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:4px; margin-bottom:0.5rem;">
+    <input type="password" id="twilioTokenInput" placeholder="Twilio Auth Token" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:4px; margin-bottom:0.5rem;">
+    <input type="text" id="twilioFromInput" placeholder="Twilio Phone Number (e.g. +12513888414)" style="width:100%; padding:0.75rem; border:1px solid #ddd; border-radius:4px; margin-bottom:1rem;">
+    <button onclick="saveSettings()">Save Settings</button>
+  </div>
+
+  <!-- Main app (hidden until connected) -->
+  <div id="appPanel" class="hidden">
+    <div class="stats">
+      <div class="stat"><div class="number" id="statTotal">0</div><div class="label">Total Families</div></div>
+      <div class="stat"><div class="number" id="statSubscribed">0</div><div class="label">Marketing OK</div></div>
+      <div class="stat"><div class="number" id="statWaivers">0</div><div class="label">Waivers</div></div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search by name, email, or phone..." oninput="filterContacts()">
+      <button class="btn-primary" onclick="showBulkEmail()">📧 Bulk Email</button>
+      <button class="btn-secondary" onclick="exportCSV()">📥 Export CSV</button>
+    </div>
+
+    <div id="contactsList" class="contacts"></div>
+  </div>
+</div>
+
+<!-- Contact detail modal -->
+<div id="detailModal" class="detail-modal">
+  <div class="detail-content">
+    <button class="close-btn" onclick="closeDetail()">&times;</button>
+    <h2 id="detailName"></h2>
+    <div class="detail-grid" id="detailFields"></div>
+    <h3 style="margin: 1rem 0 0.5rem;">Waivers</h3>
+    <div id="detailWaivers"></div>
+    <h3 style="margin: 1rem 0 0.5rem;">Communication History</h3>
+    <div id="detailComms"></div>
+    <div class="detail-actions">
+      <button class="btn-primary" onclick="composeEmail(currentContact)">📧 Send Email</button>
+      <button class="btn-primary" onclick="composeSMS(currentContact)">💬 Send Text</button>
+      <button class="btn-secondary" onclick="toggleConsent(currentContact)">Toggle Marketing Consent</button>
+    </div>
+  </div>
+</div>
+
+<!-- Compose modal -->
+<div id="composeModal" class="compose-modal">
+  <div class="compose-content">
+    <button class="close-btn" onclick="closeCompose()">&times;</button>
+    <h3 id="composeTitle">Send Email</h3>
+    <div id="composeTo"></div>
+    <input type="text" id="composeSubject" placeholder="Subject (email only)">
+    <textarea id="composeBody" placeholder="Message..."></textarea>
+    <button class="btn-primary" onclick="sendMessage()" style="width:100%; padding: 0.75rem;">Send</button>
+    <p style="margin-top: 0.75rem; font-size: 0.85rem; color: #666;" id="composeNote"></p>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://gwahlqvngjfhslqqprzl.supabase.co';
+let serviceKey = localStorage.getItem('ll_crm_key') || '';
+let contacts = [];
+let currentContact = null;
+let composeMode = null; // 'email' or 'sms'
+let composeTargets = [];
+
+function headers() {
+  return {
+    'apikey': serviceKey,
+    'Authorization': 'Bearer ' + serviceKey,
+    'Content-Type': 'application/json'
+  };
+}
+
+function saveKey() {
+  const k = document.getElementById('serviceKeyInput').value.trim();
+  if (!k.startsWith('eyJ')) { alert('That does not look like a valid key.'); return; }
+  localStorage.setItem('ll_crm_key', k);
+  serviceKey = k;
+  init();
+}
+
+async function init() {
+  if (!serviceKey) {
+    document.getElementById('setupPanel').classList.remove('hidden');
+    document.getElementById('appPanel').classList.add('hidden');
+    return;
+  }
+  document.getElementById('setupPanel').classList.add('hidden');
+  document.getElementById('appPanel').classList.remove('hidden');
+  await loadContacts();
+}
+
+async function loadContacts() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/crm_contacts?select=*&order=created_at.desc`, { headers: headers() });
+    if (!r.ok) throw new Error('Failed to load: ' + r.status);
+    contacts = await r.json();
+    renderContacts(contacts);
+    updateStats();
+  } catch (e) {
+    alert('Could not load contacts: ' + e.message + '\n\nCheck that your service_role key is correct.');
+    localStorage.removeItem('ll_crm_key');
+    serviceKey = '';
+    init();
+  }
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = contacts.length;
+  document.getElementById('statSubscribed').textContent = contacts.filter(c => c.marketing_consent).length;
+  document.getElementById('contactCount').textContent = contacts.length + ' families';
+  // Waiver count
+  fetch(`${SUPABASE_URL}/rest/v1/waiver_submissions?select=id`, { headers: { ...headers(), 'Prefer': 'count=exact' } })
+    .then(r => {
+      const cr = r.headers.get('content-range');
+      if (cr) document.getElementById('statWaivers').textContent = cr.split('/')[1] || '?';
+    }).catch(() => {});
+}
+
+function renderContacts(list) {
+  const el = document.getElementById('contactsList');
+  if (!list.length) { el.innerHTML = '<div class="empty">No contacts yet. They will appear here when waivers are submitted.</div>'; return; }
+  el.innerHTML = list.map(c => `
+    <div class="contact-card" onclick='openDetail("${c.id}")'>
+      <h3>${esc(c.parent_name || 'Unknown')} <span style="font-weight:400; color:#666; font-size:0.9rem;">(${esc(c.athlete_name || '')})</span></h3>
+      <div class="meta">${esc(c.parent_email || '')} ${c.parent_phone ? ' · ' + esc(c.parent_phone) : ''}</div>
+      <div class="tags">
+        ${c.athlete_grade ? `<span class="tag">${esc(c.athlete_grade)}</span>` : ''}
+        ${c.payment_method ? `<span class="tag">${esc(c.payment_method)}</span>` : ''}
+        ${c.marketing_consent ? '' : '<span class="tag unsubscribed">Unsubscribed</span>'}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterContacts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  renderContacts(contacts.filter(c =>
+    (c.parent_name || '').toLowerCase().includes(q) ||
+    (c.parent_email || '').toLowerCase().includes(q) ||
+    (c.parent_phone || '').includes(q) ||
+    (c.athlete_name || '').toLowerCase().includes(q)
+  ));
+}
+
+function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function openDetail(id) {
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  currentContact = c;
+  document.getElementById('detailName').textContent = `${c.parent_name || 'Unknown'} (${c.athlete_name || 'No athlete'})`;
+
+  const fields = [
+    ['Parent Email', c.parent_email], ['Parent Phone', c.parent_phone],
+    ['Athlete Grade', c.athlete_grade], ['School', c.athlete_school],
+    ['Address', [c.address, c.city, c.state, c.zip].filter(Boolean).join(', ')],
+    ['Emergency', c.emergency_name ? `${c.emergency_name} (${c.emergency_phone || ''})` : ''],
+    ['Payment', c.payment_method], ['Source', c.source],
+    ['Marketing', c.marketing_consent ? 'Subscribed' : 'Unsubscribed'],
+    ['Since', c.created_at ? new Date(c.created_at).toLocaleDateString() : '']
+  ];
+  document.getElementById('detailFields').innerHTML = fields
+    .filter(([l, v]) => v).map(([l, v]) => `<div class="detail-field"><label>${l}</label><span>${esc(v)}</span></div>`).join('');
+
+  // Waivers
+  const wr = await fetch(`${SUPABASE_URL}/rest/v1/waiver_submissions?contact_id=eq.${id}&select=id,participant_name,submitted_at`, { headers: headers() });
+  const waivers = await wr.json();
+  document.getElementById('detailWaivers').innerHTML = waivers.length
+    ? waivers.map(w => `<div style="padding:0.5rem 0; border-bottom:1px solid #eee;">
+        ${esc(w.participant_name)} — ${new Date(w.submitted_at).toLocaleDateString()}
+        <button class="btn-secondary" style="margin-left:0.5rem; padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="downloadPDF('${w.id}')">📄 PDF</button>
+      </div>`).join('')
+    : '<p style="color:#999;">No waivers on file.</p>';
+
+  // Comms
+  const cr = await fetch(`${SUPABASE_URL}/rest/v1/crm_communications?contact_id=eq.${id}&select=*&order=sent_at.desc&limit=10`, { headers: headers() });
+  const comms = await cr.json();
+  document.getElementById('detailComms').innerHTML = comms.length
+    ? comms.map(m => `<div style="padding:0.5rem 0; border-bottom:1px solid #eee; font-size:0.9rem;">
+        <strong>${m.channel === 'email' ? '📧' : '💬'} ${esc(m.subject || m.channel)}</strong>
+        <span style="color:#999;"> — ${new Date(m.sent_at).toLocaleDateString()}</span>
+      </div>`).join('')
+    : '<p style="color:#999;">No messages sent yet.</p>';
+
+  document.getElementById('detailModal').style.display = 'block';
+}
+
+function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+
+async function downloadPDF(waiverId) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/waiver_submissions?id=eq.${waiverId}&select=pdf_base64,participant_name`, { headers: headers() });
+  const [w] = await r.json();
+  if (!w || !w.pdf_base64) { alert('No PDF stored for this waiver.'); return; }
+  const a = document.createElement('a');
+  a.href = w.pdf_base64;
+  a.download = `Waiver_${(w.participant_name || 'participant').replace(/[^a-z0-9]+/gi, '_')}.pdf`;
+  a.click();
+}
+
+function composeEmail(contact) {
+  composeMode = 'email';
+  composeTargets = [contact];
+  document.getElementById('composeTitle').textContent = 'Send Email to ' + (contact.parent_name || contact.parent_email);
+  document.getElementById('composeTo').innerHTML = `<p style="margin-bottom:1rem; color:#666;">To: ${esc(contact.parent_email)}</p>`;
+  document.getElementById('composeSubject').style.display = '';
+  document.getElementById('composeNote').textContent = 'Email sending is not yet wired up. Copy the message and send from your email, then click Send to log it.';
+  document.getElementById('composeModal').style.display = 'block';
+}
+
+function composeSMS(contact) {
+  composeMode = 'sms';
+  composeTargets = [contact];
+  document.getElementById('composeTitle').textContent = 'Send Text to ' + (contact.parent_name || contact.parent_phone);
+  document.getElementById('composeTo').innerHTML = `<p style="margin-bottom:1rem; color:#666;">To: ${esc(contact.parent_phone || 'No phone on file')}</p>`;
+  document.getElementById('composeSubject').style.display = 'none';
+  document.getElementById('composeNote').textContent = 'SMS requires Twilio setup. For now, copy the message and send manually, then click Send to log it.';
+  document.getElementById('composeModal').style.display = 'block';
+}
+
+function showBulkEmail() {
+  const subs = contacts.filter(c => c.marketing_consent && c.parent_email);
+  if (!subs.length) { alert('No subscribed contacts with email addresses.'); return; }
+  composeMode = 'email';
+  composeTargets = subs;
+  document.getElementById('composeTitle').textContent = `Bulk Email to ${subs.length} families`;
+  document.getElementById('composeTo').innerHTML = `<p style="margin-bottom:1rem; color:#666;">${subs.length} recipients (marketing-consented only)</p>`;
+  document.getElementById('composeSubject').style.display = '';
+  document.getElementById('composeNote').textContent = 'Bulk send is not yet automated. For now, use the Export CSV to get the list for your email tool.';
+  document.getElementById('composeModal').style.display = 'block';
+}
+
+function closeCompose() { document.getElementById('composeModal').style.display = 'none'; }
+
+async function sendMessage() {
+  // Log to crm_communications (actual sending comes in Phase 2)
+  const body = document.getElementById('composeBody').value.trim();
+  const subject = document.getElementById('composeSubject').value.trim();
+  if (!body) { alert('Write a message first.'); return; }
+  for (const t of composeTargets) {
+    await fetch(`${SUPABASE_URL}/rest/v1/crm_communications`, {
+      method: 'POST', headers: headers(),
+      body: JSON.stringify({ contact_id: t.id, channel: composeMode, subject: subject || null, body, status: 'logged' })
+    });
+  }
+  alert(`Logged for ${composeTargets.length} contact(s). Actual sending will be wired up next.`);
+  closeCompose();
+  if (currentContact) openDetail(currentContact.id);
+}
+
+async function toggleConsent(contact) {
+  const nv = !contact.marketing_consent;
+  await fetch(`${SUPABASE_URL}/rest/v1/crm_contacts?id=eq.${contact.id}`, {
+    method: 'PATCH', headers: headers(),
+    body: JSON.stringify({ marketing_consent: nv, marketing_consent_date: new Date().toISOString(), updated_at: new Date().toISOString() })
+  });
+  contact.marketing_consent = nv;
+  renderContacts(contacts); updateStats(); openDetail(contact.id);
+}
+
+function exportCSV() {
+  const rows = [['Parent Name','Email','Phone','Athlete','Grade','School','City','Marketing Consent']];
+  contacts.forEach(c => rows.push([c.parent_name||'', c.parent_email||'', c.parent_phone||'', c.athlete_name||'', c.athlete_grade||'', c.athlete_school||'', c.city||'', c.marketing_consent ? 'Yes' : 'No']));
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'legacy-lab-contacts.csv';
+  a.click();
+}
+
+// Close modals on background click
+window.onclick = e => {
+  if (e.target.id === 'detailModal') closeDetail();
+  if (e.target.id === 'composeModal') closeCompose();
+};
+
+
+// Settings management
+function toggleSettings() {
+  const p = document.getElementById('settingsPanel');
+  p.classList.toggle('hidden');
+  // Pre-fill
+  document.getElementById('relayUrlInput').value = localStorage.getItem('ll_relay_url') || '';
+  document.getElementById('twilioSidInput').value = localStorage.getItem('ll_twilio_sid') || '';
+  document.getElementById('twilioFromInput').value = localStorage.getItem('ll_twilio_from') || '';
+}
+
+function saveSettings() {
+  localStorage.setItem('ll_relay_url', document.getElementById('relayUrlInput').value.trim());
+  localStorage.setItem('ll_twilio_sid', document.getElementById('twilioSidInput').value.trim());
+  localStorage.setItem('ll_twilio_token', document.getElementById('twilioTokenInput').value.trim());
+  localStorage.setItem('ll_twilio_from', document.getElementById('twilioFromInput').value.trim());
+  alert('Settings saved.');
+  document.getElementById('settingsPanel').classList.add('hidden');
+}
+
+// Real sending (replaces the placeholder sendMessage)
+async function sendMessage() {
+  const body = document.getElementById('composeBody').value.trim();
+  const subject = document.getElementById('composeSubject').value.trim();
+  if (!body) { alert('Write a message first.'); return; }
+
+  let sent = 0, failed = 0;
+
+  if (composeMode === 'email') {
+    const relayUrl = localStorage.getItem('ll_relay_url');
+    if (!relayUrl) { alert('Set up your Email Relay URL in Settings first (⚙️).'); return; }
+    for (const t of composeTargets) {
+      if (!t.parent_email) { failed++; continue; }
+      try {
+        const r = await fetch(relayUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ to: t.parent_email, subject: subject || 'Message from Legacy Lab', body })
+        });
+        const j = await r.json();
+        if (j.ok) {
+          sent++;
+          await logComm(t.id, 'email', subject, body, 'sent');
+        } else { failed++; await logComm(t.id, 'email', subject, body, 'failed: ' + (j.error || 'unknown')); }
+      } catch (e) { failed++; await logComm(t.id, 'email', subject, body, 'failed: ' + e.message); }
+    }
+  } else if (composeMode === 'sms') {
+    const sid = localStorage.getItem('ll_twilio_sid');
+    const token = localStorage.getItem('ll_twilio_token');
+    const from = localStorage.getItem('ll_twilio_from');
+    if (!sid || !token || !from) { alert('Set up Twilio in Settings first (⚙️).'); return; }
+    for (const t of composeTargets) {
+      if (!t.parent_phone) { failed++; continue; }
+      try {
+        // Format phone: assume US if 10 digits
+        let to = t.parent_phone.replace(/[^0-9]/g, '');
+        if (to.length === 10) to = '+1' + to;
+        else if (to.length === 11 && to[0] === '1') to = '+' + to;
+        else if (!to.startsWith('+')) to = '+' + to;
+
+        const r = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa(sid + ':' + token),
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams({ To: to, From: from, Body: body })
+        });
+        if (r.ok) { sent++; await logComm(t.id, 'sms', null, body, 'sent'); }
+        else { failed++; await logComm(t.id, 'sms', null, body, 'failed: ' + r.status); }
+      } catch (e) { failed++; await logComm(t.id, 'sms', null, body, 'failed: ' + e.message); }
+    }
+  }
+
+  alert(`Done: ${sent} sent, ${failed} failed.`);
+  closeCompose();
+  if (currentContact) openDetail(currentContact.id);
+}
+
+async function logComm(contactId, channel, subject, body, status) {
+  await fetch(`${SUPABASE_URL}/rest/v1/crm_communications`, {
+    method: 'POST', headers: headers(),
+    body: JSON.stringify({ contact_id: contactId, channel, subject: subject || null, body, status })
+  });
+}
+
+init();
+</script>
+</body>
+</html>
