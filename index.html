@@ -172,10 +172,22 @@ footer p { color: var(--muted); font-size: 13px; }
 
 <section style="padding: 0 0 24px;">
   <div class="container" style="max-width: 720px;">
-    <video autoplay muted loop playsinline preload="metadata" poster="video-poster.jpg" style="width: 100%; border-radius: 12px; border: 1px solid var(--border);">
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="video-cover.jpg" style="width: 100%; border-radius: 12px; border: 1px solid var(--border);">
       <source src="training-video.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+    <script>
+    (function() {
+      var v = document.getElementById('heroVideo');
+      if (!v) return;
+      v.muted = true;
+      v.setAttribute('muted', '');
+      var tryPlay = function() { v.play().catch(function() {}); };
+      if (v.readyState >= 2) { tryPlay(); }
+      else { v.addEventListener('canplay', tryPlay, { once: true }); }
+      document.addEventListener('touchstart', tryPlay, { once: true });
+    })();
+    </script>
   </div>
 </section>
 
