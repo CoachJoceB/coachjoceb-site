@@ -293,7 +293,9 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     submittedAt: new Date().toISOString()
   };
   try {
-    await fetch('https://formsubmit.co/ajax/coachjoceb@gmail.com', {
+    data._cc = 'coachjoceb@gmail.com';
+    data._subject = 'New Free Session Signup - ' + data.athleteName;
+    await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
