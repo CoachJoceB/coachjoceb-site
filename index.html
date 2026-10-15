@@ -301,7 +301,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       body: JSON.stringify(data)
     });
   } catch (err) { /* continue to waiver even if email fails */ }
-  window.location.href = 'https://coachjoceb.github.io/trainingwaiver/?plan=free&email=' + encodeURIComponent(data.email) + '&name=' + encodeURIComponent(data.athleteName);
+  window.location.href = '/waiver/?plan=free&email=' + encodeURIComponent(data.email) + '&name=' + encodeURIComponent(data.athleteName);
 });
 </script>
 
@@ -392,7 +392,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       <div class="step">
         <div class="num">2</div>
         <h3>Complete the Waiver</h3>
-        <p>Fill out the <a href="https://coachjoceb.github.io/trainingwaiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> and select <strong>Step Up for Students</strong> as your payment method.</p>
+        <p>Fill out the <a href="/waiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> and select <strong>Step Up for Students</strong> as your payment method.</p>
       </div>
       <div class="step">
         <div class="num">3</div>
@@ -429,7 +429,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     </details>
     <details class="faq-item">
       <summary>Do you accept Step Up for Students?</summary>
-      <div class="faq-body">Yes. Log in at <a href="https://www.stepupforstudents.org/scholarships/logins/" target="_blank" rel="noopener" style="color: var(--orange);">stepupforstudents.org</a>, search for <strong>Legacy Lab</strong> under providers, then complete the <a href="https://coachjoceb.github.io/trainingwaiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> and select Step Up as your payment method.</div>
+      <div class="faq-body">Yes. Log in at <a href="https://www.stepupforstudents.org/scholarships/logins/" target="_blank" rel="noopener" style="color: var(--orange);">stepupforstudents.org</a>, search for <strong>Legacy Lab</strong> under providers, then complete the <a href="/waiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> and select Step Up as your payment method.</div>
     </details>
     <details class="faq-item">
       <summary>What should my athlete bring?</summary>
@@ -455,7 +455,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <h3>Contact Coach J</h3>
         <p>Phone: <a href="tel:+18502999639">850-299-9639</a></p>
         <p>Instagram: <a href="https://www.instagram.com/CoachJoceB" target="_blank" rel="noopener">@CoachJoceB</a></p>
-        <p>Waiver: <a href="https://coachjoceb.github.io/trainingwaiver/" target="_blank" rel="noopener">Training Waiver</a></p>
+        <p>Waiver: <a href="/waiver/" target="_blank" rel="noopener">Training Waiver</a></p>
       </div>
     </div>
   </div>
