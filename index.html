@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach J Basketball Training | Legacy Lab Academy | Pensacola, FL</title>
+<meta name="description" content="Basketball training in Pensacola, FL with Coach J. Group sessions for elementary through high school. First session free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0f;
+  --bg2: #161619;
+  --bg3: #1e1e22;
+  --text: #f2f2f2;
+  --muted: #a8a8ad;
+  --orange: #ff6b1a;
+  --amber: #ffb020;
+  --green: #3ddc84;
+  --border: #2a2a2e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+h1, h2, h3, .oswald { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+section { padding: 64px 0; }
+
+/* Header */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,15,0.95); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; max-width: 1080px; margin: 0 auto; }
+.logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; }
+.logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-links a:hover { color: var(--text); }
+@media (max-width: 640px) { .nav-links { display: none; } }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 88px 20px 72px;
+  background: radial-gradient(ellipse at 50% 0%, #23232a 0%, var(--bg) 65%);
+}
+.hero .kicker {
+  display: inline-block;
+  font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid var(--green); border-radius: 999px;
+  padding: 6px 18px; margin-bottom: 24px;
+}
+.hero h1 { font-size: clamp(38px, 6vw, 64px); line-height: 1.1; margin-bottom: 16px; }
+.hero h1 .accent { color: var(--orange); }
+.hero p.sub { font-size: 18px; color: var(--muted); max-width: 620px; margin: 0 auto 32px; }
+.btn {
+  display: inline-block;
+  font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  padding: 15px 36px; border-radius: 8px; text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--orange); color: #fff; box-shadow: 0 4px 24px rgba(255,107,26,0.35); }
+.btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--border); margin-left: 12px; }
+.btn-secondary:hover { border-color: var(--muted); }
+.btn-green { background: var(--green); color: #062b1a; }
+.hero-cta { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+.free-badge {
+  margin-top: 28px; display: inline-block;
+  background: var(--bg3); border: 1px solid var(--amber); border-radius: 8px;
+  padding: 12px 24px; font-size: 15px; color: var(--amber); font-weight: 600;
+}
+
+/* Pricing */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 36px; }
+.price-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 36px 28px; text-align: center;
+}
+.price-card.featured { border-color: var(--orange); position: relative; }
+.price-card .plan { font-family: 'Oswald', sans-serif; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
+.price-card .amount { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; margin-bottom: 4px; }
+.price-card .per { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+.price-card ul { list-style: none; text-align: left; margin: 0 0 28px; }
+.price-card ul li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+.price-card ul li:last-child { border-bottom: none; }
+.price-card ul li::before { content: "\2713  "; color: var(--green); font-weight: 700; }
+.section-title { text-align: center; font-size: clamp(28px, 4vw, 40px); margin-bottom: 12px; }
+.section-sub { text-align: center; color: var(--muted); max-width: 640px; margin: 0 auto; }
+
+/* Schedule */
+.schedule { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sched-group { margin-top: 36px; }
+.sched-group h3 { font-size: 22px; margin-bottom: 16px; color: var(--amber); }
+.sched-table { width: 100%; border-collapse: collapse; }
+.sched-table th, .sched-table td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.sched-table th { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; color: var(--muted); }
+.sched-table tr:last-child td { border-bottom: none; }
+@media (max-width: 640px) {
+  .sched-table thead { display: none; }
+  .sched-table tr { display: block; margin-bottom: 16px; background: var(--bg3); border-radius: 8px; padding: 8px; }
+  .sched-table td { display: block; border-bottom: none; padding: 6px 12px; }
+  .sched-table td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--muted); }
+}
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 36px; }
+.step { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; text-align: center; }
+.step .num {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--orange); color: #fff;
+  font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+}
+.step h3 { font-size: 18px; margin-bottom: 8px; }
+.step p { font-size: 14px; color: var(--muted); }
+
+/* Location */
+.location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
+@media (max-width: 700px) { .location-grid { grid-template-columns: 1fr; } }
+.loc-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; }
+.loc-card h3 { font-size: 20px; margin-bottom: 16px; color: var(--green); }
+.loc-card p { color: var(--muted); font-size: 15px; margin-bottom: 8px; }
+.loc-card a { color: var(--orange); text-decoration: none; }
+.loc-card a:hover { text-decoration: underline; }
+
+/* Footer */
+footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; }
+footer .links { margin-bottom: 16px; }
+footer .links a { color: var(--muted); text-decoration: none; font-size: 14px; margin: 0 12px; }
+footer .links a:hover { color: var(--text); }
+footer p { color: var(--muted); font-size: 13px; }
+.social { margin-bottom: 20px; }
+.social a {
+  display: inline-block; margin: 0 8px; padding: 10px 22px;
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.social a:hover { border-color: var(--orange); color: var(--orange); }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#" class="logo">COACH <span>J</span></a>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#start">Get Started</a>
+      <a href="#location">Location</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="container">
+    <div class="kicker">Pensacola, FL Basketball Training</div>
+    <h1>Train Hard. <span class="accent">Play Smart.</span><br>Become Unstoppable.</h1>
+    <p class="sub">Group basketball training for elementary through high school athletes with Coach J. Real reps, real coaching, real results.</p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn btn-primary">Join Training</a>
+      <a href="https://coachjoceb.github.io/trainingwaiver/" class="btn btn-secondary">Training Waiver</a>
+    </div>
+    <div><span class="free-badge">First Session FREE for new athletes</span></div>
+  </div>
+</div>
+
+<section id="pricing">
+  <div class="container">
+    <h2 class="section-title">Simple Pricing</h2>
+    <p class="section-sub">No contracts, no hidden fees. Tax included. Cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="plan">Monthly Membership</div>
+        <div class="amount">$240</div>
+        <div class="per">per month, tax included</div>
+        <ul>
+          <li>All group training sessions</li>
+          <li>Every week, all month</li>
+          <li>Automatic Friday session booking</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="https://buy.stripe.com/fZu4gzeGt4uH8Zsd063sI01" class="btn btn-primary">Join Monthly</a>
+      </div>
+      <div class="price-card">
+        <div class="plan">Drop-In Session</div>
+        <div class="amount">$30</div>
+        <div class="per">one time, tax included</div>
+        <ul>
+          <li>Single group training session</li>
+          <li>Try it before you commit</li>
+          <li>Automatic Friday session booking</li>
+          <li>No commitment</li>
+        </ul>
+        <a href="https://buy.stripe.com/eVq3cvaqdf9l6Rk5xE3sI02" class="btn btn-secondary" style="margin-left:0;">Book Drop-In</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start" class="schedule">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Three steps and you are on the court.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Pick Your Plan</h3>
+        <p>Choose monthly membership or a drop-in session and check out securely with Stripe.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Complete the Waiver</h3>
+        <p>After payment you will be sent to the training waiver. It takes about five minutes. Already done one? You are all set.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Show Up Friday</h3>
+        <p>You are automatically booked for Friday 5:30pm training and will get a confirmation email with all the details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="container">
+    <h2 class="section-title">Training Schedule</h2>
+    <p class="section-sub">All sessions at 3920 W Navy Blvd, Pensacola, FL 32507.</p>
+
+    <div class="sched-group">
+      <h3>Girls Training</h3>
+      <table class="sched-table">
+        <thead><tr><th>Group</th><th>Days</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Group">Fundamentals (Coed)</td><td data-label="Days">Monday, Wednesday</td><td data-label="Time">5:30 PM - 6:30 PM</td></tr>
+          <tr><td data-label="Group">MS/HS Girls Developing</td><td data-label="Days">Tuesday</td><td data-label="Time">6:45 PM - 7:45 PM</td></tr>
+          <tr><td data-label="Group">MS/HS Girls Developing</td><td data-label="Days">Friday</td><td data-label="Time">5:30 PM - 6:30 PM</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sched-group">
+      <h3>Boys Training</h3>
+      <table class="sched-table">
+        <thead><tr><th>Group</th><th>Days</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Group">HS Emerging</td><td data-label="Days">Wednesday, Friday</td><td data-label="Time">4:00 PM - 5:30 PM</td></tr>
+          <tr><td data-label="Group">HS Advanced</td><td data-label="Days">Tuesday, Thursday</td><td data-label="Time">7:00 PM - 8:30 PM</td></tr>
+          <tr><td data-label="Group">MS Fundamental</td><td data-label="Days">Monday, Wednesday</td><td data-label="Time">5:30 PM - 6:30 PM</td></tr>
+          <tr><td data-label="Group">MS Advanced</td><td data-label="Days">Tuesday, Thursday</td><td data-label="Time">5:30 PM - 7:00 PM</td></tr>
+          <tr><td data-label="Group">Elementary Developmental</td><td data-label="Days">Monday</td><td data-label="Time">4:00 PM - 5:00 PM</td></tr>
+          <tr><td data-label="Group">Elementary Advanced</td><td data-label="Days">Friday</td><td data-label="Time">4:00 PM - 5:00 PM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <div class="container">
+    <h2 class="section-title">Find Us</h2>
+    <div class="location-grid">
+      <div class="loc-card">
+        <h3>Training Location</h3>
+        <p>3920 W Navy Blvd<br>Pensacola, FL 32507</p>
+        <p><a href="https://maps.google.com/?q=3920+W+Navy+Blvd,+Pensacola,+FL+32507" target="_blank" rel="noopener">Get Directions</a></p>
+      </div>
+      <div class="loc-card">
+        <h3>Contact Coach J</h3>
+        <p>Phone: <a href="tel:+18502999639">850-299-9639</a></p>
+        <p>Instagram: <a href="https://www.instagram.com/CoachJoceB" target="_blank" rel="noopener">@CoachJoceB</a></p>
+        <p>Waiver: <a href="https://coachjoceb.github.io/trainingwaiver/">Training Waiver</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="social">
+      <a href="https://www.instagram.com/CoachJoceB" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
+    <p>Legacy Lab Academy, Inc. &copy; 2026. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
