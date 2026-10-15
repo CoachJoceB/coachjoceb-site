@@ -358,7 +358,7 @@ function toggleSettings() {
   const p = document.getElementById('settingsPanel');
   p.classList.toggle('hidden');
   // Pre-fill
-  document.getElementById('relayUrlInput').value = localStorage.getItem('ll_relay_url') || '';
+  document.getElementById('relayUrlInput').value = localStorage.getItem('ll_relay_url') || 'https://script.google.com/macros/s/AKfycbyQuzOZdcoJHk3cxz1pbs4RcDU06YaverSbUtM5RJopRd1LbFgaJfoZ8xMPORqtj8Tf/exec';
   document.getElementById('twilioSidInput').value = localStorage.getItem('ll_twilio_sid') || '';
   document.getElementById('twilioFromInput').value = localStorage.getItem('ll_twilio_from') || '';
 }
@@ -381,7 +381,7 @@ async function sendMessage() {
   let sent = 0, failed = 0;
 
   if (composeMode === 'email') {
-    const relayUrl = localStorage.getItem('ll_relay_url');
+    const relayUrl = localStorage.getItem('ll_relay_url') || 'https://script.google.com/macros/s/AKfycbyQuzOZdcoJHk3cxz1pbs4RcDU06YaverSbUtM5RJopRd1LbFgaJfoZ8xMPORqtj8Tf/exec';
     if (!relayUrl) { alert('Set up your Email Relay URL in Settings first (⚙️).'); return; }
     for (const t of composeTargets) {
       if (!t.parent_email) { failed++; continue; }
