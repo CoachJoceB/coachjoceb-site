@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Supabase Test</title></head>
+<body style="font-family: sans-serif; padding: 20px;">
+<h2>Supabase Connection Test</h2>
+<p id="status">Testing...</p>
+<button onclick="runTest()" style="padding: 15px 30px; font-size: 18px;">Run Test</button>
+<script>
+async function runTest() {
+  const el = document.getElementById('status');
+  el.textContent = 'Sending test...';
+  try {
+    const resp = await fetch('https://gwahlqvngjfhslqqprzl.supabase.co/rest/v1/waiver_submissions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3YWhscXZuZ2pmaHNscXFwcnpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDU5NzIsImV4cCI6MjEwMjcyMTk3Mn0.bx2skjuZUNVXVplQNg-OaleXVYQ8D6R2Ej6xr1rBZYk',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        participant_name: 'Phone Test',
+        parent_email: 'phonetest' + Date.now() + '@example.com',
+        parent_name: 'Phone Test Parent'
+      })
+    });
+    if (resp.ok) {
+      el.textContent = 'SUCCESS! Supabase connection works from your phone. The waiver page should work too - try a hard refresh.';
+      el.style.color = 'green';
+    } else {
+      el.textContent = 'FAILED: HTTP ' + resp.status + ' - ' + await resp.text();
+      el.style.color = 'red';
+    }
+  } catch (e) {
+    el.textContent = 'ERROR: ' + e.message;
+    el.style.color = 'red';
+  }
+}
+runTest();
+</script>
+</body></html>
