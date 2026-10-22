@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BecomingHER 1:1 Mentorship - Intake Form | Legacy Lab Academy, Inc.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0d0d0f; --bg2:#161619; --bg3:#1e1e22; --text:#f2f2f2; --muted:#a8a8ad; --orange:#ff6b1a; --amber:#ffb020; --border:#2a2a2e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  h1,h2 { font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:.5px; }
+  .wrap { max-width:680px; margin:0 auto; padding:40px 22px 80px; }
+  .brand { text-align:center; margin-bottom:10px; }
+  .brand .logo-line { font-family:'Oswald',sans-serif; font-size:22px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+  .brand .logo-line span { color:var(--orange); }
+  h1 { font-size:24px; text-align:center; margin:24px 0 6px; }
+  .sub { text-align:center; color:var(--muted); font-size:14px; margin-bottom:30px; }
+  .section { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:18px; }
+  .section h2 { font-size:16px; color:var(--amber); margin-bottom:16px; }
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-size:14px; font-weight:600; margin-bottom:6px; }
+  .field label .opt { font-weight:400; color:var(--muted); font-size:12.5px; }
+  .field input[type=text], .field input[type=email], .field input[type=tel], .field input[type=number], .field select, .field textarea { width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg3); color:var(--text); font-size:15px; font-family:'Inter',sans-serif; }
+  .field textarea { min-height:76px; resize:vertical; }
+  .hint { font-size:12.5px; color:var(--muted); margin-top:4px; }
+  .radio-row { display:flex; gap:18px; margin-top:8px; }
+  .radio-row label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14.5px; cursor:pointer; }
+  .radio-row input { width:18px; height:18px; accent-color:var(--orange); }
+  .check { display:flex; gap:10px; align-items:flex-start; margin:14px 0; }
+  .check input { width:20px; height:20px; margin-top:2px; accent-color:var(--orange); flex-shrink:0; }
+  .btn { width:100%; background:var(--orange); color:#0d0d0f; font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:1px; font-weight:600; font-size:17px; padding:16px; border:none; border-radius:10px; cursor:pointer; margin-top:8px; }
+  .btn:disabled { opacity:.6; cursor:wait; }
+  #formMsg { margin-top:16px; font-size:14.5px; text-align:center; display:none; padding:14px; border-radius:8px; }
+  #formMsg.ok { display:block; background:rgba(255,107,26,.12); border:1px solid var(--orange); }
+  #formMsg.err { display:block; background:rgba(255,43,43,.12); border:1px solid #ff2b2b; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="logo-line">Becoming<span>HER</span></div>
+  </div>
+  <h1>BecomingHER Intake</h1>
+  <p class="sub">Short and simple, about five minutes. Your answers stay private between you and Coach J.</p>
+
+  <form id="intakeForm">
+    <div class="section">
+      <h2>Contact</h2>
+      <div class="field">
+        <label>Parent / guardian name *</label>
+        <input type="text" name="parentName" required>
+      </div>
+      <div class="field">
+        <label>Email *</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="field">
+        <label>Cell phone *</label>
+        <input type="tel" name="phone" required placeholder="(555) 555-5555">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Participant</h2>
+      <div class="field">
+        <label>Teen's first name *</label>
+        <input type="text" name="participantFirstName" required>
+      </div>
+      <div class="field">
+        <label>Age *</label>
+        <input type="number" name="participantAge" min="10" max="19" required>
+      </div>
+      <div class="field">
+        <label>Emergency contact <span class="opt">(name and number, if different from you)</span></label>
+        <input type="text" name="emergencyContact" placeholder="Name - (555) 555-5555">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Health basics</h2>
+      <p class="hint" style="margin-bottom:14px;">These help Coach J keep her safe. Answer what you can; skip anything you would rather discuss in person.</p>
+      <div class="field">
+        <label>Medical conditions or diagnoses I should know about <span class="opt">(optional)</span></label>
+        <textarea name="medicalConditions" placeholder="For example: asthma, diabetes, heart-related concerns"></textarea>
+      </div>
+      <div class="field">
+        <label>Activity restrictions from her doctor <span class="opt">(optional)</span></label>
+        <textarea name="activityRestrictions" placeholder="Is there any physical activity her doctor has said to avoid?"></textarea>
+      </div>
+      <div class="field">
+        <label>Has her doctor cleared light physical activity (walking, stretching, gentle movement)?</label>
+        <div class="radio-row">
+          <label><input type="radio" name="lightActivityCleared" value="yes"> Yes</label>
+          <label><input type="radio" name="lightActivityCleared" value="no"> No</label>
+          <label><input type="radio" name="lightActivityCleared" value="unsure"> Not sure</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Allergies <span class="opt">(optional)</span></label>
+        <input type="text" name="allergies" placeholder="Food, environmental, medication allergies">
+      </div>
+      <div class="field">
+        <label>Current medications <span class="opt">(optional)</span></label>
+        <input type="text" name="medications" placeholder="Anything taken regularly">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Support and goals</h2>
+      <div class="field">
+        <label>Who is already in her corner? <span class="opt">(optional, e.g. therapist, counselor, tutor, coach)</span></label>
+        <textarea name="supportTeam" placeholder="First names or roles are fine"></textarea>
+      </div>
+      <div class="field">
+        <label>If we work together for four weeks, what would a win look like for her? <span class="opt">(optional)</span></label>
+        <textarea name="winDefinition" placeholder="In your own words"></textarea>
+      </div>
+      <div class="field">
+        <label>Anything else I should know before session one? <span class="opt">(optional)</span></label>
+        <textarea name="anythingElse"></textarea>
+      </div>
+      <div class="field">
+        <label>Preferred weekly day and time</label>
+        <input type="text" name="preferredDayTime" placeholder="e.g. Tuesdays after 4pm">
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Agreement</h2>
+      <div class="check">
+        <input type="checkbox" id="agree" required>
+        <label for="agree" style="font-weight:400; font-size:14px;">I have read the BecomingHER 1:1 mentorship participation waiver. I understand this is a confidence and mindset mentorship, not medical care or therapy, that movement stays within whatever her doctor clears, and that no nutrition or eating guidance is provided. I agree to the waiver terms. *</label>
+      </div>
+      <button type="submit" class="btn" id="submitBtn">Submit Intake</button>
+      <p id="formMsg"></p>
+    </div>
+  </form>
+</div>
+
+<script>
+document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  var msg = document.getElementById('formMsg');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  var fd = new FormData(this);
+  var data = {};
+  fd.forEach(function(v, k){ data[k] = v; });
+  data.formType = 'becomingher-intake';
+  data.submittedAt = new Date().toISOString();
+  data._cc = 'coachjoceb@gmail.com';
+  data._subject = 'BecomingHER Intake - ' + (data.participantFirstName || 'new submission');
+  try {
+    var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('send failed');
+    msg.className = 'ok';
+    msg.textContent = 'Thank you. Your intake is in, and Coach J will confirm session one details shortly.';
+    document.getElementById('intakeForm').reset();
+  } catch (err) {
+    msg.className = 'err';
+    msg.textContent = 'Something did not go through. Please email your answers to admin@legacylabinc.org instead.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Submit Intake';
+});
+</script>
+</body>
+</html>
