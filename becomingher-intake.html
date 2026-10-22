@@ -151,7 +151,7 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
   fd.forEach(function(v, k){ data[k] = v; });
   data.formType = 'becomingher-intake';
   data.submittedAt = new Date().toISOString();
-  data._cc = 'legacylabtech@gmail.com';
+  data._cc = 'legacylabtech@gmail.com' + (data.parentEmail ? ',' + data.parentEmail : '');
   data._subject = 'BecomingHER Intake - ' + (data.participantFirstName || 'new submission');
   try {
     var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
@@ -161,7 +161,7 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
     });
     if (!res.ok) throw new Error('send failed');
     msg.className = 'ok';
-    msg.textContent = 'Thank you. Your intake is in, and Coach J will confirm session one details shortly.';
+    msg.textContent = 'Thank you. Your intake is in, and a copy is on its way to your email for your records. Coach J will confirm session one details shortly.';
     document.getElementById('intakeForm').reset();
   } catch (err) {
     msg.className = 'err';
