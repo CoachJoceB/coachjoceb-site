@@ -402,8 +402,115 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <p>Once we see your waiver and Step Up authorization, you are booked for Friday training. No card needed.</p>
       </div>
     </div>
+    <div style="text-align: left; background: var(--bg3); border: 1px solid var(--green); border-radius: 12px; padding: 32px 28px; margin-top: 8px;">
+      <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 20px; margin-bottom: 8px; text-align: center;">Returning Step Up Family? Reserve Your Spot</h3>
+      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Already training with us on Step Up? Your waiver is on file. Just reserve your Friday spot here and we will hold it. No card needed.</p>
+      <form id="stepupReserveForm">
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
+          <input type="text" name="parentName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Email *</label>
+          <input type="email" name="email" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Phone *</label>
+          <input type="tel" name="phone" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Athlete Name *</label>
+          <input type="text" name="athleteName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which Session? *</label>
+          <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+            <option value="Group Training (5:30-6:30 PM)">Group Training, 5:30 PM - 6:30 PM</option>
+            <option value="Shooting Training (6:30-7:30 PM)">Shooting Training, 6:30 PM - 7:30 PM</option>
+            <option value="Both Sessions (5:30-7:30 PM)">Both Sessions, 5:30 PM - 7:30 PM</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Friday You Are Reserving *</label>
+          <input type="date" name="reserveDate" id="reserveDate" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+        </div>
+        <div style="margin-bottom: 24px;">
+          <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; font-weight: 500; cursor: pointer;">
+            <input type="checkbox" name="stepupReturning" value="yes" required style="margin-top: 3px;">
+            <span>We are returning Legacy Lab clients and our Step Up for Students funding is active.</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" id="reserveSubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Reserve My Spot</button>
+        <p id="reserveFormMsg" style="margin-top: 14px; font-size: 14px; text-align: center; display: none;"></p>
+      </form>
+    </div>
+
   </div>
 </section>
+<script>
+(function() {
+  var dateInput = document.getElementById('reserveDate');
+  var today = new Date();
+  var d = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var add = (5 - d.getDay() + 7) % 7;
+  if (add === 0 && today.getHours() >= 17) add = 7;
+  d.setDate(d.getDate() + add);
+  function iso(dt) {
+    var m = String(dt.getMonth() + 1).padStart(2, '0');
+    var day = String(dt.getDate()).padStart(2, '0');
+    return dt.getFullYear() + '-' + m + '-' + day;
+  }
+  dateInput.min = iso(today);
+  dateInput.value = iso(d);
+  document.getElementById('stepupReserveForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('reserveSubmitBtn');
+    var msg = document.getElementById('reserveFormMsg');
+    var fd = new FormData(this);
+    var picked = new Date(fd.get('reserveDate') + 'T12:00:00');
+    msg.style.display = 'block';
+    if (picked.getDay() !== 5) {
+      msg.style.color = '#e5484d';
+      msg.textContent = 'Training is on Fridays. Please pick a Friday date.';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Reserving...';
+    var data = {
+      parentName: fd.get('parentName'),
+      email: fd.get('email'),
+      phone: fd.get('phone'),
+      athleteName: fd.get('athleteName'),
+      session: fd.get('session'),
+      reserveDate: fd.get('reserveDate'),
+      stepupReturning: fd.get('stepupReturning'),
+      formType: 'stepup-reservation',
+      submittedAt: new Date().toISOString(),
+      _cc: 'coachjoceb@gmail.com',
+      _subject: 'Step Up Reservation - ' + fd.get('athleteName')
+    };
+    try {
+      var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('send failed');
+      msg.style.color = 'var(--green)';
+      msg.textContent = 'Your spot is reserved. Watch your email for a confirmation from admin@legacylabinc.org.';
+      btn.textContent = 'Reserved';
+      this.reset();
+      dateInput.value = iso(d);
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Reserve My Spot';
+      msg.style.color = '#e5484d';
+      msg.textContent = 'Something went wrong. Please email admin@legacylabinc.org and we will reserve your spot.';
+    }
+  });
+})();
+</script>
+
 
 <section id="start" class="schedule">
   <div class="container" style="max-width: 720px;">
