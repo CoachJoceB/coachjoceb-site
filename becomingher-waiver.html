@@ -26,7 +26,7 @@
   .card.important { border-color:var(--orange); }
   .field { margin:18px 0; }
   .field label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
-  .field input[type=text], .field input[type=date], .field textarea { width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg3); color:var(--text); font-size:15px; font-family:'Inter',sans-serif; }
+  .field input[type=text], .field input[type=date], .field input[type=email], .field textarea { width:100%; padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--bg3); color:var(--text); font-size:15px; font-family:'Inter',sans-serif; }
   .sig-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media (max-width:560px){ .sig-row{ grid-template-columns:1fr; } }
   .sig-line { border-bottom:2px solid var(--muted); min-height:44px; margin-top:8px; }
@@ -120,6 +120,12 @@
         <input type="text" name="phone" placeholder="(555) 555-5555">
       </div>
     </div>
+    <div class="sig-row">
+      <div class="field">
+        <label>Parent email (a copy of this form will be emailed to you)</label>
+        <input type="email" name="parentEmail" required placeholder="you@email.com">
+      </div>
+    </div>
     <div class="check">
       <input type="checkbox" id="agree" name="agree" required>
       <p><label for="agree">I have read this waiver and agree to its terms. Typing my name above is my electronic signature. *</label></p>
@@ -143,7 +149,7 @@ document.getElementById('waiverForm').addEventListener('submit', async function(
   fd.forEach(function(v, k){ data[k] = v; });
   data.formType = 'becomingher-waiver';
   data.submittedAt = new Date().toISOString();
-  data._cc = 'legacylabtech@gmail.com';
+  data._cc = 'legacylabtech@gmail.com' + (data.parentEmail ? ',' + data.parentEmail : '');
   data._subject = 'BecomingHER Waiver - ' + (data.participantName || 'new submission');
   try {
     var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
@@ -153,7 +159,7 @@ document.getElementById('waiverForm').addEventListener('submit', async function(
     });
     if (!res.ok) throw new Error('send failed');
     msg.className = 'ok';
-    msg.textContent = 'Thank you. Your signed waiver is in. Coach J will confirm before the first session.';
+    msg.textContent = 'Thank you. Your signed waiver is in, and a copy is on its way to your email for your records. Coach J will confirm before the first session.';
     document.getElementById('waiverForm').reset();
   } catch (err) {
     msg.className = 'err';
