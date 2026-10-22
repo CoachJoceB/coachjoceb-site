@@ -35,6 +35,10 @@
   .check p { font-size:14px; }
   .btn { display:inline-block; background:var(--orange); color:#0d0d0f; font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:1px; font-weight:600; font-size:16px; padding:15px 34px; border:none; border-radius:10px; cursor:pointer; margin-top:20px; }
   .fine { font-size:12px; color:var(--muted); margin-top:26px; }
+  .btn:disabled { opacity:.6; cursor:wait; }
+  #formMsg { margin-top:16px; font-size:14.5px; display:none; padding:14px; border-radius:8px; }
+  #formMsg.ok { display:block; background:rgba(255,107,26,.12); border:1px solid var(--orange); }
+  #formMsg.err { display:block; background:rgba(255,43,43,.12); border:1px solid #ff2b2b; }
   .note { font-size:12.5px; color:var(--amber); margin-top:14px; }
   @media print {
     body { background:#fff; color:#111; }
@@ -83,9 +87,10 @@
   <h2>5. Payment</h2>
   <p>The free introductory session carries no charge. The mentorship is billed at $240 per month, payable through Step Up for Students or by self-pay. Step Up families are invoiced so they can reserve funds in the Step Up system. Billing runs month to month and may be cancelled with 7 days' notice before the next billing cycle.</p>
 
+  <form id="waiverForm">
   <h2>6. Media (optional)</h2>
   <div class="check">
-    <input type="checkbox" id="media">
+    <input type="checkbox" id="media" name="mediaPermission" value="yes">
     <p><label for="media"><strong>I give permission</strong> for Legacy Lab Academy, Inc. to use photos or short video clips of the participant from sessions in marketing (social media, website). I understand I can withdraw this permission in writing at any time.</label> <em style="color:var(--muted)">Leave unchecked to decline; sessions are identical either way.</em></p>
   </div>
 
@@ -93,31 +98,70 @@
     <h2 style="margin-top:0">Signatures</h2>
     <div class="field">
       <label for="participant">Participant name (teen)</label>
-      <input type="text" id="participant" placeholder="Full name">
+      <input type="text" id="participant" name="participantName" required placeholder="Full name">
     </div>
     <div class="sig-row">
       <div class="field">
         <label>Parent / guardian printed name</label>
-        <div class="sig-line"></div>
+        <input type="text" name="parentName" required placeholder="Full name">
       </div>
       <div class="field">
         <label>Date</label>
-        <input type="date">
+        <input type="date" name="signDate">
       </div>
     </div>
     <div class="sig-row">
       <div class="field">
-        <label>Parent / guardian signature</label>
-        <div class="sig-line"></div>
+        <label>Parent / guardian signature (type your full name)</label>
+        <input type="text" name="parentSignature" required placeholder="Electronic signature">
       </div>
       <div class="field">
         <label>Phone (for session-day contact)</label>
-        <input type="text" placeholder="(555) 555-5555">
+        <input type="text" name="phone" placeholder="(555) 555-5555">
       </div>
     </div>
+    <div class="check">
+      <input type="checkbox" id="agree" name="agree" required>
+      <p><label for="agree">I have read this waiver and agree to its terms. Typing my name above is my electronic signature. *</label></p>
+    </div>
+    <button type="submit" class="btn no-print" id="submitBtn">Submit Signed Waiver</button>
+    <p id="formMsg" class="no-print"></p>
   </div>
+  </form>
 
   <p class="fine">Questions before signing? Contact admin@legacylabinc.org. Keep a copy of this signed waiver for your records.</p>
 </div>
+<script>
+document.getElementById('waiverForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submitBtn');
+  var msg = document.getElementById('formMsg');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  var fd = new FormData(this);
+  var data = {};
+  fd.forEach(function(v, k){ data[k] = v; });
+  data.formType = 'becomingher-waiver';
+  data.submittedAt = new Date().toISOString();
+  data._cc = 'coachjoceb@gmail.com,jocetowns@gmail.com';
+  data._subject = 'BecomingHER Waiver - ' + (data.participantName || 'new submission');
+  try {
+    var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('send failed');
+    msg.className = 'ok';
+    msg.textContent = 'Thank you. Your signed waiver is in. Coach J will confirm before the first session.';
+    document.getElementById('waiverForm').reset();
+  } catch (err) {
+    msg.className = 'err';
+    msg.textContent = 'Something did not go through. Please email admin@legacylabinc.org for a printable copy instead.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Submit Signed Waiver';
+});
+</script>
 </body>
 </html>
