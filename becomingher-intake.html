@@ -134,6 +134,7 @@
         <label for="agree" style="font-weight:400; font-size:14px;">I have read the BecomingHER mentorship participation waiver. I understand this is a confidence and mindset mentorship, not medical care or therapy, that movement stays within whatever her doctor clears, and that no nutrition or eating guidance is provided. I agree to the waiver terms. *</label>
       </div>
       <button type="submit" class="btn" id="submitBtn">Submit Intake</button>
+      <p class="hint" style="text-align:center; margin-top:10px;">One more step after this: submitting takes you straight to the waiver form to fill out and sign. Both forms are needed before session one.</p>
       <p id="formMsg"></p>
     </div>
   </form>
@@ -161,8 +162,10 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
     });
     if (!res.ok) throw new Error('send failed');
     msg.className = 'ok';
-    msg.textContent = 'Thank you. Your intake is in, and a copy is on its way to your email for your records. Coach J will confirm session one details shortly.';
-    document.getElementById('intakeForm').reset();
+    msg.textContent = 'Thank you, your intake is in. One more step: taking you to the waiver form now.';
+    btn.textContent = 'Taking you to the waiver...';
+    setTimeout(function(){ window.location.href = 'https://coachjoceb.com/becomingher-waiver.html'; }, 2500);
+    return;
   } catch (err) {
     msg.className = 'err';
     msg.textContent = 'Something did not go through. Please email your answers to admin@legacylabinc.org instead.';
