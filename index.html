@@ -5,7 +5,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Girls Basketball Trainer Pensacola FL | Group Training with Coach J | Legacy Lab Inc.</title>
+<title>Girls Basketball Trainer Pensacola FL | Group Training with Coach J | Legacy Lab Academy, Inc.</title>
 <meta name="description" content="Top-rated girls basketball training in Pensacola, FL with Coach J. Group sessions and shooting training for middle school and high school athletes. First session free. Serving Pensacola, Gulf Breeze, Pace, Milton, Mobile AL and the Gulf Coast.">
 <meta name="keywords" content="girls basketball trainer Pensacola, basketball training Pensacola FL, youth basketball training Gulf Coast, girls basketball coach Pensacola, basketball shooting training Pensacola, middle school basketball training, high school basketball training Florida, AAU basketball training Pensacola, Step Up for Students basketball">
 <link rel="canonical" href="https://coachjoceb.com/">
@@ -15,7 +15,7 @@
 <meta name="geo.position" content="30.4213;-87.2169">
 <meta name="ICBM" content="30.4213, -87.2169">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Girls Basketball Trainer Pensacola FL | Coach J | Legacy Lab Inc.">
+<meta property="og:title" content="Girls Basketball Trainer Pensacola FL | Coach J | Legacy Lab Academy, Inc.">
 <meta property="og:description" content="Group basketball training for developing middle school and high school athletes with Coach J. Real reps, real coaching, real results. First session free.">
 <meta property="og:url" content="https://coachjoceb.com/">
 <meta property="og:image" content="https://coachjoceb.com/og-image-v2.jpg">
@@ -28,7 +28,7 @@
 {
   "@context": "https://schema.org",
   "@type": "SportsActivityLocation",
-  "name": "Legacy Lab Inc. - Coach J Basketball Training",
+  "name": "Legacy Lab Academy, Inc. - Coach J Basketball Training",
   "description": "Group basketball training for developing middle school and high school athletes with Coach J in Pensacola, FL. First session free.",
   "url": "https://coachjoceb.com/",
   "image": "https://coachjoceb.com/og-image-v2.jpg",
@@ -56,7 +56,7 @@
     {"@type": "City", "name": "Mobile"}
   ],
   "priceRange": "$30 - $240",
-  "openingHours": "Fr 17:30-19:30",
+  "openingHours": ["Fr 16:00-16:45", "Fr 17:30-19:30"],
   "sameAs": ["https://www.instagram.com/CoachJoceB"]
 }
 </script>
@@ -98,10 +98,17 @@ header {
 .nav-links { display: flex; gap: 24px; }
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-links a:hover { color: var(--text); }
+.menu-btn {
+  display: none; background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 9px 12px; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+}
 /* Program dropdown */
 .nav-item { position: relative; }
 .nav-item > a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-item > a:hover { color: var(--text); }
+.nav-item > span { color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; }
+.nav-item > span:hover { color: var(--text); }
 .dropdown {
   position: absolute; top: 100%; left: 0; min-width: 200px;
   background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
@@ -111,7 +118,16 @@ header {
 .dropdown a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
 .dropdown a:hover { color: var(--text); }
 
-@media (max-width: 640px) { .nav-links { display: none; } }
+@media (max-width: 640px) {
+  .menu-btn { display: block; }
+  .nav-links {
+    display: none; position: absolute; top: 64px; left: 16px; right: 16px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; flex-direction: column; gap: 16px;
+  }
+  .nav-links.open { display: flex; }
+  .dropdown { position: static; display: flex; border: none; background: transparent; padding: 2px 0 2px 14px; min-width: 0; }
+}
 
 /* Hero */
 .hero {
@@ -215,17 +231,18 @@ footer p { color: var(--muted); font-size: 13px; }
 
 <header>
   <nav class="nav">
-    <a href="#" class="logo">LEGACY LAB <span>INC.</span></a>
-    <div class="nav-links">
+    <a href="https://coachjoceb.com/" class="logo">LEGACY LAB <span>INC.</span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <div class="nav-links" id="mainNav">
       <div class="nav-item has-drop">
-      <a href="https://coachjoceb.com/">Program</a>
+      <span class="drop-label" tabindex="0">Program</span>
       <div class="dropdown">
         <a href="https://coachjoceb.com/">Basketball Training</a>
         <a href="becomingher.html">BecomingHER</a>
       </div>
       </div>
       <a href="#pricing">Pricing</a>
-      <a href="#start">Get Started</a>
+      <a href="#free-session">Get Started</a>
       <a href="#manage">Members</a>
       <a href="#location">Location</a>
     </div>
@@ -269,8 +286,8 @@ footer p { color: var(--muted); font-size: 13px; }
 <section id="free-session" style="padding: 48px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="container" style="max-width: 640px;">
     <h2 class="section-title" style="text-align: center;">Your First Session Is Free</h2>
-    <p class="section-sub" style="margin-bottom: 32px; text-align: center;">New athletes train free. No card required. Fill this out and you are booked for Friday.</p>
-    <form id="freeSessionForm" style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; text-align: left;">
+    <p class="section-sub" style="margin-bottom: 32px; text-align: center;">New athletes train free. No card required. Fill this out to claim your free session. After you complete the waiver, we will confirm your Friday session.</p>
+    <form id="freeSessionForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org" style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; text-align: left;">
       <div style="margin-bottom: 18px;">
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
         <input type="text" name="parentName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
@@ -287,9 +304,17 @@ footer p { color: var(--muted); font-size: 13px; }
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Athlete Name *</label>
         <input type="text" name="athleteName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
       </div>
-      <div style="margin-bottom: 24px;">
+      <div style="margin-bottom: 18px;">
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Athlete Grade</label>
         <input type="text" name="grade" placeholder="e.g. 7th grade" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+      </div>
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which session? *</label>
+        <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+          <option value="Fundamentals (Friday 4:00-4:45 PM)">Fundamentals (Friday 4:00-4:45 PM)</option>
+          <option value="Intermediate/Advanced Group (Friday 5:30-6:30 PM)">Intermediate/Advanced Group (Friday 5:30-6:30 PM)</option>
+          <option value="Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)">Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)</option>
+        </select>
       </div>
       <button type="submit" class="btn btn-primary" id="freeSubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Claim My Free Session</button>
       <p id="freeFormMsg" style="margin-top: 14px; font-size: 14px; text-align: center; display: none;"></p>
@@ -311,25 +336,34 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     phone: fd.get('phone'),
     athleteName: fd.get('athleteName'),
     grade: fd.get('grade') || '',
+    session: fd.get('session'),
     formType: 'free-session-signup',
     submittedAt: new Date().toISOString()
   };
   try {
     data._cc = 'coachjoceb@gmail.com';
     data._subject = 'New Free Session Signup - ' + data.athleteName;
-    await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
+    var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
     });
-  } catch (err) { /* continue to waiver even if email fails */ }
+    if (!res.ok) throw new Error('send failed');
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Claim My Free Session';
+    msg.style.display = 'block';
+    msg.style.color = '#e5484d';
+    msg.textContent = 'Something went wrong. Please try again, or contact Coach J at admin@legacylabinc.org and we will get you booked.';
+    return;
+  }
   window.location.href = '/waiver/?plan=free&email=' + encodeURIComponent(data.email) + '&name=' + encodeURIComponent(data.athleteName);
 });
 </script>
 
 <section id="schedule" style="padding: 32px 0;">
   <div class="container" style="text-align: center; max-width: 900px;">
-    <h2 class="section-title">Friday's Only</h2>
+    <h2 class="section-title">Fridays Only</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px;">
       <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
         <h3 style="font-size: 18px; margin-bottom: 8px;">Fundamentals</h3>
@@ -366,16 +400,19 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
             <p style="font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px;">4 Intermediate/Advanced Group Training Sessions</p>
             <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Skill development, ball handling, finishing, shooting, game-speed decision making, and competitive drills.</p>
             <p style="font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px;">4 Intermediate/Advanced Shooting Sessions</p>
-            <p style="font-size: 13px; color: var(--muted);">Dedicated shooting work focused on mechanics, footwork, shot preparation, consistency, and game-speed reps.</p>
+            <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;">Dedicated shooting work focused on mechanics, footwork, shot preparation, consistency, and game-speed reps.</p>
+            <p style="font-weight: 600; font-size: 14px; color: var(--text); margin-bottom: 4px;">BecomingHER Mentorship</p>
+            <p style="font-size: 13px; color: var(--muted);">Confidence, mindset, and strength mentorship for girl athletes, included in the same package.</p>
           </div>
         </details>
         <ul>
-          <li>Every Friday, all month</li>
+          <li>Weekly on Fridays, up to four of each session per month</li>
           <li>Automatic session booking</li>
           <li>Step Up for Students accepted</li>
           <li>Cancel anytime</li>
         </ul>
         <a href="https://buy.stripe.com/fZu4gzeGt4uH8Zsd063sI01" class="btn btn-primary">Join Monthly</a>
+        <p style="font-size: 13px; color: var(--muted); margin-top: 12px;">Already subscribed through either program? Do not purchase again. Your $240 package already includes both basketball training and BecomingHER.</p>
       </div>
       <div class="price-card">
         <div class="plan">Intermediate/Advanced Group Drop-In</div>
@@ -439,7 +476,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     <div style="text-align: left; background: var(--bg3); border: 1px solid var(--green); border-radius: 12px; padding: 32px 28px; margin-top: 8px;">
       <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 20px; margin-bottom: 8px; text-align: center;">Returning Step Up Family? Reserve Your Spot</h3>
       <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Already training with us on Step Up? Your waiver is on file. Just reserve your Friday spot here and we will hold it. No card needed.</p>
-      <form id="stepupReserveForm">
+      <form id="stepupReserveForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org">
         <div style="margin-bottom: 18px;">
           <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
           <input type="text" name="parentName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
@@ -569,7 +606,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     </details>
     <details class="faq-item">
       <summary>What is included in monthly?</summary>
-      <div class="faq-body">4 Intermediate/Advanced Group Training Sessions and 4 Intermediate/Advanced Shooting Sessions every month. Skill development, ball handling, finishing, shooting, game-speed decision making, competitive drills, plus dedicated shooting mechanics work.</div>
+      <div class="faq-body">4 Intermediate/Advanced Group Training Sessions and 4 Intermediate/Advanced Shooting Sessions every month. Skill development, ball handling, finishing, shooting, game-speed decision making, competitive drills, plus dedicated shooting mechanics work. BecomingHER mentorship is included in the same package.</div>
     </details>
     <details class="faq-item">
       <summary>Do you accept Step Up for Students?</summary>
@@ -626,6 +663,18 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     <p>Legacy Lab Academy, Inc. &copy; 2026. All rights reserved.</p>
   </div>
 </footer>
+<script>
+  // Mobile nav
+  var menuBtn = document.getElementById('menuBtn');
+  var mainNav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', function(){
+    var open = mainNav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mainNav.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){ mainNav.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+  });
+</script>
 
 </body>
 </html>
