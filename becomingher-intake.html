@@ -45,7 +45,7 @@
   <h1>BecomingHER Intake</h1>
   <p class="sub">Short and simple, about five minutes. Your answers stay private between you and Coach J.</p>
 
-  <form id="intakeForm">
+  <form id="intakeForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org">
     <div class="section">
       <h2>Contact</h2>
       <div class="field">
@@ -59,6 +59,14 @@
       <div class="field">
         <label>Cell phone *</label>
         <input type="tel" name="phone" required placeholder="(555) 555-5555">
+      </div>
+      <div class="field">
+        <label>Payment method *</label>
+        <select name="paymentMethod" required>
+          <option value="">Select one</option>
+          <option value="Step Up for Students">Step Up for Students</option>
+          <option value="Self-pay">Self-pay</option>
+        </select>
       </div>
     </div>
 
@@ -130,8 +138,8 @@
     <div class="section">
       <h2>Agreement</h2>
       <div class="check">
-        <input type="checkbox" id="agree" required>
-        <label for="agree" style="font-weight:400; font-size:14px;">I have read the BecomingHER mentorship participation waiver. I understand this is a confidence and mindset mentorship, not medical care or therapy, that movement stays within whatever her doctor clears, and that no nutrition or eating guidance is provided. I agree to the waiver terms. *</label>
+        <input type="checkbox" id="agree" name="waiverAgreement" value="yes" required>
+        <label for="agree" style="font-weight:400; font-size:14px;"><a href="https://coachjoceb.com/becomingher-waiver.html" style="color:var(--orange);">I have read the BecomingHER mentorship participation waiver</a>. I understand this is a confidence and mindset mentorship, not medical care or therapy, that movement stays within whatever her doctor clears, and that no nutrition or eating guidance is provided. I agree to the waiver terms. *</label>
       </div>
       <button type="submit" class="btn" id="submitBtn">Submit Intake</button>
       <p class="hint" style="text-align:center; margin-top:10px;">One more step after this: submitting takes you straight to the waiver form to fill out and sign. Both forms are needed before session one.</p>
@@ -152,7 +160,7 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
   fd.forEach(function(v, k){ data[k] = v; });
   data.formType = 'becomingher-intake';
   data.submittedAt = new Date().toISOString();
-  data._cc = 'legacylabtech@gmail.com' + (data.parentEmail ? ',' + data.parentEmail : '');
+  data._cc = 'legacylabtech@gmail.com' + (data.email ? ',' + data.email : '');
   data._subject = 'BecomingHER Intake - ' + (data.participantFirstName || 'new submission');
   try {
     var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
