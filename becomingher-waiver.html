@@ -64,7 +64,7 @@
 
   <div class="card important">
     <h2 style="margin-top:0">What this program is</h2>
-    <p>BecomingHER is a mentorship program for teen girls that mixes mindset training with fitness, in an environment built for girls to feel mentally, physically, and emotionally confident and safe. The first session is one-on-one; later sessions may be one-on-one or in a small group of girls in the program. Sessions run one per week, about one hour, focused on <strong>confidence, mindset, and leadership</strong>. Sessions may include conversation, reflection exercises, creative activities, and fitness work such as walking, stretching, mobility work, bodyweight exercises, and supervised use of weights and medicine balls. This is mindset and fitness training, not athletic conditioning.</p>
+    <p>BecomingHER is a mentorship program for teen girls that mixes mindset training with fitness, in an environment built for girls to feel mentally, physically, and emotionally confident and safe. The first session is one-on-one; later sessions may be one-on-one or in a small group of girls in the program. Sessions run one per week, for 45 minutes, focused on <strong>confidence, mindset, and leadership</strong>. Sessions may include conversation, reflection exercises, creative activities, and fitness work such as walking, stretching, mobility work, bodyweight exercises, and supervised use of weights and medicine balls. This is mindset and fitness training, not athletic conditioning.</p>
     <p style="margin-top:10px;"><strong>What this program is not:</strong> it is not medical care, mental-health therapy, nutritional counseling, or athletic conditioning. The mentor is not a medical provider and does not diagnose, treat, or advise on medical conditions, food, or eating.</p>
   </div>
 
@@ -87,7 +87,7 @@
   <h2>5. Payment</h2>
   <p>The free introductory session carries no charge. The mentorship is billed at $240 per month, payable through Step Up for Students or by self-pay. Step Up families are invoiced so they can reserve funds in the Step Up system. Billing runs month to month and may be cancelled with 7 days' notice before the next billing cycle.</p>
 
-  <form id="waiverForm">
+  <form id="waiverForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org">
   <h2>6. Media (optional)</h2>
   <div class="check">
     <input type="checkbox" id="media" name="mediaPermission" value="yes">
@@ -107,7 +107,7 @@
       </div>
       <div class="field">
         <label>Date</label>
-        <input type="date" name="signDate">
+        <input type="date" name="signDate" required>
       </div>
     </div>
     <div class="sig-row">
@@ -117,7 +117,7 @@
       </div>
       <div class="field">
         <label>Phone (for session-day contact)</label>
-        <input type="text" name="phone" placeholder="(555) 555-5555">
+        <input type="text" name="phone" required placeholder="(555) 555-5555">
       </div>
     </div>
     <div class="sig-row">
