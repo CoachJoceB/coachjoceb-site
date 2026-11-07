@@ -95,6 +95,7 @@ header {
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; max-width: 1080px; margin: 0 auto; }
 .logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; }
 .logo span { color: var(--orange); }
+.logo .logo-sub { display: block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
 .nav-links { display: flex; gap: 24px; }
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-links a:hover { color: var(--text); }
@@ -233,7 +234,7 @@ section[id] { scroll-margin-top: 88px; }
 
 <header>
   <nav class="nav">
-    <a href="https://coachjoceb.com/" class="logo">LEGACY LAB <span>INC.</span></a>
+    <a href="https://coachjoceb.com/" class="logo" aria-label="Coach J home">COACH <span>J</span><span class="logo-sub">Legacy Lab Academy</span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
     <div class="nav-links" id="mainNav">
       <div class="nav-item has-drop">
