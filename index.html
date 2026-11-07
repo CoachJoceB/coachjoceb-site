@@ -98,6 +98,19 @@ header {
 .nav-links { display: flex; gap: 24px; }
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-links a:hover { color: var(--text); }
+/* Program dropdown */
+.nav-item { position: relative; }
+.nav-item > a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-item > a:hover { color: var(--text); }
+.dropdown {
+  position: absolute; top: 100%; left: 0; min-width: 200px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px; display: none; flex-direction: column; gap: 10px; z-index: 60;
+}
+.has-drop:hover .dropdown, .has-drop:focus-within .dropdown { display: flex; }
+.dropdown a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.dropdown a:hover { color: var(--text); }
+
 @media (max-width: 640px) { .nav-links { display: none; } }
 
 /* Hero */
@@ -204,7 +217,13 @@ footer p { color: var(--muted); font-size: 13px; }
   <nav class="nav">
     <a href="#" class="logo">LEGACY LAB <span>INC.</span></a>
     <div class="nav-links">
-      <a href="becomingher.html">BecomingHER</a>
+      <div class="nav-item has-drop">
+      <a href="https://coachjoceb.com/">Program</a>
+      <div class="dropdown">
+        <a href="https://coachjoceb.com/">Basketball Training</a>
+        <a href="becomingher.html">BecomingHER</a>
+      </div>
+      </div>
       <a href="#pricing">Pricing</a>
       <a href="#start">Get Started</a>
       <a href="#manage">Members</a>
