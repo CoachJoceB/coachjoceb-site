@@ -54,6 +54,8 @@ header {
 .nav-item { position: relative; }
 .nav-item > a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-item > a:hover { color: var(--text); }
+.nav-item > span { color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; }
+.nav-item > span:hover { color: var(--text); }
 .dropdown {
   position: absolute; top: 100%; left: 0; min-width: 200px;
   background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
@@ -239,7 +241,7 @@ footer p { color: var(--muted); font-size: 13px; }
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
     <div class="nav-links" id="mainNav">
       <div class="nav-item has-drop">
-      <a href="https://coachjoceb.com/">Program</a>
+      <span class="drop-label" tabindex="0">Program</span>
       <div class="dropdown">
         <a href="https://coachjoceb.com/">Basketball Training</a>
         <a href="becomingher.html">BecomingHER</a>
@@ -280,7 +282,7 @@ footer p { color: var(--muted); font-size: 13px; }
   <div class="container final">
     <p class="kicker">Membership</p>
     <h2>Watch her become her.</h2>
-    <p>Start with the free intro session and let her decide. One $240 monthly package covers her basketball training and BecomingHER together, through Step Up or self pay. Already a member? Manage your plan anytime through the customer portal at coachjoceb.com.</p>
+    <p>Start with the free intro session and let her decide. One $240 monthly package covers her basketball training and BecomingHER together, through Step Up or self pay. Already a member? Manage your plan anytime through the <a href="https://billing.stripe.com/p/login/4gM5kDfKx3qD2B40dk3sI00" target="_blank" rel="noopener" style="color:var(--orange);font-weight:700">customer portal</a> at coachjoceb.com.</p>
     <a class="btn btn-primary" href="https://coachjoceb.com/becomingher-intake.html" style="font-size:16px;padding:15px 28px">Book Her Free Intro Session</a>
     <div class="meta"><span>3920 W. Navy Blvd, Pensacola, FL</span><span>@coachjoceb</span><span class="hash">#BecomingHER</span></div>
   </div>
@@ -360,9 +362,10 @@ footer p { color: var(--muted); font-size: 13px; }
         <li><span class="tick">&#10003;</span><span>Free intro session first, so she can try it before you commit</span></li>
       </ul>
       <div style="margin-top:22px"><a class="btn btn-primary" href="https://buy.stripe.com/6oUbJ10PD6CPejM9NU3sI05">Join the $240 Package</a></div>
+      <p style="font-size:13px;color:var(--muted);margin-top:12px;text-align:center">Already subscribed through either program? Do not purchase again. Your $240 package already includes both basketball training and BecomingHER.</p>
     </div>
     <div class="both-ways">
-      <p><span class="lbl">Already training with Coach J</span>Girls on the monthly basketball training package get BecomingHER <strong>included at no extra charge</strong>. The mindset, confidence, and strength work comes with her training. Girls who train with Coach J outside the monthly package can add BecomingHER as an add on service.</p>
+      <p><span class="lbl">Already training with Coach J</span>Girls on the monthly basketball training package get BecomingHER <strong>included at no extra charge</strong>. The mindset, confidence, and strength work comes with her training. Girls who are not already on the monthly package join the same $240 package, which includes both basketball training and BecomingHER.</p>
       <p><span class="lbl">Joining for BecomingHER</span>Girls who sign up for BecomingHER only get basketball training <strong>included in the same $240 package</strong>. No second enrollment and no second bill. Just say the word and Coach J adds her to training.</p>
     </div>
     <div style="height:36px"></div>
@@ -410,10 +413,10 @@ footer p { color: var(--muted); font-size: 13px; }
       <div class="faq-item"><button class="faq-q" type="button">Is this athletic conditioning?<span>+</span></button><div class="faq-a">No. BecomingHER is mindset training mixed with fitness. The fitness side is strength and mobility work with real equipment: dumbbells, medicine balls, slam balls, and bands. There are no conditioning drills, no timed runs, and no workouts used as punishment.</div></div>
       <div class="faq-item"><button class="faq-q" type="button">What if she has a health concern?<span>+</span></button><div class="faq-a">Tell us on the intake form. The waiver and intake are required before the first session so Coach J knows about any health concerns before she trains.</div></div>
       <div class="faq-item"><button class="faq-q" type="button">What if she has never done strength training?<span>+</span></button><div class="faq-a">Perfect. Most girls start here. We teach form first, then build with bodyweight, dumbbells, medicine balls, slam balls, and bands at age appropriate loads, plus mobility work she can use in her own sport. No one is pushed to lift heavy or push through pain.</div></div>
-      <div class="faq-item"><button class="faq-q" type="button">How does the $240 package work both ways?<span>+</span></button><div class="faq-a">One monthly package, one price: $240 covers basketball training and BecomingHER together. If she already trains with Coach J on the monthly training package, BecomingHER is included at no extra charge, and girls who train outside the monthly package can add it on as a service. If she signs up for BecomingHER only, basketball training is included in the same package too. Whichever she joins first, she gets both.</div></div>
+      <div class="faq-item"><button class="faq-q" type="button">How does the $240 package work both ways?<span>+</span></button><div class="faq-a">One monthly package, one price: $240 covers basketball training and BecomingHER together. If she already trains with Coach J on the monthly training package, BecomingHER is included at no extra charge. Girls who are not already on the monthly package join the same $240 package, which includes both basketball training and BecomingHER. If she signs up for BecomingHER only, basketball training is included in the same package too. Whichever she joins first, she gets both.</div></div>
       <div class="faq-item"><button class="faq-q" type="button">Can we use Step Up?<span>+</span></button><div class="faq-a">Yes, or you can self pay. Coach J is an approved Step Up direct pay provider through Legacy Lab Academy. Step Up families are invoiced so they can reserve funds in the Step Up system. Bring your scholarship details to the intro and we will confirm how it applies before you commit.</div></div>
       <div class="faq-item"><button class="faq-q" type="button">What should she bring?<span>+</span></button><div class="faq-a">Workout clothes, gym shoes, and a water bottle. We provide the rest, including her training journal. Phones stay in gym bags during sessions so the group stays focused.</div></div>
-      <div class="faq-item"><button class="faq-q" type="button">Where and when do you meet?<span>+</span></button><div class="faq-a">Sessions are held at 3920 W. Navy Blvd in Pensacola, once a week for 45 minutes. Your exact day and time are confirmed when you book your free intro at coachjoceb.com.</div></div>
+      <div class="faq-item"><button class="faq-q" type="button">Where and when do you meet?<span>+</span></button><div class="faq-a">Sessions are held at 3920 W. Navy Blvd in Pensacola, once a week for 45 minutes. Your exact day and time are confirmed when you <a href="https://coachjoceb.com/becomingher-intake.html" style="color:var(--orange);font-weight:700">book your free intro</a>.</div></div>
     </div>
     <div style="height:40px"></div>
     <img class="photo" src="assets/eagles-huddle.jpg" alt="Coach J in a pre-game huddle under the basket with her Eagles girls basketball team" style="height:480px" />
