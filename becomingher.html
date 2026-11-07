@@ -50,6 +50,19 @@ header {
 .nav-links { display: flex; gap: 24px; }
 .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav-links a:hover { color: var(--text); }
+/* Program dropdown */
+.nav-item { position: relative; }
+.nav-item > a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-item > a:hover { color: var(--text); }
+.dropdown {
+  position: absolute; top: 100%; left: 0; min-width: 200px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px; display: none; flex-direction: column; gap: 10px; z-index: 60;
+}
+.has-drop:hover .dropdown, .has-drop:focus-within .dropdown { display: flex; }
+.dropdown a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.dropdown a:hover { color: var(--text); }
+
 .menu-btn {
   display: none; background: transparent; border: 1px solid var(--border); border-radius: 8px;
   color: var(--text); padding: 9px 12px; cursor: pointer;
@@ -63,6 +76,7 @@ header {
     padding: 16px; flex-direction: column; gap: 16px;
   }
   .nav-links.open { display: flex; }
+  .dropdown { position: static; display: flex; border: none; background: transparent; padding: 2px 0 2px 14px; min-width: 0; }
 }
 
 /* Hero */
@@ -224,7 +238,13 @@ footer p { color: var(--muted); font-size: 13px; }
     <a href="https://coachjoceb.com" class="logo" aria-label="Coach J home">COACH <span>J</span><span class="logo-sub">Legacy Lab Academy</span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
     <div class="nav-links" id="mainNav">
-      <a href="becomingher.html">BecomingHER</a>
+      <div class="nav-item has-drop">
+      <a href="https://coachjoceb.com/">Program</a>
+      <div class="dropdown">
+        <a href="https://coachjoceb.com/">Basketball Training</a>
+        <a href="becomingher.html">BecomingHER</a>
+      </div>
+      </div>
       <a href="https://coachjoceb.com/#pricing">Pricing</a>
       <a href="https://coachjoceb.com/#start">Get Started</a>
       <a href="https://coachjoceb.com/#manage">Members</a>
@@ -254,6 +274,17 @@ footer p { color: var(--muted); font-size: 13px; }
     </div>
   </div>
 </div>
+
+<!-- MEMBERSHIP / JOIN -->
+<section id="join" style="background:var(--bg2);border-top:1px solid var(--border);padding-bottom:72px">
+  <div class="container final">
+    <p class="kicker">Membership</p>
+    <h2>Watch her become her.</h2>
+    <p>Start with the free intro session and let her decide. One $240 monthly package covers her basketball training and BecomingHER together, through Step Up or self pay. Already a member? Manage your plan anytime through the customer portal at coachjoceb.com.</p>
+    <a class="btn btn-primary" href="https://coachjoceb.com/becomingher-intake.html" style="font-size:16px;padding:15px 28px">Book Her Free Intro Session</a>
+    <div class="meta"><span>3920 W. Navy Blvd, Pensacola, FL</span><span>@coachjoceb</span><span class="hash">#BecomingHER</span></div>
+  </div>
+</section>
 
 <!-- FREE FIRST SESSION -->
 <section class="free-band" id="free" style="padding:56px 0">
@@ -403,17 +434,6 @@ footer p { color: var(--muted); font-size: 13px; }
       </ul>
     </div>
     <img src="assets/gym-practice-wide.jpg" alt="A wide view of the Legacy Lab gym during practice, with players spread across the court" />
-  </div>
-</section>
-
-<!-- MEMBERSHIP / JOIN -->
-<section id="join" style="background:var(--bg2);border-top:1px solid var(--border);padding-bottom:72px">
-  <div class="container final">
-    <p class="kicker">Membership</p>
-    <h2>Watch her become her.</h2>
-    <p>Start with the free intro session and let her decide. One $240 monthly package covers her basketball training and BecomingHER together, through Step Up or self pay. Already a member? Manage your plan anytime through the customer portal at coachjoceb.com.</p>
-    <a class="btn btn-primary" href="https://coachjoceb.com/becomingher-intake.html" style="font-size:16px;padding:15px 28px">Book Her Free Intro Session</a>
-    <div class="meta"><span>3920 W. Navy Blvd, Pensacola, FL</span><span>@coachjoceb</span><span class="hash">#BecomingHER</span></div>
   </div>
 </section>
 
