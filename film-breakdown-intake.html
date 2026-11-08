@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Film Breakdown Intake | Coach J | Legacy Lab Academy, Inc.</title>
+<meta name="description" content="Complete your film breakdown intake after checkout: athlete details, your full game film link, and what you want Coach J to focus on.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://coachjoceb.com/film-breakdown-intake.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0f;
+  --bg2: #161619;
+  --bg3: #1e1e22;
+  --text: #f2f2f2;
+  --muted: #a8a8ad;
+  --orange: #ff6b1a;
+  --amber: #ffb020;
+  --green: #ff2b2b;
+  --border: #2a2a2e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+h1, h2, h3, .oswald { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+section { padding: 64px 0; }
+
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,13,15,0.95); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; max-width: 1080px; margin: 0 auto; }
+.logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; }
+.logo span { color: var(--orange); }
+.logo .logo-sub { display: block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-links a:hover { color: var(--text); }
+.menu-btn {
+  display: none; background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 9px 12px; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+}
+.nav-item { position: relative; }
+.nav-item > span { color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; }
+.nav-item > span:hover { color: var(--text); }
+.dropdown {
+  position: absolute; top: 100%; left: 0; min-width: 200px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px; display: none; flex-direction: column; gap: 10px; z-index: 60;
+}
+.has-drop:hover .dropdown, .has-drop:focus-within .dropdown { display: flex; }
+.dropdown a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.dropdown a:hover { color: var(--text); }
+
+@media (max-width: 640px) {
+  .menu-btn { display: block; }
+  .nav-links {
+    display: none; position: absolute; top: 64px; left: 16px; right: 16px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; flex-direction: column; gap: 16px;
+  }
+  .nav-links.open { display: flex; }
+  .dropdown { position: static; display: flex; border: none; background: transparent; padding: 2px 0 2px 14px; min-width: 0; }
+}
+
+.btn {
+  display: inline-block;
+  font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  padding: 15px 36px; border-radius: 8px; text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--orange); color: #fff; box-shadow: 0 4px 24px rgba(255,107,26,0.35); }
+.section-title { text-align: center; font-size: clamp(28px, 4vw, 40px); margin-bottom: 12px; }
+.section-sub { text-align: center; color: var(--muted); max-width: 640px; margin: 0 auto; }
+
+.form-field { margin-bottom: 18px; }
+.form-field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif;
+}
+.form-field textarea { min-height: 96px; resize: vertical; }
+.form-field .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; }
+footer .links { margin-bottom: 16px; }
+footer .links a { color: var(--muted); text-decoration: none; font-size: 14px; margin: 0 12px; }
+footer .links a:hover { color: var(--text); }
+footer p { color: var(--muted); font-size: 13px; }
+.social { margin-bottom: 20px; }
+.social a {
+  display: inline-block; margin: 0 8px; padding: 10px 22px;
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.social a:hover { border-color: var(--orange); color: var(--orange); }
+
+section[id] { scroll-margin-top: 88px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="https://coachjoceb.com/" class="logo" aria-label="Coach J home">COACH <span>J</span><span class="logo-sub">Legacy Lab Academy</span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <div class="nav-links" id="mainNav">
+      <div class="nav-item has-drop">
+      <span class="drop-label" tabindex="0">Program</span>
+      <div class="dropdown">
+        <a href="https://coachjoceb.com/">Basketball Training</a>
+        <a href="becomingher.html">BecomingHER</a>
+        <a href="film-breakdown.html">Film Breakdown</a>
+      </div>
+      </div>
+      <a href="film-breakdown.html#pricing">Pricing</a>
+      <a href="film-breakdown.html#faq">FAQ</a>
+    </div>
+  </nav>
+</header>
+
+<section style="padding: 48px 0;">
+  <div class="container" style="max-width: 640px;">
+    <h1 class="section-title">Film Breakdown Intake</h1>
+    <p class="section-sub" style="margin-bottom: 32px;">Complete this after checkout. It takes about three minutes and tells Coach J exactly which game to break down and what to look for. We email your review call times within one business day.</p>
+    <form id="filmIntakeForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org" style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; text-align: left;">
+      <div class="form-field">
+        <label>Parent / Guardian Name *</label>
+        <input type="text" name="parentName" required>
+      </div>
+      <div class="form-field">
+        <label>Parent Email *</label>
+        <input type="email" name="email" required>
+        <p class="hint">All scheduling, recordings, and reports go to this email.</p>
+      </div>
+      <div class="form-field">
+        <label>Parent Phone *</label>
+        <input type="tel" name="phone" required>
+      </div>
+      <div class="form-field">
+        <label>Athlete Name *</label>
+        <input type="text" name="athleteName" required>
+      </div>
+      <div class="form-field">
+        <label>Athlete Grade *</label>
+        <input type="text" name="grade" placeholder="e.g. 8th grade" required>
+      </div>
+      <div class="form-field">
+        <label>School or Team</label>
+        <input type="text" name="team" placeholder="School team or AAU program">
+      </div>
+      <div class="form-field">
+        <label>Position</label>
+        <input type="text" name="position" placeholder="e.g. Point guard">
+      </div>
+      <div class="form-field">
+        <label>Package Purchased *</label>
+        <select name="package" id="packageSelect" required>
+          <option value="Single Game Review ($95)">Single Game Review ($95)</option>
+          <option value="Season Pack - 4 Games ($320)">Season Pack, 4 Games ($320)</option>
+          <option value="Film Room Monthly ($149/mo)">Film Room Monthly ($149/mo)</option>
+          <option value="Breakdown Only ($60)">Breakdown Only ($60)</option>
+          <option value="Member Add-On ($65)">Member Add-On ($65)</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Full Game Film Link *</label>
+        <input type="url" name="filmLink" placeholder="Hudl, YouTube, or Google Drive link" required>
+        <p class="hint">Full game, not highlights. If the link needs permission, set sharing to anyone with the link.</p>
+      </div>
+      <div class="form-field">
+        <label>Game Date and Opponent</label>
+        <input type="text" name="gameInfo" placeholder="e.g. Nov 6 vs. Pensacola High">
+      </div>
+      <div class="form-field">
+        <label>Athlete Jersey Number and Color *</label>
+        <input type="text" name="jersey" placeholder="e.g. #12, white jersey" required>
+        <p class="hint">So Coach J can find your athlete fast on film.</p>
+      </div>
+      <div class="form-field">
+        <label>What do you want Coach J to focus on?</label>
+        <textarea name="focus" placeholder="e.g. Left-hand finishes, defensive closeouts, shot selection in the second half"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Anything else Coach J should know?</label>
+        <textarea name="notes" placeholder="Minutes played, role on the team, recent changes, anything relevant"></textarea>
+      </div>
+      <div class="form-field" style="display: flex; gap: 10px; align-items: flex-start;">
+        <input type="checkbox" name="recordingConsent" id="recordingConsent" required style="width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0;">
+        <label for="recordingConsent" style="font-weight: 500; font-size: 14px;">I am the athlete's parent or guardian. I understand the review call will be recorded and the recording shared with our family, and that a parent or guardian will be on the invite for athletes under 18. *</label>
+      </div>
+      <button type="submit" class="btn btn-primary" id="filmSubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Submit Intake</button>
+      <p id="filmFormMsg" style="margin-top: 14px; font-size: 14px; text-align: center; display: none;"></p>
+    </form>
+    <p style="margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center;">Have not checked out yet? See the <a href="film-breakdown.html#pricing" style="color: var(--orange);">film breakdown packages</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="social">
+      <a href="https://www.instagram.com/CoachJoceB" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
+    <p>Legacy Lab Academy, Inc. &copy; 2026. All rights reserved.</p>
+  </div>
+</footer>
+<script>
+  var menuBtn = document.getElementById('menuBtn');
+  var mainNav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', function(){
+    var open = mainNav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mainNav.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){ mainNav.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+  });
+
+  // Preselect the package when arriving from a checkout link like ?pkg=season
+  (function() {
+    var pkg = new URLSearchParams(window.location.search).get('pkg');
+    var map = {
+      single: 'Single Game Review ($95)',
+      season: 'Season Pack - 4 Games ($320)',
+      monthly: 'Film Room Monthly ($149/mo)',
+      async: 'Breakdown Only ($60)',
+      member: 'Member Add-On ($65)'
+    };
+    if (pkg && map[pkg]) { document.getElementById('packageSelect').value = map[pkg]; }
+  })();
+
+  document.getElementById('filmIntakeForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('filmSubmitBtn');
+    var msg = document.getElementById('filmFormMsg');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    var fd = new FormData(this);
+    var data = {
+      parentName: fd.get('parentName'),
+      email: fd.get('email'),
+      phone: fd.get('phone'),
+      athleteName: fd.get('athleteName'),
+      grade: fd.get('grade'),
+      team: fd.get('team') || '',
+      position: fd.get('position') || '',
+      package: fd.get('package'),
+      filmLink: fd.get('filmLink'),
+      gameInfo: fd.get('gameInfo') || '',
+      jersey: fd.get('jersey'),
+      focus: fd.get('focus') || '',
+      notes: fd.get('notes') || '',
+      recordingConsent: fd.get('recordingConsent') ? 'Yes' : 'No',
+      formType: 'film-breakdown-intake',
+      submittedAt: new Date().toISOString(),
+      _cc: fd.get('email'),
+      _subject: 'Film Breakdown Intake - ' + fd.get('athleteName')
+    };
+    try {
+      var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('send failed');
+      msg.style.display = 'block';
+      msg.style.color = 'var(--green)';
+      msg.textContent = 'Intake received. Watch the parent email for your review call times within one business day.';
+      btn.textContent = 'Submitted';
+      this.reset();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Intake';
+      msg.style.display = 'block';
+      msg.style.color = '#e5484d';
+      msg.textContent = 'Something went wrong. Please try again, or email admin@legacylabinc.org and we will take your intake by email.';
+    }
+  });
+</script>
+
+<style>
+.nav-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.nav-fab button { font-family: 'Inter', Arial, sans-serif; font-size: 14px; font-weight: 600; color: #fff; background: #1c1c21; border: 1px solid #ff6b1a; border-radius: 999px; padding: 11px 18px; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+.nav-fab button:hover { background: #ff6b1a; color: #141414; }
+#toTopBtn { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+#toTopBtn.show { opacity: 1; pointer-events: auto; }
+</style>
+<div class="nav-fab">
+  <button type="button" id="toTopBtn" aria-label="Back to top">&#8593; Top</button>
+  <button type="button" id="backBtn" aria-label="Go back">&#8592; Back</button>
+</div>
+<script>
+(function() {
+  var topBtn = document.getElementById('toTopBtn');
+  function onScroll() {
+    if (window.scrollY > 400) { topBtn.classList.add('show'); } else { topBtn.classList.remove('show'); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  topBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  document.getElementById('backBtn').addEventListener('click', function() {
+    if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'https://coachjoceb.com/film-breakdown.html'; }
+  });
+})();
+</script>
+</body>
+</html>
