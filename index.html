@@ -56,7 +56,6 @@
     {"@type": "City", "name": "Mobile"}
   ],
   "priceRange": "$30 - $240",
-  "openingHours": ["Fr 16:00-16:45", "Fr 17:30-19:30"],
   "sameAs": ["https://www.instagram.com/CoachJoceB"]
 }
 </script>
@@ -287,27 +286,26 @@ section[id] { scroll-margin-top: 88px; }
   </div>
 </section>
 
-<section id="this-week" style="padding: 48px 0 8px;">
+<section id="schedule" style="padding: 48px 0 8px;">
   <div class="container" style="max-width: 900px;">
     <div style="border: 2px solid var(--orange); border-radius: 12px; padding: 32px 28px; background: var(--bg2);">
-      <h2 class="section-title" style="margin-bottom: 8px;">Schedule Change This Week</h2>
-      <p class="section-sub" style="margin-bottom: 24px;">This week only (November 9 to 15), training moves off Friday. Join us at these times instead:</p>
+      <h2 class="section-title" style="margin-bottom: 8px;">This Week's Schedule</h2>
+      <p class="section-sub" style="margin-bottom: 24px;">Our schedule changes week to week during the season. Check here each week for the current days and times.</p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
         <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
           <h3 style="font-size: 18px; margin-bottom: 8px;">Tuesday, Nov 10</h3>
-          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
+          <p style="color: var(--muted); font-size: 15px;">Intermediate/Advanced Training<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
         </div>
         <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
           <h3 style="font-size: 18px; margin-bottom: 8px;">Wednesday, Nov 11</h3>
-          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">11:00 AM - 12:00 PM</strong></p>
+          <p style="color: var(--muted); font-size: 15px;">Intermediate/Advanced Training<br><strong style="color: var(--text);">11:00 AM - 12:00 PM</strong></p>
         </div>
         <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
           <h3 style="font-size: 18px; margin-bottom: 8px;">Thursday, Nov 12</h3>
-          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
+          <p style="color: var(--muted); font-size: 15px;">Intermediate/Advanced Training<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
         </div>
       </div>
-      <p style="text-align: center; margin-top: 24px; font-size: 15px; color: var(--green); font-weight: 600;">No Friday sessions this week. Friday training resumes next week.</p>
-      <p style="text-align: center; margin-top: 8px; font-size: 14px; color: var(--muted);">All sessions at 3920 W Navy Blvd, Pensacola, FL 32507.</p>
+      <p style="text-align: center; margin-top: 24px; font-size: 14px; color: var(--muted);">All sessions at 3920 W Navy Blvd, Pensacola, FL 32507. A new schedule is posted every week.</p>
     </div>
   </div>
 </section>
@@ -340,12 +338,9 @@ section[id] { scroll-margin-top: 88px; }
       <div style="margin-bottom: 24px;">
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which session? *</label>
         <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-          <option value="This Week Only - Tuesday Nov 10, 4:30-6:00 PM">This Week Only - Tuesday Nov 10, 4:30-6:00 PM</option>
-          <option value="This Week Only - Wednesday Nov 11, 11:00 AM-12:00 PM">This Week Only - Wednesday Nov 11, 11:00 AM-12:00 PM</option>
-          <option value="This Week Only - Thursday Nov 12, 4:30-6:00 PM">This Week Only - Thursday Nov 12, 4:30-6:00 PM</option>
-          <option value="Fundamentals (Friday 4:00-4:45 PM)">Fundamentals (Friday 4:00-4:45 PM)</option>
-          <option value="Intermediate/Advanced Group (Friday 5:30-6:30 PM)">Intermediate/Advanced Group (Friday 5:30-6:30 PM)</option>
-          <option value="Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)">Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)</option>
+          <option value="Intermediate/Advanced Training - Tuesday, November 10, 4:30 PM to 6:00 PM [2026-11-10 16:30-18:00]">Tuesday, Nov 10 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
+            <option value="Intermediate/Advanced Training - Wednesday, November 11, 11:00 AM to 12:00 PM [2026-11-11 11:00-12:00]">Wednesday, Nov 11 - Intermediate/Advanced Training, 11:00 AM - 12:00 PM</option>
+            <option value="Intermediate/Advanced Training - Thursday, November 12, 4:30 PM to 6:00 PM [2026-11-12 16:30-18:00]">Thursday, Nov 12 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" id="freeSubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Claim My Free Session</button>
@@ -393,27 +388,6 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
 });
 </script>
 
-<section id="schedule" style="padding: 32px 0;">
-  <div class="container" style="text-align: center; max-width: 900px;">
-    <h2 class="section-title">Fridays Only</h2>
-    <p style="color: var(--green); font-size: 15px; font-weight: 600; margin-top: 8px;">This week only (Nov 9 to 15): no Friday sessions. See <a href="#this-week" style="color: var(--orange);">this week's schedule</a> above.</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px;">
-      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-        <h3 style="font-size: 18px; margin-bottom: 8px;">Fundamentals</h3>
-        <p style="color: var(--muted); font-size: 15px;">Friday<br><strong style="color: var(--text);">4:00 PM - 4:45 PM</strong></p>
-      </div>
-      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-        <h3 style="font-size: 18px; margin-bottom: 8px;">Intermediate/Advanced Group Training</h3>
-        <p style="color: var(--muted); font-size: 15px;">Friday<br><strong style="color: var(--text);">5:30 PM - 6:30 PM</strong></p>
-      </div>
-      <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-        <h3 style="font-size: 18px; margin-bottom: 8px;">Intermediate/Advanced Shooting Training</h3>
-        <p style="color: var(--muted); font-size: 15px;">Friday<br><strong style="color: var(--text);">6:30 PM - 7:30 PM</strong></p>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 <section id="pricing">
   <div class="container">
@@ -439,7 +413,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
           </div>
         </details>
         <ul>
-          <li>Weekly on Fridays, up to four of each session per month</li>
+          <li>Up to four of each session type per month; days and times posted weekly</li>
           <li>Automatic session booking</li>
           <li>Step Up for Students accepted</li>
           <li>Cancel anytime</li>
@@ -453,7 +427,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <div class="per">one time, tax included</div>
         <ul>
           <li>Single Intermediate/Advanced group training session</li>
-          <li>Friday 5:30 PM - 6:30 PM</li>
+          <li>Day and time posted weekly in This Week's Schedule</li>
           <li>Try it before you commit</li>
           <li>No commitment</li>
         </ul>
@@ -465,7 +439,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <div class="per">one time, tax included</div>
         <ul>
           <li>Single Intermediate/Advanced shooting session</li>
-          <li>Friday 6:30 PM - 7:30 PM</li>
+          <li>Day and time posted weekly in This Week's Schedule</li>
           <li>Mechanics and consistency focus</li>
           <li>No commitment</li>
         </ul>
@@ -503,12 +477,12 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       <div class="step">
         <div class="num">3</div>
         <h3>We Confirm</h3>
-        <p>Once we see your waiver and Step Up authorization, you are booked for Friday training. No card needed.</p>
+        <p>Once we see your waiver and Step Up authorization, you are booked for your reserved session. No card needed.</p>
       </div>
     </div>
     <div style="text-align: left; background: var(--bg3); border: 1px solid var(--green); border-radius: 12px; padding: 32px 28px; margin-top: 8px;">
       <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 20px; margin-bottom: 8px; text-align: center;">Returning Step Up Family? Reserve Your Spot</h3>
-      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Already training with us on Step Up? Your waiver is on file. Just reserve your Friday spot here and we will hold it. No card needed.</p>
+      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Already training with us on Step Up? Your waiver is on file. Just reserve your spot here and we will hold it. No card needed.</p>
       <form id="stepupReserveForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org">
         <div style="margin-bottom: 18px;">
           <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
@@ -529,14 +503,13 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <div style="margin-bottom: 18px;">
           <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which Session? *</label>
           <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-            <option value="Fundamentals (4:00-4:45 PM)">Fundamentals, 4:00 PM - 4:45 PM</option>
-            <option value="Intermediate/Advanced Group Training (5:30-6:30 PM)">Intermediate/Advanced Group Training, 5:30 PM - 6:30 PM</option>
-            <option value="Intermediate/Advanced Shooting Training (6:30-7:30 PM)">Intermediate/Advanced Shooting Training, 6:30 PM - 7:30 PM</option>
-            <option value="Both Intermediate/Advanced Sessions (5:30-7:30 PM)">Both Intermediate/Advanced Sessions, 5:30 PM - 7:30 PM</option>
+            <option value="Intermediate/Advanced Training - Tuesday, November 10, 4:30 PM to 6:00 PM [2026-11-10 16:30-18:00]">Tuesday, Nov 10 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
+            <option value="Intermediate/Advanced Training - Wednesday, November 11, 11:00 AM to 12:00 PM [2026-11-11 11:00-12:00]">Wednesday, Nov 11 - Intermediate/Advanced Training, 11:00 AM - 12:00 PM</option>
+            <option value="Intermediate/Advanced Training - Thursday, November 12, 4:30 PM to 6:00 PM [2026-11-12 16:30-18:00]">Thursday, Nov 12 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
           </select>
         </div>
         <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Friday You Are Reserving *</label>
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Session Date *</label>
           <input type="date" name="reserveDate" id="reserveDate" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
         </div>
         <div style="margin-bottom: 24px;">
@@ -550,7 +523,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       </form>
       <div style="border-top: 1px solid var(--border); margin-top: 36px; padding-top: 32px;">
       <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 20px; margin-bottom: 8px; text-align: center;">Self-Pay Family? Reserve Your Spot</h3>
-      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Paying out of pocket? Reserve your Friday spot here, including Fundamentals at 4:00 PM. Coach J will confirm your spot by email and send your payment link. New families: complete the <a href="/waiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> first.</p>
+      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Paying out of pocket? Reserve your spot here for one of this week's sessions. Coach J will confirm your spot by email and send your payment link. New families: complete the <a href="/waiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> first.</p>
       <form id="selfpayReserveForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org" style="text-align: left;">
         <div style="margin-bottom: 18px;">
           <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
@@ -571,14 +544,13 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <div style="margin-bottom: 18px;">
           <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which Session? *</label>
           <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-            <option value="Fundamentals (4:00-4:45 PM)">Fundamentals, 4:00 PM - 4:45 PM</option>
-            <option value="Intermediate/Advanced Group Training (5:30-6:30 PM)">Intermediate/Advanced Group Training, 5:30 PM - 6:30 PM</option>
-            <option value="Intermediate/Advanced Shooting Training (6:30-7:30 PM)">Intermediate/Advanced Shooting Training, 6:30 PM - 7:30 PM</option>
-            <option value="Both Intermediate/Advanced Sessions (5:30-7:30 PM)">Both Intermediate/Advanced Sessions, 5:30 PM - 7:30 PM</option>
+            <option value="Intermediate/Advanced Training - Tuesday, November 10, 4:30 PM to 6:00 PM [2026-11-10 16:30-18:00]">Tuesday, Nov 10 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
+            <option value="Intermediate/Advanced Training - Wednesday, November 11, 11:00 AM to 12:00 PM [2026-11-11 11:00-12:00]">Wednesday, Nov 11 - Intermediate/Advanced Training, 11:00 AM - 12:00 PM</option>
+            <option value="Intermediate/Advanced Training - Thursday, November 12, 4:30 PM to 6:00 PM [2026-11-12 16:30-18:00]">Thursday, Nov 12 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
           </select>
         </div>
         <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Friday You Are Reserving *</label>
+          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Session Date *</label>
           <input type="date" name="reserveDate" id="selfpayReserveDate" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
         </div>
         <div style="margin-bottom: 24px;">
@@ -599,30 +571,21 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
 <script>
 (function() {
   var dateInput = document.getElementById('reserveDate');
-  var today = new Date();
-  var d = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  var add = (5 - d.getDay() + 7) % 7;
-  if (add === 0 && today.getHours() >= 17) add = 7;
-  d.setDate(d.getDate() + add);
-  function iso(dt) {
-    var m = String(dt.getMonth() + 1).padStart(2, '0');
-    var day = String(dt.getDate()).padStart(2, '0');
-    return dt.getFullYear() + '-' + m + '-' + day;
+  var sessionSelect = document.querySelector('#stepupReserveForm select[name="session"]');
+  function syncDate() {
+    var opt = sessionSelect.options[sessionSelect.selectedIndex];
+    var m = ((opt && opt.value) || '').match(/\[(\d{4}-\d{2}-\d{2})/);
+    if (m) { dateInput.value = m[1]; dateInput.min = m[1]; dateInput.readOnly = true; }
+    else { dateInput.readOnly = false; }
   }
-  dateInput.min = iso(today);
-  dateInput.value = iso(d);
+  sessionSelect.addEventListener('change', syncDate);
+  syncDate();
   document.getElementById('stepupReserveForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     var btn = document.getElementById('reserveSubmitBtn');
     var msg = document.getElementById('reserveFormMsg');
     var fd = new FormData(this);
-    var picked = new Date(fd.get('reserveDate') + 'T12:00:00');
     msg.style.display = 'block';
-    if (picked.getDay() !== 5) {
-      msg.style.color = '#e5484d';
-      msg.textContent = 'Training is on Fridays. Please pick a Friday date.';
-      return;
-    }
     btn.disabled = true;
     btn.textContent = 'Reserving...';
     var data = {
@@ -649,7 +612,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       msg.textContent = 'Your spot is reserved. Watch your email for a confirmation from admin@legacylabinc.org.';
       btn.textContent = 'Reserved';
       this.reset();
-      dateInput.value = iso(d);
+      syncDate();
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Reserve My Spot';
@@ -664,30 +627,21 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
 <script>
 (function() {
   var dateInput = document.getElementById('selfpayReserveDate');
-  var today = new Date();
-  var d = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  var add = (5 - d.getDay() + 7) % 7;
-  if (add === 0 && today.getHours() >= 17) add = 7;
-  d.setDate(d.getDate() + add);
-  function iso(dt) {
-    var m = String(dt.getMonth() + 1).padStart(2, '0');
-    var day = String(dt.getDate()).padStart(2, '0');
-    return dt.getFullYear() + '-' + m + '-' + day;
+  var sessionSelect = document.querySelector('#selfpayReserveForm select[name="session"]');
+  function syncDate() {
+    var opt = sessionSelect.options[sessionSelect.selectedIndex];
+    var m = ((opt && opt.value) || '').match(/\[(\d{4}-\d{2}-\d{2})/);
+    if (m) { dateInput.value = m[1]; dateInput.min = m[1]; dateInput.readOnly = true; }
+    else { dateInput.readOnly = false; }
   }
-  dateInput.min = iso(today);
-  dateInput.value = iso(d);
+  sessionSelect.addEventListener('change', syncDate);
+  syncDate();
   document.getElementById('selfpayReserveForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     var btn = document.getElementById('selfpaySubmitBtn');
     var msg = document.getElementById('selfpayFormMsg');
     var fd = new FormData(this);
-    var picked = new Date(fd.get('reserveDate') + 'T12:00:00');
     msg.style.display = 'block';
-    if (picked.getDay() !== 5) {
-      msg.style.color = '#e5484d';
-      msg.textContent = 'Training is on Fridays. Please pick a Friday date.';
-      return;
-    }
     btn.disabled = true;
     btn.textContent = 'Reserving...';
     var data = {
@@ -714,7 +668,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
       msg.textContent = 'Your spot is reserved. Watch your email for a confirmation from admin@legacylabinc.org.';
       btn.textContent = 'Reserved';
       this.reset();
-      dateInput.value = iso(d);
+      syncDate();
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Reserve My Spot';
@@ -739,11 +693,11 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     </style>
     <details class="faq-item">
       <summary>How do I sign up?</summary>
-      <div class="faq-body">Pick a plan above and check out securely with Stripe. After payment you will be sent to the training waiver (about five minutes). Already done a waiver? You are all set. You are automatically booked for Friday training and get a confirmation email.</div>
+      <div class="faq-body">Pick a plan above and check out securely with Stripe. After payment you will be sent to the training waiver (about five minutes). Already done a waiver? You are all set. Your confirmation email shows the exact day and time you booked.</div>
     </details>
     <details class="faq-item">
       <summary>When are sessions?</summary>
-      <div class="faq-body">Fridays only. Fundamentals 4:00 PM - 4:45 PM, Intermediate/Advanced Group Training 5:30 PM - 6:30 PM, Intermediate/Advanced Shooting Training 6:30 PM - 7:30 PM. All sessions at 3920 W Navy Blvd, Pensacola, FL 32507. This week only (November 9 to 15), there are no Friday sessions: training runs Tuesday and Thursday 4:30 PM - 6:00 PM and Wednesday 11:00 AM - 12:00 PM.</div>
+      <div class="faq-body">Our schedule changes week to week during the season. The current days and times are always posted in This Week's Schedule at the top of this page. All sessions are at 3920 W Navy Blvd, Pensacola, FL 32507.</div>
     </details>
     <details class="faq-item">
       <summary>What is included in monthly?</summary>
