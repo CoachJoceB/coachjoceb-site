@@ -521,48 +521,6 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
         <button type="submit" class="btn btn-primary" id="reserveSubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Reserve My Spot</button>
         <p id="reserveFormMsg" style="margin-top: 14px; font-size: 14px; text-align: center; display: none;"></p>
       </form>
-      <div style="border-top: 1px solid var(--border); margin-top: 36px; padding-top: 32px;">
-      <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; font-size: 20px; margin-bottom: 8px; text-align: center;">Self-Pay Family? Reserve Your Spot</h3>
-      <p style="color: var(--muted); font-size: 15px; text-align: center; margin-bottom: 24px;">Paying out of pocket? Reserve your spot here for one of this week's sessions. Coach J will confirm your spot by email and send your payment link. New families: complete the <a href="/waiver/" target="_blank" rel="noopener" style="color: var(--orange);">training waiver</a> first.</p>
-      <form id="selfpayReserveForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org" style="text-align: left;">
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
-          <input type="text" name="parentName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-        </div>
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Email *</label>
-          <input type="email" name="email" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-        </div>
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Phone *</label>
-          <input type="tel" name="phone" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-        </div>
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Athlete Name *</label>
-          <input type="text" name="athleteName" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-        </div>
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which Session? *</label>
-          <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-            <option value="Intermediate/Advanced Training - Tuesday, November 10, 4:30 PM to 6:00 PM [2026-11-10 16:30-18:00]">Tuesday, Nov 10 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
-            <option value="Intermediate/Advanced Training - Wednesday, November 11, 11:00 AM to 12:00 PM [2026-11-11 11:00-12:00]">Wednesday, Nov 11 - Intermediate/Advanced Training, 11:00 AM - 12:00 PM</option>
-            <option value="Intermediate/Advanced Training - Thursday, November 12, 4:30 PM to 6:00 PM [2026-11-12 16:30-18:00]">Thursday, Nov 12 - Intermediate/Advanced Training, 4:30 PM - 6:00 PM</option>
-          </select>
-        </div>
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Session Date *</label>
-          <input type="date" name="reserveDate" id="selfpayReserveDate" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
-        </div>
-        <div style="margin-bottom: 24px;">
-          <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; font-weight: 500; cursor: pointer;">
-            <input type="checkbox" name="waiverOnFile" value="yes" required style="margin-top: 3px;">
-            <span>Our training waiver is on file, or we will complete it before the session.</span>
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary" id="selfpaySubmitBtn" style="width: 100%; font-size: 17px; padding: 16px;">Reserve My Spot</button>
-        <p id="selfpayFormMsg" style="margin-top: 14px; font-size: 14px; text-align: center; display: none;"></p>
-      </form>
-      </div>
 
     </div>
 
@@ -624,60 +582,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
 </script>
 
 
-<script>
-(function() {
-  var dateInput = document.getElementById('selfpayReserveDate');
-  var sessionSelect = document.querySelector('#selfpayReserveForm select[name="session"]');
-  function syncDate() {
-    var opt = sessionSelect.options[sessionSelect.selectedIndex];
-    var m = ((opt && opt.value) || '').match(/\[(\d{4}-\d{2}-\d{2})/);
-    if (m) { dateInput.value = m[1]; dateInput.min = m[1]; dateInput.readOnly = true; }
-    else { dateInput.readOnly = false; }
-  }
-  sessionSelect.addEventListener('change', syncDate);
-  syncDate();
-  document.getElementById('selfpayReserveForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    var btn = document.getElementById('selfpaySubmitBtn');
-    var msg = document.getElementById('selfpayFormMsg');
-    var fd = new FormData(this);
-    msg.style.display = 'block';
-    btn.disabled = true;
-    btn.textContent = 'Reserving...';
-    var data = {
-      parentName: fd.get('parentName'),
-      email: fd.get('email'),
-      phone: fd.get('phone'),
-      athleteName: fd.get('athleteName'),
-      session: fd.get('session'),
-      reserveDate: fd.get('reserveDate'),
-      waiverOnFile: fd.get('waiverOnFile'),
-      formType: 'selfpay-reservation',
-      submittedAt: new Date().toISOString(),
-      _cc: 'coachjoceb@gmail.com',
-      _subject: 'Self-Pay Reservation - ' + fd.get('athleteName')
-    };
-    try {
-      var res = await fetch('https://formsubmit.co/ajax/admin@legacylabinc.org', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error('send failed');
-      msg.style.color = 'var(--green)';
-      msg.textContent = 'Your spot is reserved. Watch your email for a confirmation from admin@legacylabinc.org.';
-      btn.textContent = 'Reserved';
-      this.reset();
-      syncDate();
-    } catch (err) {
-      btn.disabled = false;
-      btn.textContent = 'Reserve My Spot';
-      msg.style.color = '#e5484d';
-      msg.textContent = 'Something went wrong. Please email admin@legacylabinc.org and we will reserve your spot.';
-    }
-  });
-})();
-</script>
+
 
 <section id="start" class="schedule">
   <div class="container" style="max-width: 720px;">
