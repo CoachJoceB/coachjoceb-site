@@ -231,8 +231,9 @@ footer p { color: var(--muted); font-size: 13px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media (max-width: 860px) {
   .free-grid, .find-grid, .su-steps { grid-template-columns: 1fr; }
-  .free-grid img { height: 320px; }
-  .find-grid img { height: 340px; }
+  .free-grid img { height: auto; }
+  .find-grid img { height: auto; }
+  .photo { height: auto !important; }
   .fact { flex: 1 1 40%; padding: 6px 10px; }
   .fact + .fact { border-left: 0; }
 }
@@ -431,14 +432,12 @@ section[id] { scroll-margin-top: 88px; }
       <div class="faq-item"><button class="faq-q" type="button">What should she bring?<span>+</span></button><div class="faq-a">Workout clothes, gym shoes, and a water bottle. We provide the rest, including her training journal. Phones stay in gym bags during sessions so the group stays focused.</div></div>
       <div class="faq-item"><button class="faq-q" type="button">Where and when do you meet?<span>+</span></button><div class="faq-a">Sessions are held at 3920 W. Navy Blvd in Pensacola, once a week for 45 minutes. Your exact day and time are confirmed when you <a href="https://coachjoceb.com/becomingher-intake.html" style="color:var(--orange);font-weight:700">book your free intro</a>.</div></div>
     </div>
-    <div style="height:40px"></div>
-    <img class="photo" src="assets/eagles-huddle.jpg" alt="Coach J in a pre-game huddle under the basket with her Eagles girls basketball team" style="height:480px" />
   </div>
 </section>
 
 <!-- FIND US -->
 <section id="find">
-  <div class="container find-grid">
+  <div class="container">
     <div class="block">
       <p class="kicker">Find us</p>
       <h2>Train with Coach J in Pensacola</h2>
@@ -449,7 +448,6 @@ section[id] { scroll-margin-top: 88px; }
         <li><b>Contact Coach J</b>Instagram: <a href="https://www.instagram.com/coachjoceb">@CoachJoceB</a><br>Web: <a href="https://coachjoceb.com">coachjoceb.com</a></li>
       </ul>
     </div>
-    <img src="assets/gym-practice-wide.jpg" alt="A wide view of the Legacy Lab gym during practice, with players spread across the court" />
   </div>
 </section>
 
