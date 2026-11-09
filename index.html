@@ -287,10 +287,35 @@ section[id] { scroll-margin-top: 88px; }
   </div>
 </section>
 
+<section id="this-week" style="padding: 48px 0 8px;">
+  <div class="container" style="max-width: 900px;">
+    <div style="border: 2px solid var(--orange); border-radius: 12px; padding: 32px 28px; background: var(--bg2);">
+      <h2 class="section-title" style="margin-bottom: 8px;">Schedule Change This Week</h2>
+      <p class="section-sub" style="margin-bottom: 24px;">This week only (November 9 to 15), training moves off Friday. Join us at these times instead:</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+        <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
+          <h3 style="font-size: 18px; margin-bottom: 8px;">Tuesday, Nov 10</h3>
+          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
+        </div>
+        <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
+          <h3 style="font-size: 18px; margin-bottom: 8px;">Wednesday, Nov 11</h3>
+          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">11:00 AM - 12:00 PM</strong></p>
+        </div>
+        <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center;">
+          <h3 style="font-size: 18px; margin-bottom: 8px;">Thursday, Nov 12</h3>
+          <p style="color: var(--muted); font-size: 15px;">Training Session, All Levels<br><strong style="color: var(--text);">4:30 PM - 6:00 PM</strong></p>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 24px; font-size: 15px; color: var(--green); font-weight: 600;">No Friday sessions this week. Friday training resumes next week.</p>
+      <p style="text-align: center; margin-top: 8px; font-size: 14px; color: var(--muted);">All sessions at 3920 W Navy Blvd, Pensacola, FL 32507.</p>
+    </div>
+  </div>
+</section>
+
 <section id="free-session" style="padding: 48px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="container" style="max-width: 640px;">
     <h2 class="section-title" style="text-align: center;">Your First Session Is Free</h2>
-    <p class="section-sub" style="margin-bottom: 32px; text-align: center;">New athletes train free. No card required. Fill this out to claim your free session. After you complete the waiver, we will confirm your Friday session.</p>
+    <p class="section-sub" style="margin-bottom: 32px; text-align: center;">New athletes train free. No card required. Fill this out to claim your free session. After you complete the waiver, we will confirm your session.</p>
     <form id="freeSessionForm" method="post" action="https://formsubmit.co/admin@legacylabinc.org" style="background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; text-align: left;">
       <div style="margin-bottom: 18px;">
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Parent / Guardian Name *</label>
@@ -315,6 +340,9 @@ section[id] { scroll-margin-top: 88px; }
       <div style="margin-bottom: 24px;">
         <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Which session? *</label>
         <select name="session" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 15px;">
+          <option value="This Week Only - Tuesday Nov 10, 4:30-6:00 PM">This Week Only - Tuesday Nov 10, 4:30-6:00 PM</option>
+          <option value="This Week Only - Wednesday Nov 11, 11:00 AM-12:00 PM">This Week Only - Wednesday Nov 11, 11:00 AM-12:00 PM</option>
+          <option value="This Week Only - Thursday Nov 12, 4:30-6:00 PM">This Week Only - Thursday Nov 12, 4:30-6:00 PM</option>
           <option value="Fundamentals (Friday 4:00-4:45 PM)">Fundamentals (Friday 4:00-4:45 PM)</option>
           <option value="Intermediate/Advanced Group (Friday 5:30-6:30 PM)">Intermediate/Advanced Group (Friday 5:30-6:30 PM)</option>
           <option value="Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)">Intermediate/Advanced Shooting (Friday 6:30-7:30 PM)</option>
@@ -368,6 +396,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
 <section id="schedule" style="padding: 32px 0;">
   <div class="container" style="text-align: center; max-width: 900px;">
     <h2 class="section-title">Fridays Only</h2>
+    <p style="color: var(--green); font-size: 15px; font-weight: 600; margin-top: 8px;">This week only (Nov 9 to 15): no Friday sessions. See <a href="#this-week" style="color: var(--orange);">this week's schedule</a> above.</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px;">
       <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
         <h3 style="font-size: 18px; margin-bottom: 8px;">Fundamentals</h3>
@@ -714,7 +743,7 @@ document.getElementById('freeSessionForm').addEventListener('submit', async func
     </details>
     <details class="faq-item">
       <summary>When are sessions?</summary>
-      <div class="faq-body">Fridays only. Fundamentals 4:00 PM - 4:45 PM, Intermediate/Advanced Group Training 5:30 PM - 6:30 PM, Intermediate/Advanced Shooting Training 6:30 PM - 7:30 PM. All sessions at 3920 W Navy Blvd, Pensacola, FL 32507.</div>
+      <div class="faq-body">Fridays only. Fundamentals 4:00 PM - 4:45 PM, Intermediate/Advanced Group Training 5:30 PM - 6:30 PM, Intermediate/Advanced Shooting Training 6:30 PM - 7:30 PM. All sessions at 3920 W Navy Blvd, Pensacola, FL 32507. This week only (November 9 to 15), there are no Friday sessions: training runs Tuesday and Thursday 4:30 PM - 6:00 PM and Wednesday 11:00 AM - 12:00 PM.</div>
     </details>
     <details class="faq-item">
       <summary>What is included in monthly?</summary>
