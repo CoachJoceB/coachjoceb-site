@@ -31,8 +31,7 @@
   "offers": [
     { "@type": "Offer", "name": "Single Game Review", "price": "95", "priceCurrency": "USD" },
     { "@type": "Offer", "name": "Season Pack (4 Games)", "price": "320", "priceCurrency": "USD" },
-    { "@type": "Offer", "name": "Film Room Monthly", "price": "149", "priceCurrency": "USD" },
-    { "@type": "Offer", "name": "Breakdown Only", "price": "60", "priceCurrency": "USD" }
+{"@type":"Offer","name":"Film Room Monthly","price":"149","priceCurrency":"USD"}
   ]
 }
 </script>
@@ -141,6 +140,7 @@ header {
   padding: 36px 28px; text-align: center;
 }
 .price-card.featured { border-color: var(--orange); position: relative; }
+.price-card .badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--orange); color: #141414; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 16px; border-radius: 999px; white-space: nowrap; }
 .price-card .plan { font-family: 'Oswald', sans-serif; font-size: 20px; text-transform: uppercase; margin-bottom: 8px; }
 .price-card .amount { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; margin-bottom: 4px; }
 .price-card .per { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
@@ -297,12 +297,13 @@ section[id] { scroll-margin-top: 88px; }
         <a href="https://buy.stripe.com/8x25kD8i5gdp4JcaRY3sI06" class="btn btn-secondary" style="margin-left:0;" data-checkout="single">Get Single Review</a>
       </div>
       <div class="price-card featured">
+        <div class="badge">Most Valuable</div>
         <div class="plan">Film Room Monthly</div>
         <div class="amount">$149</div>
         <div class="per">per month</div>
         <ul>
-          <li>Two game breakdowns every month</li>
-          <li>Two live review calls every month</li>
+          <li>Four game breakdowns every month, one per week</li>
+          <li>Four live review calls every month</li>
           <li>Priority scheduling and 48-hour film prep</li>
           <li>Recordings, reports, and drills for every game</li>
           <li>Limited to 10 athletes</li>
@@ -322,18 +323,6 @@ section[id] { scroll-margin-top: 88px; }
           <li>Use your games anytime during the season</li>
         </ul>
         <a href="https://buy.stripe.com/dRmaEX7e1bX90sW2ls3sI07" class="btn btn-secondary" style="margin-left:0;" data-checkout="season">Get Season Pack</a>
-      </div>
-      <div class="price-card">
-        <div class="plan">Breakdown Only</div>
-        <div class="amount">$60</div>
-        <div class="per">one time</div>
-        <ul>
-          <li>One full game broken down by Coach J</li>
-          <li>Recorded walkthrough sent to you within 72 hours</li>
-          <li>One-page report and matched drills included</li>
-          <li>No live call, for schedules that cannot line up</li>
-        </ul>
-        <a href="https://buy.stripe.com/7sY00j2XL5yLejM7FM3sI09" class="btn btn-secondary" style="margin-left:0;" data-checkout="async">Get Breakdown Only</a>
       </div>
     </div>
     <p style="text-align: center; color: var(--muted); font-size: 14px; margin-top: 24px;">Already train with Coach J? Monthly members add a live film review for <strong style="color: var(--text);">$65 per game</strong>. Email <a href="mailto:admin@legacylabinc.org" style="color: var(--orange);">admin@legacylabinc.org</a> after your game and we will send your member link.</p>
@@ -373,7 +362,7 @@ section[id] { scroll-margin-top: 88px; }
     </details>
     <details class="faq-item">
       <summary>What do we get after the call?</summary>
-      <div class="faq-body">The full call recording, a one-page written report with 3 strengths and 3 growth areas, and drills matched to the film, all by email within 24 hours of the call. Breakdown Only orders receive the recorded walkthrough, report, and drills within 72 hours of the intake.</div>
+      <div class="faq-body">The full call recording, a one-page written report with 3 strengths and 3 growth areas, and drills matched to the film, all by email within 24 hours of the call.</div>
     </details>
     <details class="faq-item">
       <summary>Is this for boys and girls?</summary>
