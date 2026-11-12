@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Headache Diary — Migraine Tracker</title>
+<meta name="description" content="A simple headache diary for kids and teens. Log each headache, track triggers, symptoms, medication and relief, and bring the record to healthcare appointments.">
+<style>
+  :root{
+    --ink:#1c2430; --muted:#5b6675; --line:#dfe5ec; --bg:#f4f6f8; --card:#ffffff;
+    --red:#c8102e; --gold:#e8a020; --green:#1e7d4f; --blue:#2563eb; --soft-red:#fdecec;
+    --soft-gold:#fdf3dc; --soft-green:#e7f4ec; --soft-blue:#e8f0fe; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  header{background:#111827;color:#fff;padding:28px 18px 22px;text-align:center}
+  header h1{margin:0;font-size:30px;letter-spacing:.2px}
+  header h1 span{color:var(--gold)}
+  header p{margin:8px auto 0;max-width:640px;color:#cbd5e1;font-size:15px}
+  .privacy{max-width:920px;margin:14px auto 0;padding:10px 14px;background:var(--soft-blue);border:1px solid #bcd0fb;border-radius:10px;color:#1e3a8a;font-size:14px}
+  main{max-width:920px;margin:0 auto;padding:16px 14px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  h2{margin:0 0 4px;font-size:20px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+  label{display:block;font-weight:650;margin:14px 0 6px;font-size:14px}
+  label .hint{font-weight:400;color:var(--muted)}
+  input[type="date"],input[type="time"],input[type="datetime-local"],input[type="text"],input[type="number"],select,textarea{
+    width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:64px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:8px 13px;font-size:14px;cursor:pointer;user-select:none}
+  .chip input{position:absolute;opacity:0;pointer-events:none}
+  .chip:has(input:checked){background:var(--red);border-color:var(--red);color:#fff;font-weight:650}
+  .chip.blue:has(input:checked){background:var(--blue);border-color:var(--blue)}
+  .chip.green:has(input:checked){background:var(--green);border-color:var(--green)}
+  .chip.gold:has(input:checked){background:var(--gold);border-color:var(--gold);color:#111827}
+  /* Pain scale */
+  .pain-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pain-face{font-size:52px;line-height:1;width:64px;text-align:center}
+  .pain-slider{flex:1;min-width:200px}
+  input[type="range"]{width:100%;accent-color:var(--red);height:28px}
+  .pain-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:2px}
+  .pain-value{font-size:22px;font-weight:800;min-width:110px}
+  .pain-value small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+  .btn{display:inline-block;border:0;border-radius:10px;padding:12px 20px;font-size:16px;font-weight:700;cursor:pointer}
+  .btn[hidden]{display:none}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-dark{background:#111827;color:#fff}
+  .btn-ghost{background:#fff;border:1.5px solid #cbd5e1;color:var(--ink)}
+  .btn-sm{padding:8px 12px;font-size:14px}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .stat b{display:block;font-size:26px}
+  .stat span{font-size:13px;color:var(--muted)}
+  .stat small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+  /* Entries */
+  .entry{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;background:#fff}
+  .entry-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .entry-head h3{margin:0;font-size:17px}
+  .entry-head .when{color:var(--muted);font-size:13px}
+  .badge{display:inline-block;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700}
+  .badge-red{background:var(--soft-red);color:var(--red)}
+  .badge-gold{background:var(--soft-gold);color:#8a5a00}
+  .badge-green{background:var(--soft-green);color:var(--green)}
+  .badge-blue{background:var(--soft-blue);color:var(--blue)}
+  .entry dl{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;margin:12px 0 0;font-size:14px}
+  .entry dt{color:var(--muted);font-weight:600}
+  .entry dd{margin:0}
+  @media(max-width:560px){.entry dl{grid-template-columns:1fr}.entry dt{margin-top:8px}}
+  .entry-actions{margin-top:12px;display:flex;gap:8px}
+  .empty{color:var(--muted);text-align:center;padding:22px 10px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .filters select{width:auto}
+  footer{max-width:920px;margin:0 auto;padding:0 14px 40px;color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:var(--red)}
+  /* Print: only the diary table prints cleanly */
+  @media print{
+    body{background:#fff}
+    header{background:#fff;color:#000;border-bottom:2px solid #000}
+    header p{color:#333}
+    .privacy,.no-print{display:none!important}
+    .card{box-shadow:none;border:1px solid #999;break-inside:avoid}
+    main{max-width:100%;padding:0}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>My Headache <span>Diary</span></h1>
+  <p>Every time you have a headache, write it down here. This helps you and your healthcare provider learn about your headaches and make a plan for treating them. Bring this diary to all healthcare appointments.</p>
+</header>
+
+<main>
+  <div class="privacy">🔒 <strong>Private by design:</strong> entries are saved only in this browser on this device. Nothing is sent to any server, and nobody else can see them.</div>
+
+  <section class="card no-print" id="formCard">
+    <h2>Log a headache</h2>
+    <p class="sub">Answer what you can. A parent or other adult can help with this diary.</p>
+    <form id="diaryForm" autocomplete="off">
+      <input type="hidden" id="editId" value="">
+
+      <div class="row">
+        <div>
+          <label for="date">Date</label>
+          <input type="date" id="date" required>
+        </div>
+        <div>
+          <label for="dayOfWeek">Day of the week</label>
+          <input type="text" id="dayOfWeek" readonly placeholder="Fills in from the date">
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="startTime">What time did the headache start?</label>
+          <input type="time" id="startTime" required>
+        </div>
+        <div>
+          <label for="endTime">What time did the headache end? <span class="hint">(leave blank if it is still going)</span></label>
+          <input type="time" id="endTime">
+        </div>
+      </div>
+      <p class="sub" id="durationLine" style="margin-top:6px"></p>
+
+      <label>How much does your head hurt? <span class="hint">1 is a little, 10 is the most severe</span></label>
+      <div class="pain-wrap">
+        <div class="pain-face" id="painFace" aria-hidden="true">😐</div>
+        <div class="pain-slider">
+          <input type="range" id="intensity" min="1" max="10" step="1" value="5">
+          <div class="pain-labels"><span>1 · A little</span><span>5 · Medium</span><span>10 · Worst ever</span></div>
+        </div>
+        <div class="pain-value"><span id="painNum">5</span>/10<small id="painWord">Medium hurt</small></div>
+      </div>
+
+      <label>Where does your head hurt?</label>
+      <div class="chips" id="locationChips">
+        <label class="chip"><input type="checkbox" value="Whole head"> Whole head</label>
+        <label class="chip"><input type="checkbox" value="Left side"> Left side</label>
+        <label class="chip"><input type="checkbox" value="Right side"> Right side</label>
+        <label class="chip"><input type="checkbox" value="Forehead"> Forehead</label>
+        <label class="chip"><input type="checkbox" value="Temples"> Temples</label>
+        <label class="chip"><input type="checkbox" value="Back of head"> Back of head</label>
+        <label class="chip"><input type="checkbox" value="Behind the eyes"> Behind the eyes</label>
+        <label class="chip"><input type="checkbox" value="Top of head"> Top of head</label>
+      </div>
+
+      <label>What did you do just before the headache?</label>
+      <div class="chips" id="beforeChips">
+        <label class="chip blue"><input type="checkbox" value="Ate something"> Ate something</label>
+        <label class="chip blue"><input type="checkbox" value="Physically active"> Physically active</label>
+        <label class="chip blue"><input type="checkbox" value="Stressed"> Stressed</label>
+        <label class="chip blue"><input type="checkbox" value="Less sleep than usual"> Less sleep than usual</label>
+        <label class="chip blue"><input type="checkbox" value="More sleep than usual"> More sleep than usual</label>
+        <label class="chip blue"><input type="checkbox" value="Took medicine for something else"> Took medicine for something else</label>
+        <label class="chip blue"><input type="checkbox" value="Screen time"> Screen time</label>
+        <label class="chip blue"><input type="checkbox" value="Skipped a meal"> Skipped a meal</label>
+      </div>
+
+      <label>Did you have any changes in your vision or other symptoms before or during the headache?</label>
+      <div class="chips" id="symptomChips">
+        <label class="chip"><input type="checkbox" value="Flashing stars"> Flashing stars</label>
+        <label class="chip"><input type="checkbox" value="Sparkles"> Sparkles</label>
+        <label class="chip"><input type="checkbox" value="Zig-zag lines"> Zig-zag lines</label>
+        <label class="chip"><input type="checkbox" value="Bright lights"> Bright lights</label>
+        <label class="chip"><input type="checkbox" value="Blind spots"> Blind spots</label>
+        <label class="chip"><input type="checkbox" value="Sight changed"> Sight changed</label>
+        <label class="chip"><input type="checkbox" value="Nauseated"> Nauseated</label>
+        <label class="chip"><input type="checkbox" value="Vomited"> Vomited</label>
+        <label class="chip"><input type="checkbox" value="Dizzy"> Dizzy</label>
+        <label class="chip"><input type="checkbox" value="Confused"> Confused</label>
+        <label class="chip"><input type="checkbox" value="Sensitive to light"> Sensitive to light</label>
+        <label class="chip"><input type="checkbox" value="Sensitive to sound"> Sensitive to sound</label>
+      </div>
+
+      <label>What do you think triggered it? <span class="hint">Pick all that fit</span></label>
+      <div class="chips" id="triggerChips">
+        <label class="chip gold"><input type="checkbox" value="Stress"> Stress</label>
+        <label class="chip gold"><input type="checkbox" value="Not enough sleep"> Not enough sleep</label>
+        <label class="chip gold"><input type="checkbox" value="Too much sleep"> Too much sleep</label>
+        <label class="chip gold"><input type="checkbox" value="Skipped meal / hungry"> Skipped meal / hungry</label>
+        <label class="chip gold"><input type="checkbox" value="Dehydrated / not enough water"> Dehydrated</label>
+        <label class="chip gold"><input type="checkbox" value="Certain food or drink"> Certain food or drink</label>
+        <label class="chip gold"><input type="checkbox" value="Bright lights"> Bright lights</label>
+        <label class="chip gold"><input type="checkbox" value="Loud noise"> Loud noise</label>
+        <label class="chip gold"><input type="checkbox" value="Weather change"> Weather change</label>
+        <label class="chip gold"><input type="checkbox" value="Screen time"> Screen time</label>
+        <label class="chip gold"><input type="checkbox" value="Exercise"> Exercise</label>
+        <label class="chip gold"><input type="checkbox" value="Sick / cold"> Sick / cold</label>
+        <label class="chip gold"><input type="checkbox" value="Not sure"> Not sure</label>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="medication">Medication <span class="hint">(name and dose, if any)</span></label>
+          <input type="text" id="medication" placeholder="e.g. Ibuprofen 200 mg">
+        </div>
+        <div>
+          <label for="medTime">What time did you take it?</label>
+          <input type="time" id="medTime">
+        </div>
+      </div>
+
+      <label>What did you do to make yourself feel better?</label>
+      <div class="chips" id="reliefActionChips">
+        <label class="chip green"><input type="checkbox" value="Took medication"> Took medication</label>
+        <label class="chip green"><input type="checkbox" value="Lay down"> Lay down</label>
+        <label class="chip green"><input type="checkbox" value="Turned the lights down"> Turned the lights down</label>
+        <label class="chip green"><input type="checkbox" value="Drank water"> Drank water</label>
+        <label class="chip green"><input type="checkbox" value="Warm cloth"> Warm cloth</label>
+        <label class="chip green"><input type="checkbox" value="Cold cloth"> Cold cloth</label>
+        <label class="chip green"><input type="checkbox" value="Warm shower"> Warm shower</label>
+        <label class="chip green"><input type="checkbox" value="Quiet / dark room"> Quiet / dark room</label>
+        <label class="chip green"><input type="checkbox" value="Slept"> Slept</label>
+      </div>
+
+      <label for="relief">After you did something to feel better, did your headache hurt less?</label>
+      <select id="relief">
+        <option value="">Not answered yet</option>
+        <option value="Complete">Complete relief — it went away</option>
+        <option value="Moderate">Moderate relief — it hurt less</option>
+        <option value="None">No relief — it did not help</option>
+      </select>
+
+      <label for="notes">Anything else? <span class="hint">What else did you feel during your headache?</span></label>
+      <textarea id="notes" placeholder="Anything else you noticed..."></textarea>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-red" id="saveBtn">Save this headache</button>
+        <button type="button" class="btn btn-ghost" id="cancelEditBtn" hidden>Cancel edit</button>
+        <button type="button" class="btn btn-ghost" id="clearFormBtn">Clear form</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card" id="summaryCard">
+    <h2>Your patterns</h2>
+    <p class="sub">A quick look at what your diary shows so far. Share this with your healthcare provider.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><b id="statTotal">0</b><span>Total headaches</span><small id="statMonth"></small></div>
+      <div class="stat"><b id="statAvg">–</b><span>Average pain</span><small>out of 10</small></div>
+      <div class="stat"><b id="statDuration">–</b><span>Average length</span><small>when an end time is logged</small></div>
+      <div class="stat"><b id="statTrigger">–</b><span>Most common trigger</span><small id="statTriggerCount"></small></div>
+    </div>
+    <div class="btn-row no-print">
+      <button class="btn btn-dark btn-sm" id="exportCsvBtn">Download as spreadsheet (CSV)</button>
+      <button class="btn btn-ghost btn-sm" id="printBtn">Print diary for your appointment</button>
+    </div>
+  </section>
+
+  <section class="card" id="entriesCard">
+    <h2>Headache diary entries</h2>
+    <p class="sub">Newest first. Tap Edit to fix an entry, or Delete to remove it.</p>
+    <div class="filters no-print">
+      <label for="filterMonth" style="margin:0;font-weight:600">Show:</label>
+      <select id="filterMonth"><option value="all">All entries</option></select>
+      <label for="filterRelief" style="margin:0;font-weight:600">Relief:</label>
+      <select id="filterRelief">
+        <option value="all">Any</option>
+        <option value="Complete">Complete</option>
+        <option value="Moderate">Moderate</option>
+        <option value="None">None</option>
+      </select>
+    </div>
+    <div id="entriesList"></div>
+    <div class="btn-row no-print" id="dangerRow" hidden>
+      <button class="btn btn-ghost btn-sm" id="clearAllBtn">Delete all entries</button>
+    </div>
+  </section>
+
+  <section class="card no-print">
+    <h2>Tips for parents and caregivers</h2>
+    <p class="sub">From the Children's Hospital Boston headache diary</p>
+    <ul>
+      <li>Pay attention to changes in the child's behavior just before, during, and after the headache. Track these changes in the diary.</li>
+      <li>Use the pain faces to help the child explain how much their head hurts. Show the child the faces when the headache starts, during the headache, and again after steps have been taken to ease the pain.</li>
+      <li>Remember to bring the headache diary to all healthcare appointments.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  Based on the headache diary from the <a href="https://www.headaches.org" target="_blank" rel="noopener">National Headache Foundation</a> and Children's Hospital Boston. For more information about headache causes and treatments, visit headaches.org or call 312-274-2650.<br>
+  This diary is a personal tracking tool, not medical advice. Always follow your healthcare provider's guidance.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "migraineTrackerEntriesV1";
+  var entries = load();
+
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $("diaryForm");
+
+  var FACES = ["", "🙂", "🙂", "😐", "😐", "😐", "😟", "😟", "😣", "😖", "😫"];
+  var WORDS = ["", "A little hurt", "A little hurt", "Mild hurt", "Mild hurt", "Medium hurt", "Medium hurt", "A lot of hurt", "A lot of hurt", "Very bad hurt", "Worst hurt ever"];
+
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+    catch(e){ return []; }
+  }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(entries)); }
+
+  function checkedValues(containerId){
+    var out = [];
+    var boxes = document.querySelectorAll("#" + containerId + " input[type=checkbox]:checked");
+    boxes.forEach(function(b){ out.push(b.value); });
+    return out;
+  }
+  function setChecked(containerId, values){
+    var boxes = document.querySelectorAll("#" + containerId + " input[type=checkbox]");
+    boxes.forEach(function(b){ b.checked = (values || []).indexOf(b.value) !== -1; });
+  }
+
+  function fmtDate(iso){
+    if(!iso) return "";
+    var parts = iso.split("-");
+    var d = new Date(parts[0], parts[1]-1, parts[2]);
+    return d.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", year:"numeric"});
+  }
+  function fmtTime(t){
+    if(!t) return "";
+    var p = t.split(":");
+    var h = parseInt(p[0], 10), m = p[1];
+    var ap = h >= 12 ? "PM" : "AM";
+    var h12 = h % 12 || 12;
+    return h12 + ":" + m + " " + ap;
+  }
+  function durationMinutes(start, end){
+    if(!start || !end) return null;
+    var s = start.split(":").map(Number), e = end.split(":").map(Number);
+    var mins = (e[0]*60 + e[1]) - (s[0]*60 + s[1]);
+    if(mins < 0) mins += 24*60;
+    return mins;
+  }
+  function fmtDuration(mins){
+    if(mins === null || mins === undefined) return "–";
+    if(mins < 60) return mins + " min";
+    var h = Math.floor(mins/60), m = mins % 60;
+    return h + " hr" + (m ? " " + m + " min" : "");
+  }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function updatePain(){
+    var v = parseInt($("intensity").value, 10);
+    $("painFace").textContent = FACES[v];
+    $("painNum").textContent = v;
+    $("painWord").textContent = WORDS[v];
+  }
+  function updateDay(){
+    var iso = $("date").value;
+    if(!iso){ $("dayOfWeek").value = ""; return; }
+    var parts = iso.split("-");
+    var d = new Date(parts[0], parts[1]-1, parts[2]);
+    $("dayOfWeek").value = d.toLocaleDateString(undefined, {weekday:"long"});
+  }
+  function updateDuration(){
+    var mins = durationMinutes($("startTime").value, $("endTime").value);
+    $("durationLine").textContent = mins === null ? "" : ("Length: " + fmtDuration(mins));
+  }
+  $("intensity").addEventListener("input", updatePain);
+  $("date").addEventListener("change", updateDay);
+  $("startTime").addEventListener("change", updateDuration);
+  $("endTime").addEventListener("change", updateDuration);
+
+  function defaultForm(){
+    var now = new Date();
+    var iso = now.getFullYear() + "-" + String(now.getMonth()+1).padStart(2,"0") + "-" + String(now.getDate()).padStart(2,"0");
+    $("date").value = iso;
+    $("startTime").value = String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0");
+    updateDay(); updatePain(); updateDuration();
+  }
+
+  function readForm(){
+    return {
+      id: $("editId").value || ("e" + Date.now().toString(36) + Math.random().toString(36).slice(2,7)),
+      date: $("date").value,
+      startTime: $("startTime").value,
+      endTime: $("endTime").value,
+      intensity: parseInt($("intensity").value, 10),
+      locations: checkedValues("locationChips"),
+      before: checkedValues("beforeChips"),
+      symptoms: checkedValues("symptomChips"),
+      triggers: checkedValues("triggerChips"),
+      medication: $("medication").value.trim(),
+      medTime: $("medTime").value,
+      reliefActions: checkedValues("reliefActionChips"),
+      relief: $("relief").value,
+      notes: $("notes").value.trim(),
+      createdAt: Date.now()
+    };
+  }
+  function fillForm(e){
+    $("editId").value = e.id;
+    $("date").value = e.date;
+    $("startTime").value = e.startTime || "";
+    $("endTime").value = e.endTime || "";
+    $("intensity").value = e.intensity || 5;
+    setChecked("locationChips", e.locations);
+    setChecked("beforeChips", e.before);
+    setChecked("symptomChips", e.symptoms);
+    setChecked("triggerChips", e.triggers);
+    $("medication").value = e.medication || "";
+    $("medTime").value = e.medTime || "";
+    setChecked("reliefActionChips", e.reliefActions);
+    $("relief").value = e.relief || "";
+    $("notes").value = e.notes || "";
+    $("saveBtn").textContent = "Save changes";
+    $("cancelEditBtn").hidden = false;
+    updateDay(); updatePain(); updateDuration();
+    document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
+  }
+  function resetForm(){
+    form.reset();
+    $("editId").value = "";
+    $("saveBtn").textContent = "Save this headache";
+    $("cancelEditBtn").hidden = true;
+    defaultForm();
+  }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var e = readForm();
+    var idx = entries.findIndex(function(x){ return x.id === e.id; });
+    if(idx >= 0){ e.createdAt = entries[idx].createdAt; entries[idx] = e; }
+    else { entries.push(e); }
+    save(); resetForm(); render();
+  });
+  $("clearFormBtn").addEventListener("click", resetForm);
+  $("cancelEditBtn").addEventListener("click", resetForm);
+
+  function reliefBadge(relief){
+    if(relief === "Complete") return '<span class="badge badge-green">Relief: complete</span>';
+    if(relief === "Moderate") return '<span class="badge badge-gold">Relief: moderate</span>';
+    if(relief === "None") return '<span class="badge badge-red">Relief: none</span>';
+    return '<span class="badge badge-blue">Relief: not logged</span>';
+  }
+  function intensityBadge(n){
+    if(n >= 8) return '<span class="badge badge-red">Pain ' + n + '/10</span>';
+    if(n >= 5) return '<span class="badge badge-gold">Pain ' + n + '/10</span>';
+    return '<span class="badge badge-green">Pain ' + n + '/10</span>';
+  }
+
+  function filteredEntries(){
+    var fm = $("filterMonth").value, fr = $("filterRelief").value;
+    return entries.slice().sort(function(a,b){
+      var ka = a.date + " " + (a.startTime || "00:00");
+      var kb = b.date + " " + (b.startTime || "00:00");
+      return kb.localeCompare(ka);
+    }).filter(function(e){
+      if(fm !== "all" && e.date.slice(0,7) !== fm) return false;
+      if(fr !== "all" && e.relief !== fr) return false;
+      return true;
+    });
+  }
+
+  function renderStats(){
+    var total = entries.length;
+    $("statTotal").textContent = total;
+    var now = new Date();
+    var thisMonth = now.getFullYear() + "-" + String(now.getMonth()+1).padStart(2,"0");
+    var monthCount = entries.filter(function(e){ return e.date.slice(0,7) === thisMonth; }).length;
+    $("statMonth").textContent = monthCount + " this month";
+    if(total){
+      var avg = entries.reduce(function(s,e){ return s + (e.intensity||0); }, 0) / total;
+      $("statAvg").textContent = avg.toFixed(1);
+      var durs = entries.map(function(e){ return durationMinutes(e.startTime, e.endTime); }).filter(function(x){ return x !== null; });
+      $("statDuration").textContent = durs.length ? fmtDuration(Math.round(durs.reduce(function(a,b){ return a+b; },0)/durs.length)) : "–";
+      var counts = {};
+      entries.forEach(function(e){ (e.triggers||[]).forEach(function(t){ counts[t] = (counts[t]||0)+1; }); });
+      var top = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; })[0];
+      $("statTrigger").textContent = top || "None logged";
+      $("statTriggerCount").textContent = top ? counts[top] + " time" + (counts[top] > 1 ? "s" : "") : "";
+    } else {
+      $("statAvg").textContent = "–"; $("statDuration").textContent = "–";
+      $("statTrigger").textContent = "–"; $("statTriggerCount").textContent = "";
+    }
+    $("dangerRow").hidden = total === 0;
+  }
+
+  function renderFilters(){
+    var sel = $("filterMonth");
+    var current = sel.value;
+    var months = {};
+    entries.forEach(function(e){ months[e.date.slice(0,7)] = true; });
+    var keys = Object.keys(months).sort().reverse();
+    sel.innerHTML = '<option value="all">All entries</option>' + keys.map(function(k){
+      var p = k.split("-");
+      var label = new Date(p[0], p[1]-1, 1).toLocaleDateString(undefined, {month:"long", year:"numeric"});
+      return '<option value="' + k + '">' + esc(label) + '</option>';
+    }).join("");
+    sel.value = keys.indexOf(current) !== -1 ? current : "all";
+  }
+
+  function renderEntries(){
+    var list = filteredEntries();
+    var box = $("entriesList");
+    if(!list.length){
+      box.innerHTML = '<p class="empty">' + (entries.length ? "No entries match those filters." : "No headaches logged yet. When one happens, log it above and it will show up here.") + '</p>';
+      return;
+    }
+    box.innerHTML = list.map(function(e){
+      var mins = durationMinutes(e.startTime, e.endTime);
+      var rows = "";
+      rows += "<dt>Time</dt><dd>" + esc(fmtTime(e.startTime)) + (e.endTime ? " – " + esc(fmtTime(e.endTime)) + " (" + esc(fmtDuration(mins)) + ")" : " – still going") + "</dd>";
+      if(e.locations && e.locations.length) rows += "<dt>Where it hurt</dt><dd>" + esc(e.locations.join(", ")) + "</dd>";
+      if(e.before && e.before.length) rows += "<dt>Just before</dt><dd>" + esc(e.before.join(", ")) + "</dd>";
+      if(e.symptoms && e.symptoms.length) rows += "<dt>Symptoms / vision</dt><dd>" + esc(e.symptoms.join(", ")) + "</dd>";
+      if(e.triggers && e.triggers.length) rows += "<dt>Triggers</dt><dd>" + esc(e.triggers.join(", ")) + "</dd>";
+      if(e.medication) rows += "<dt>Medication</dt><dd>" + esc(e.medication) + (e.medTime ? " at " + esc(fmtTime(e.medTime)) : "") + "</dd>";
+      if(e.reliefActions && e.reliefActions.length) rows += "<dt>Did to feel better</dt><dd>" + esc(e.reliefActions.join(", ")) + "</dd>";
+      if(e.notes) rows += "<dt>Notes</dt><dd>" + esc(e.notes) + "</dd>";
+      return '<article class="entry">' +
+        '<div class="entry-head"><div><h3>' + esc(fmtDate(e.date)) + '</h3><div class="when">' + esc(fmtTime(e.startTime)) + (e.endTime ? " – " + esc(fmtTime(e.endTime)) : "") + '</div></div>' +
+        '<div>' + intensityBadge(e.intensity) + " " + reliefBadge(e.relief) + '</div></div>' +
+        '<dl>' + rows + '</dl>' +
+        '<div class="entry-actions no-print">' +
+          '<button class="btn btn-ghost btn-sm" data-edit="' + esc(e.id) + '">Edit</button>' +
+          '<button class="btn btn-ghost btn-sm" data-del="' + esc(e.id) + '">Delete</button>' +
+        '</div></article>';
+    }).join("");
+    box.querySelectorAll("[data-edit]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var e = entries.find(function(x){ return x.id === btn.getAttribute("data-edit"); });
+        if(e) fillForm(e);
+      });
+    });
+    box.querySelectorAll("[data-del]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var id = btn.getAttribute("data-del");
+        var e = entries.find(function(x){ return x.id === id; });
+        if(e && confirm("Delete the headache entry from " + fmtDate(e.date) + "?")) {
+          entries = entries.filter(function(x){ return x.id !== id; });
+          save(); render();
+        }
+      });
+    });
+  }
+
+  function render(){ renderStats(); renderFilters(); renderEntries(); }
+
+  $("filterMonth").addEventListener("change", renderEntries);
+  $("filterRelief").addEventListener("change", renderEntries);
+
+  $("exportCsvBtn").addEventListener("click", function(){
+    if(!entries.length){ alert("No entries to export yet."); return; }
+    var head = ["Date","Day of week","Start time","End time","Duration (min)","Intensity (1-10)","Where it hurt","Just before","Symptoms / vision","Triggers","Medication","Medication time","Did to feel better","Relief","Notes"];
+    function q(v){ return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; }
+    var lines = [head.map(q).join(",")];
+    entries.slice().sort(function(a,b){ return (a.date + " " + (a.startTime||"")).localeCompare(b.date + " " + (b.startTime||"")); }).forEach(function(e){
+      var parts = e.date.split("-");
+      var dow = new Date(parts[0], parts[1]-1, parts[2]).toLocaleDateString(undefined, {weekday:"long"});
+      lines.push([e.date, dow, e.startTime||"", e.endTime||"", durationMinutes(e.startTime, e.endTime),
+        e.intensity, (e.locations||[]).join("; "), (e.before||[]).join("; "), (e.symptoms||[]).join("; "),
+        (e.triggers||[]).join("; "), e.medication||"", e.medTime||"", (e.reliefActions||[]).join("; "),
+        e.relief||"", e.notes||""].map(q).join(","));
+    });
+    var blob = new Blob([lines.join("\n")], {type:"text/csv"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "headache-diary.csv";
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  $("printBtn").addEventListener("click", function(){ window.print(); });
+
+  $("clearAllBtn").addEventListener("click", function(){
+    if(confirm("Delete ALL headache entries? This cannot be undone. Consider downloading the CSV first.")){
+      entries = []; save(); render();
+    }
+  });
+
+  defaultForm();
+  render();
+})();
+</script>
+</body>
+</html>
