@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service | Legacy Lab Academy, Inc. Basketball Training Pensacola FL</title>
+<meta name="description" content="Terms of service for Legacy Lab Academy, Inc. basketball training in Pensacola, FL. Membership terms, waiver requirement, no-refund policy, and session availability.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #0d0d0f; --bg2: #161619; --text: #f2f2f2; --muted: #a8a8ad; --orange: #ff6b1a; --border: #2a2a2e; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+h1, h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+.container { max-width: 760px; margin: 0 auto; padding: 48px 20px; }
+h1 { font-size: 36px; margin-bottom: 8px; }
+.updated { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+h2 { font-size: 22px; margin: 32px 0 12px; color: var(--orange); }
+p, li { color: var(--muted); margin-bottom: 12px; font-size: 15px; }
+ul { padding-left: 24px; }
+a { color: var(--orange); }
+.back { display: inline-block; margin-top: 40px; color: var(--text); text-decoration: none; border: 1px solid var(--border); padding: 10px 24px; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Terms of Service</h1>
+<p class="updated">Last updated: October 22, 2026</p>
+
+<p>By purchasing training from Legacy Lab Academy, Inc. ("Coach J," "we"), you agree to these terms.</p>
+
+<h2>Services</h2>
+<p>We provide group basketball training and shooting training sessions in Pensacola, Florida. Session days and times change week to week during the season. We post the current week's schedule on our website and notify booked athletes of changes by email.</p>
+
+<h2>Membership and Sessions</h2>
+<ul>
+<li><strong>Monthly Membership ($240/month, tax included):</strong> Renews automatically each month until canceled. Includes unlimited Intermediate/Advanced Group Training and Shooting Sessions, based on the weekly schedule. BecomingHER mentorship is included in the same membership.</li>
+<li><strong>Intermediate/Advanced Group Drop-In ($30, tax included):</strong> Covers a single Intermediate/Advanced group training session.</li>
+<li><strong>Intermediate/Advanced Shooting Drop-In ($45, tax included):</strong> Covers a single Intermediate/Advanced shooting training session.</li>
+<li><strong>Free Introductory Session:</strong> One per athlete. New athletes only. We reserve the right to cancel duplicate claims.</li>
+<li>Prices include all applicable taxes. No additional fees.</li>
+</ul>
+
+<h2>Step Up for Students</h2>
+<p>We accept Step Up for Students scholarships. Families paying through Step Up must complete the training waiver and select Step Up for Students as the payment method.</p>
+
+<h2>Waiver Requirement</h2>
+<p>Every athlete must have a completed liability waiver on file before participating. A parent or legal guardian must complete the waiver for athletes under 18.</p>
+
+<h2>No Refunds, Rescheduling</h2>
+<p>All sales are final. If you cannot make a session, you may reschedule to another available session by contacting us at least 24 hours in advance. See our <a href="refund.html">Refund Policy</a> for details.</p>
+
+<h2>Cancellation</h2>
+<p>Monthly memberships can be canceled at any time through the Stripe customer portal or by contacting us. Cancellation takes effect at the end of the current billing period.</p>
+
+<h2>Conduct</h2>
+<p>Athletes are expected to show up on time, bring appropriate gear, and treat coaches and fellow athletes with respect. We reserve the right to remove anyone whose behavior disrupts training or endangers others, without refund for that session.</p>
+
+<h2>Limitation of Liability</h2>
+<p>Basketball involves physical activity and inherent risk of injury. Our liability is limited to the amount you paid for the session or membership period in which any claim arose, to the fullest extent permitted by Florida law.</p>
+
+<h2>Changes</h2>
+<p>We may update these terms. Continued use of our services after changes are posted means you accept the new terms.</p>
+
+<a href="index.html" class="back">Back to Home</a>
+</div>
+
+<style>
+.nav-fab { position: fixed; right: 18px; bottom: 18px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+.back-fab { position: fixed; left: 18px; bottom: 18px; z-index: 9999; }
+.nav-fab button, .back-fab button { font-family: 'Inter', Arial, sans-serif; font-size: 14px; font-weight: 600; color: #fff; background: #1c1c21; border: 1px solid #ff6b1a; border-radius: 999px; padding: 11px 18px; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+.nav-fab button:hover, .back-fab button:hover { background: #ff6b1a; color: #141414; }
+#toTopBtn { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+#toTopBtn.show { opacity: 1; pointer-events: auto; }
+#backBtn { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+#backBtn.show { opacity: 1; pointer-events: auto; }
+</style>
+<div class="nav-fab">
+  <button type="button" id="toTopBtn" aria-label="Back to top">&#8593; Top</button>
+</div>
+<div class="back-fab">
+  <button type="button" id="backBtn" aria-label="Go back">&#8592; Back</button>
+</div>
+<script>
+(function() {
+  var topBtn = document.getElementById('toTopBtn');
+  function onScroll() {
+    if (window.scrollY > 400) { topBtn.classList.add('show'); } else { topBtn.classList.remove('show'); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  topBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  var backBtn = document.getElementById('backBtn');
+  function showBack() { backBtn.classList.add('show'); }
+  try {
+    if (window.sessionStorage.getItem('cjLinkClicked') === '1') { showBack(); }
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('a')) {
+        window.sessionStorage.setItem('cjLinkClicked', '1');
+        showBack();
+      }
+    });
+  } catch (err) {}
+  backBtn.addEventListener('click', function() {
+    if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'https://coachjoceb.com/'; }
+  });
+})();
+</script>
+</body>
+</html>
