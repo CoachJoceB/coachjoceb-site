@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Carb Calculator | Coach J</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0d0d0d; color: #f2f2f2; font-family: Inter, -apple-system, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-family: Oswald, sans-serif; color: #f5b301; font-size: 34px; margin: 4px 0 2px; letter-spacing: 1px; }
+  .tagline { color: #c1272d; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+  .sub { color: #bdbdbd; font-size: 14px; margin: 8px 0 20px; }
+  .card { background: #171717; border: 1px solid #2a2a2a; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+  .card h2 { font-family: Oswald, sans-serif; color: #f5b301; font-size: 20px; margin: 0 0 12px; letter-spacing: 0.5px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #d9d9d9; margin: 10px 0 4px; }
+  input[type="number"], input[type="text"], textarea { width: 100%; background: #0d0d0d; border: 1px solid #3a3a3a; color: #fff; border-radius: 10px; padding: 12px; font-size: 16px; font-family: Inter, sans-serif; }
+  textarea { min-height: 74px; resize: vertical; }
+  .row { display: flex; gap: 10px; }
+  .row > div { flex: 1; }
+  button { font-family: Oswald, sans-serif; letter-spacing: 0.5px; border: none; border-radius: 10px; cursor: pointer; }
+  .btn-gold { background: #f5b301; color: #111; font-size: 17px; padding: 13px 18px; width: 100%; margin-top: 12px; }
+  .btn-red { background: #c1272d; color: #fff; font-size: 16px; padding: 12px 18px; width: 100%; margin-top: 12px; }
+  .btn-dark { background: #2a2a2a; color: #f2f2f2; font-size: 15px; padding: 10px 14px; }
+  .btn-mic { background: #c1272d; color: #fff; font-size: 15px; padding: 10px 14px; }
+  .btn-row { display: flex; gap: 10px; margin-top: 10px; }
+  .btn-row button { flex: 1; }
+  .hint { font-size: 12px; color: #9a9a9a; margin-top: 6px; line-height: 1.5; }
+  #photoPreview { max-width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
+  .sugg { display: flex; justify-content: space-between; align-items: center; background: #0d0d0d; border: 1px solid #3a3a3a; border-radius: 10px; padding: 10px 12px; margin-top: 8px; cursor: pointer; }
+  .sugg b { font-size: 15px; }
+  .sugg span { color: #9a9a9a; font-size: 13px; }
+  .item { display: flex; align-items: center; gap: 8px; background: #0d0d0d; border: 1px solid #3a3a3a; border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
+  .item .nm { flex: 1; }
+  .item .nm b { display: block; font-size: 15px; }
+  .item .nm span { color: #9a9a9a; font-size: 12px; }
+  .qty { display: flex; align-items: center; gap: 6px; }
+  .qty button { background: #2a2a2a; color: #fff; width: 30px; height: 30px; font-size: 18px; border-radius: 8px; }
+  .qty span { min-width: 34px; text-align: center; font-weight: 700; }
+  .item .carb { font-weight: 700; color: #f5b301; min-width: 52px; text-align: right; }
+  .x { background: none; color: #c1272d; font-size: 20px; padding: 0 4px; }
+  .total-line { display: flex; justify-content: space-between; font-size: 16px; padding: 8px 2px; border-bottom: 1px solid #2a2a2a; }
+  .total-line b { color: #f5b301; }
+  .total-line.big { font-size: 20px; border-bottom: none; padding-top: 12px; }
+  .total-line.big b { font-size: 24px; }
+  .warn { background: #2a1503; border: 1px solid #7a4a00; color: #ffcf87; border-radius: 10px; padding: 10px 12px; font-size: 13px; margin-top: 10px; line-height: 1.5; }
+  .hist { font-size: 14px; border-bottom: 1px solid #2a2a2a; padding: 10px 2px; }
+  .hist b { color: #f5b301; }
+  .hist .del { float: right; background: none; color: #c1272d; font-size: 15px; }
+  .footer { color: #8a8a8a; font-size: 12px; line-height: 1.6; margin-top: 8px; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tagline">Coach J &bull; Legacy Lab</div>
+  <h1>CARB CALCULATOR</h1>
+  <p class="sub">Describe the meal, get the carbs, the meal bolus and the correction in one place. Built for the A1C 6.5 system.</p>
+
+  <div class="card">
+    <h2>YOUR SETTINGS</h2>
+    <div class="row">
+      <div>
+        <label>Insulin to carb ratio: 1 unit per</label>
+        <input type="number" id="ratio" inputmode="decimal" step="1" min="1" placeholder="grams">
+        <div class="hint">Grams of carbs covered by 1 unit. Ask your care team if you are unsure.</div>
+      </div>
+      <div>
+        <label>Correction: 1 unit lowers BG by</label>
+        <input type="number" id="factor" inputmode="decimal" step="1" min="1" value="50">
+      </div>
+      <div>
+        <label>Target BG</label>
+        <input type="number" id="target" inputmode="numeric" step="1" min="70" value="180">
+      </div>
+    </div>
+    <button class="btn-dark" id="saveSettings" style="width:100%; margin-top:12px;">Save settings on this device</button>
+    <div class="hint" id="settingsSaved"></div>
+  </div>
+
+  <div class="card">
+    <h2>CURRENT BLOOD GLUCOSE</h2>
+    <label>Glucose right now (mg/dL)</label>
+    <input type="number" id="bg" inputmode="numeric" step="1" min="40" placeholder="e.g. 240">
+    <div class="hint">If you opened this from the A1C Log shortcut, your latest glucose fills in automatically.</div>
+  </div>
+
+  <div class="card">
+    <h2>THE MEAL</h2>
+    <label>Photo (optional, for reference)</label>
+    <div class="btn-row">
+      <button class="btn-dark" id="photoBtn">Snap a photo</button>
+      <button class="btn-mic hidden" id="micBtn">Speak the meal</button>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" class="hidden">
+    <img id="photoPreview" alt="Meal photo">
+    <div class="hint">A photo helps you describe the meal. This page does not identify food from a photo on its own. The carb count comes from the foods you add below.</div>
+
+    <label>Describe the meal</label>
+    <textarea id="desc" placeholder="Example: 2 slices white bread, 1 cup white rice, grilled chicken, 1 banana"></textarea>
+    <button class="btn-dark" id="parseBtn" style="width:100%; margin-top:10px;">Estimate from description</button>
+
+    <label>Add a food</label>
+    <input type="text" id="foodSearch" placeholder="Type a food, for example rice" autocomplete="off">
+    <div id="suggestions"></div>
+
+    <div id="mealList" style="margin-top:12px;"></div>
+    <div class="total-line" style="margin-top:10px;"><span>Total carbs</span><b id="totalCarbs">0 g</b></div>
+  </div>
+
+  <div class="card">
+    <h2>YOUR DOSE MATH</h2>
+    <div class="total-line"><span>Meal bolus</span><b id="mealBolus">--</b></div>
+    <div class="total-line"><span>Correction</span><b id="correction">--</b></div>
+    <div class="total-line big"><span>Suggested total</span><b id="totalBolus">--</b></div>
+    <div id="mathNote" class="hint"></div>
+    <div id="ratioWarn" class="warn hidden">Set your insulin to carb ratio above to see a meal bolus. The correction still shows with your factor of 50 and target of 180.</div>
+    <button class="btn-gold" id="logBtn">Log it in A1C Log</button>
+    <div class="hint">Saves this meal below and opens your A1C Log shortcut. The carb total is copied so you can paste it into the carbs prompt.</div>
+  </div>
+
+  <div class="card">
+    <h2>RECENT MEALS</h2>
+    <div id="history"></div>
+    <div class="hint" id="noHistory">Nothing logged yet on this device.</div>
+  </div>
+
+  <p class="footer">Estimates use standard food values and your own correction factor. This tool shows math only. It does not diagnose, prescribe, or replace your care team's guidance. Dosing decisions stay with you and your care team.</p>
+</div>
+
+<script>
+var FOODS = [
+  {n:"White bread", s:"1 slice", c:15, k:["white bread","bread"]},
+  {n:"Whole wheat bread", s:"1 slice", c:15, k:["whole wheat bread","wheat bread"]},
+  {n:"Bagel", s:"1 bagel", c:48, k:["bagel"]},
+  {n:"English muffin", s:"1 muffin", c:26, k:["english muffin","muffin"]},
+  {n:"Flour tortilla (10 inch)", s:"1 tortilla", c:22, k:["flour tortilla","tortilla"]},
+  {n:"Corn tortilla", s:"1 tortilla", c:12, k:["corn tortilla"]},
+  {n:"White rice, cooked", s:"1 cup", c:45, k:["white rice","rice"]},
+  {n:"Brown rice, cooked", s:"1 cup", c:45, k:["brown rice"]},
+  {n:"Pasta, cooked", s:"1 cup", c:43, k:["pasta","spaghetti","noodle","noodles","macaroni"]},
+  {n:"Oatmeal, cooked", s:"1 cup", c:27, k:["oatmeal","oats"]},
+  {n:"Cheerios", s:"1 cup", c:22, k:["cheerios"]},
+  {n:"Cornflakes", s:"1 cup", c:24, k:["cornflakes","corn flakes"]},
+  {n:"Grits, cooked", s:"1 cup", c:31, k:["grits"]},
+  {n:"Quinoa, cooked", s:"1 cup", c:39, k:["quinoa"]},
+  {n:"Couscous, cooked", s:"1 cup", c:36, k:["couscous"]},
+  {n:"Saltine crackers", s:"5 crackers", c:10, k:["saltine","cracker","crackers"]},
+  {n:"Pretzels", s:"1 oz", c:23, k:["pretzel","pretzels"]},
+  {n:"Popcorn", s:"3 cups", c:18, k:["popcorn"]},
+  {n:"Pancake (4 inch)", s:"1 pancake", c:15, k:["pancake","pancakes"]},
+  {n:"Waffle", s:"1 waffle", c:15, k:["waffle","waffles"]},
+  {n:"Blueberry muffin", s:"1 muffin", c:30, k:["blueberry muffin"]},
+  {n:"Croissant", s:"1 croissant", c:26, k:["croissant"]},
+  {n:"Dinner roll", s:"1 roll", c:15, k:["dinner roll","roll"]},
+  {n:"Pita bread", s:"1 pita", c:33, k:["pita"]},
+  {n:"Baked potato, medium", s:"1 potato", c:37, k:["baked potato","potato"]},
+  {n:"Mashed potatoes", s:"1 cup", c:35, k:["mashed potato","mashed potatoes"]},
+  {n:"Sweet potato, medium", s:"1 potato", c:26, k:["sweet potato"]},
+  {n:"Corn", s:"1 cup", c:31, k:["corn"]},
+  {n:"Green peas", s:"1 cup", c:21, k:["peas"]},
+  {n:"Black beans", s:"1 cup", c:40, k:["black beans","beans"]},
+  {n:"Lentils, cooked", s:"1 cup", c:40, k:["lentils"]},
+  {n:"Hummus", s:"1/4 cup", c:12, k:["hummus"]},
+  {n:"Banana, medium", s:"1 banana", c:27, k:["banana"]},
+  {n:"Apple, medium", s:"1 apple", c:25, k:["apple"]},
+  {n:"Orange, medium", s:"1 orange", c:18, k:["orange"]},
+  {n:"Grapes", s:"1 cup", c:27, k:["grapes"]},
+  {n:"Strawberries", s:"1 cup", c:11, k:["strawberries","strawberry"]},
+  {n:"Blueberries", s:"1 cup", c:21, k:["blueberries","blueberry"]},
+  {n:"Watermelon", s:"1 cup", c:11, k:["watermelon"]},
+  {n:"Mango", s:"1 cup", c:25, k:["mango"]},
+  {n:"Peach, medium", s:"1 peach", c:14, k:["peach"]},
+  {n:"Pear, medium", s:"1 pear", c:27, k:["pear"]},
+  {n:"Milk", s:"1 cup", c:12, k:["milk"]},
+  {n:"Chocolate milk", s:"1 cup", c:26, k:["chocolate milk"]},
+  {n:"Yogurt, plain", s:"1 cup", c:17, k:["yogurt"]},
+  {n:"Yogurt, flavored", s:"1 cup", c:26, k:["flavored yogurt"]},
+  {n:"Cheese", s:"1 oz", c:1, k:["cheese"]},
+  {n:"Ice cream", s:"1/2 cup", c:15, k:["ice cream"]},
+  {n:"Orange juice", s:"1 cup", c:26, k:["orange juice"]},
+  {n:"Apple juice", s:"1 cup", c:28, k:["apple juice"]},
+  {n:"Soda", s:"12 oz", c:39, k:["soda","coke","pepsi","soft drink"]},
+  {n:"Sweet tea", s:"12 oz", c:30, k:["sweet tea"]},
+  {n:"Sports drink", s:"12 oz", c:21, k:["sports drink","gatorade"]},
+  {n:"Lemonade", s:"12 oz", c:28, k:["lemonade"]},
+  {n:"Cheese pizza", s:"1 slice", c:36, k:["pizza"]},
+  {n:"Hamburger bun", s:"1 bun", c:26, k:["hamburger bun","bun"]},
+  {n:"French fries, medium", s:"1 medium", c:48, k:["french fries","fries"]},
+  {n:"Potato chips", s:"1 oz", c:15, k:["potato chips","chips"]},
+  {n:"Granola bar", s:"1 bar", c:29, k:["granola bar"]},
+  {n:"Chocolate chip cookies", s:"2 cookies", c:20, k:["chocolate chip cookie","cookies","cookie"]},
+  {n:"Brownie", s:"1 brownie", c:25, k:["brownie"]},
+  {n:"Candy bar", s:"1 bar", c:35, k:["candy bar","chocolate bar"]},
+  {n:"Chicken sandwich", s:"1 sandwich", c:40, k:["chicken sandwich"]},
+  {n:"Chicken nuggets", s:"6 pieces", c:15, k:["chicken nuggets","nuggets"]},
+  {n:"Taco", s:"1 taco", c:15, k:["taco"]},
+  {n:"Burrito", s:"1 burrito", c:50, k:["burrito"]},
+  {n:"Ketchup", s:"1 tbsp", c:5, k:["ketchup"]},
+  {n:"BBQ sauce", s:"2 tbsp", c:12, k:["bbq sauce","barbecue sauce"]},
+  {n:"Honey", s:"1 tbsp", c:17, k:["honey"]},
+  {n:"Sugar", s:"1 tbsp", c:13, k:["sugar"]},
+  {n:"Maple syrup", s:"1/4 cup", c:26, k:["maple syrup","syrup"]},
+  {n:"Peanut butter", s:"2 tbsp", c:7, k:["peanut butter"]},
+  {n:"Chicken breast", s:"1 breast", c:0, k:["chicken breast","grilled chicken","chicken"]},
+  {n:"Egg", s:"1 egg", c:1, k:["egg","eggs"]},
+  {n:"Ground beef", s:"4 oz", c:0, k:["ground beef","beef"]}
+];
+
+var meal = [];
+var settings = { ratio: "", factor: 50, target: 180 };
+
+function loadSettings() {
+  try {
+    var s = JSON.parse(localStorage.getItem("carbCalcSettings") || "null");
+    if (s) settings = s;
+  } catch (e) {}
+  document.getElementById("ratio").value = settings.ratio || "";
+  document.getElementById("factor").value = settings.factor || 50;
+  document.getElementById("target").value = settings.target || 180;
+  var params = new URLSearchParams(window.location.search);
+  var bg = params.get("bg");
+  if (bg && !isNaN(parseFloat(bg))) document.getElementById("bg").value = Math.round(parseFloat(bg));
+}
+
+function saveSettings() {
+  settings.ratio = document.getElementById("ratio").value;
+  settings.factor = parseFloat(document.getElementById("factor").value) || 50;
+  settings.target = parseFloat(document.getElementById("target").value) || 180;
+  try { localStorage.setItem("carbCalcSettings", JSON.stringify(settings)); } catch (e) {}
+  document.getElementById("settingsSaved").textContent = "Saved on this device.";
+  compute();
+}
+
+function round1(x) { return Math.round(x * 10) / 10; }
+
+function totalCarbs() {
+  var t = 0;
+  meal.forEach(function (m) { t += m.food.c * m.qty; });
+  return round1(t);
+}
+
+function compute() {
+  var carbs = totalCarbs();
+  document.getElementById("totalCarbs").textContent = carbs + " g";
+  var ratio = parseFloat(settings.ratio);
+  var factor = parseFloat(settings.factor) || 50;
+  var target = parseFloat(settings.target) || 180;
+  var bg = parseFloat(document.getElementById("bg").value);
+  var mealBolus = null, correction = 0, total = null;
+  if (ratio && ratio > 0) mealBolus = round1(carbs / ratio);
+  if (!isNaN(bg) && bg > target) correction = round1((bg - target) / factor);
+  if (mealBolus !== null) total = round1(mealBolus + correction);
+  document.getElementById("mealBolus").textContent = mealBolus === null ? "--" : mealBolus + " u";
+  document.getElementById("correction").textContent = (!isNaN(bg) && bg > target) ? correction + " u" : "0 u";
+  document.getElementById("totalBolus").textContent = total === null ? "--" : total + " u";
+  document.getElementById("ratioWarn").classList.toggle("hidden", mealBolus !== null);
+  var note = "";
+  if (mealBolus !== null) note += "Meal: " + carbs + "g / " + ratio + " = " + mealBolus + "u. ";
+  if (!isNaN(bg) && bg > target) note += "Correction: (" + bg + " - " + target + ") / " + factor + " = " + correction + "u.";
+  if (!isNaN(bg) && bg <= target) note += "Glucose " + bg + " is at or below target " + target + ", no correction.";
+  document.getElementById("mathNote").textContent = note;
+}
+
+function renderMeal() {
+  var list = document.getElementById("mealList");
+  list.innerHTML = "";
+  meal.forEach(function (m, i) {
+    var div = document.createElement("div");
+    div.className = "item";
+    var itemCarbs = round1(m.food.c * m.qty);
+    div.innerHTML = '<div class="nm"><b></b><span></span></div>' +
+      '<div class="qty"><button data-a="minus">-</button><span></span><button data-a="plus">+</button></div>' +
+      '<div class="carb"></div><button class="x">x</button>';
+    div.querySelector("b").textContent = m.food.n;
+    div.querySelector(".nm span").textContent = m.food.s + " - " + m.food.c + "g carbs";
+    div.querySelector(".qty span").textContent = m.qty;
+    div.querySelector(".carb").textContent = itemCarbs + "g";
+    div.querySelector('[data-a="minus"]').onclick = function () { m.qty = Math.max(0.5, round1(m.qty - 0.5)); renderMeal(); compute(); };
+    div.querySelector('[data-a="plus"]').onclick = function () { m.qty = round1(m.qty + 0.5); renderMeal(); compute(); };
+    div.querySelector(".x").onclick = function () { meal.splice(i, 1); renderMeal(); compute(); };
+    list.appendChild(div);
+  });
+  compute();
+}
+
+function addFood(food, qty) {
+  var found = null;
+  meal.forEach(function (m) { if (m.food.n === food.n) found = m; });
+  if (found) found.qty = round1(found.qty + (qty || 1));
+  else meal.push({ food: food, qty: qty || 1 });
+  renderMeal();
+}
+
+function renderSuggestions(q) {
+  var box = document.getElementById("suggestions");
+  box.innerHTML = "";
+  q = (q || "").trim().toLowerCase();
+  if (q.length < 2) return;
+  var matches = FOODS.filter(function (f) {
+    return f.n.toLowerCase().indexOf(q) !== -1 || f.k.some(function (k) { return k.indexOf(q) !== -1; });
+  }).slice(0, 8);
+  matches.forEach(function (f) {
+    var d = document.createElement("div");
+    d.className = "sugg";
+    var b = document.createElement("b"); b.textContent = f.n;
+    var s = document.createElement("span"); s.textContent = f.s + " - " + f.c + "g";
+    d.appendChild(b); d.appendChild(s);
+    d.onclick = function () {
+      addFood(f, 1);
+      document.getElementById("foodSearch").value = "";
+      box.innerHTML = "";
+    };
+    box.appendChild(d);
+  });
+}
+
+function parseDescription() {
+  var text = document.getElementById("desc").value.toLowerCase();
+  if (!text.trim()) return;
+  var added = 0;
+  FOODS.forEach(function (f) {
+    var already = meal.some(function (m) { return m.food.n === f.n; });
+    if (already) return;
+    var best = -1, qty = 1;
+    f.k.forEach(function (key) {
+      var idx = text.indexOf(key);
+      if (idx !== -1 && (best === -1 || idx < best)) {
+        best = idx;
+        var before = text.slice(Math.max(0, idx - 14), idx);
+        var m = before.match(/(\d+(?:\.\d+)?)\s*(?:cups?|slices?|pieces?|oz|tbsp|tsp|tbsp\.?)?\s*$/);
+        if (m) qty = parseFloat(m[1]);
+      }
+    });
+    if (best !== -1) { addFood(f, qty); added++; }
+  });
+  if (added === 0) alert("I did not recognize any foods in that description. Try the Add a food search below.");
+  else document.getElementById("desc").value = "";
+}
+
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem("carbCalcHistory") || "[]"); } catch (e) { return []; }
+}
+function renderHistory() {
+  var h = getHistory();
+  var box = document.getElementById("history");
+  box.innerHTML = "";
+  document.getElementById("noHistory").style.display = h.length ? "none" : "block";
+  h.slice(0, 10).forEach(function (e, i) {
+    var d = document.createElement("div");
+    d.className = "hist";
+    var when = new Date(e.ts);
+    var label = when.toLocaleDateString() + " " + when.toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+    d.innerHTML = '<button class="del">x</button><b></b><br><span></span>';
+    d.querySelector("b").textContent = e.carbs + "g carbs - " + e.total + "u suggested";
+    d.querySelector("span").textContent = label + (e.bg ? " - BG " + e.bg : "") + (e.desc ? " - " + e.desc : "");
+    d.querySelector(".del").onclick = function () {
+      var all = getHistory(); all.splice(i, 1);
+      try { localStorage.setItem("carbCalcHistory", JSON.stringify(all)); } catch (err) {}
+      renderHistory();
+    };
+    box.appendChild(d);
+  });
+}
+
+document.getElementById("saveSettings").onclick = saveSettings;
+document.getElementById("ratio").onchange = compute;
+document.getElementById("factor").onchange = compute;
+document.getElementById("target").onchange = compute;
+document.getElementById("bg").oninput = compute;
+document.getElementById("foodSearch").addEventListener("input", function () { renderSuggestions(this.value); });
+document.getElementById("parseBtn").onclick = parseDescription;
+
+document.getElementById("photoBtn").onclick = function () { document.getElementById("photoInput").click(); };
+document.getElementById("photoInput").onchange = function () {
+  var f = this.files && this.files[0];
+  if (!f) return;
+  var r = new FileReader();
+  r.onload = function () {
+    var img = document.getElementById("photoPreview");
+    img.src = r.result; img.style.display = "block";
+  };
+  r.readAsDataURL(f);
+};
+
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  var micBtn = document.getElementById("micBtn");
+  micBtn.classList.remove("hidden");
+  micBtn.onclick = function () {
+    var rec = new SR();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    micBtn.textContent = "Listening...";
+    rec.onresult = function (ev) {
+      var t = ev.results[0][0].transcript;
+      var ta = document.getElementById("desc");
+      ta.value = (ta.value ? ta.value + " " : "") + t;
+      micBtn.textContent = "Speak the meal";
+    };
+    rec.onerror = function () { micBtn.textContent = "Speak the meal"; };
+    rec.onend = function () { micBtn.textContent = "Speak the meal"; };
+    rec.start();
+  };
+}
+
+document.getElementById("logBtn").onclick = function () {
+  var carbs = totalCarbs();
+  var bg = document.getElementById("bg").value;
+  var total = document.getElementById("totalBolus").textContent;
+  var desc = document.getElementById("desc").value;
+  var entry = { ts: Date.now(), carbs: carbs, bg: bg ? parseFloat(bg) : null, total: total, desc: desc };
+  var h = getHistory();
+  h.unshift(entry);
+  try { localStorage.setItem("carbCalcHistory", JSON.stringify(h.slice(0, 50))); } catch (e) {}
+  renderHistory();
+  var summary = "Carbs: " + carbs + "g" + (bg ? " | BG: " + bg : "") + " | Suggested bolus: " + total;
+  function openShortcut() { window.location.href = "shortcuts://run-shortcut?name=A1C%20Log"; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(String(carbs)).then(openShortcut, openShortcut);
+  } else { openShortcut(); }
+};
+
+loadSettings();
+renderMeal();
+renderHistory();
+</script>
+</body>
+</html>
